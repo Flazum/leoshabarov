@@ -88,9 +88,9 @@ footer{padding:34px 0 60px;color:#6d678a}
 
 <main id="top" class="container">
   <section class="hero" aria-label="Intro">
-    <div class="layer b1"></div>
-    <div class="layer b2"></div>
-    <div class="layer b3"></div>
+    <div class="layer b1 blob"></div>
+    <div class="layer b2 blob"></div>
+    <div class="layer b3 blob"></div>
     <div class="hero-wrap">
       <div class="reveal">
         <h1 class="h1 masked"><span class="mask-bg" id="mask"></span><span class="text">I think in structures, build from curiosity, and make learning feel like play.</span></h1>
@@ -174,7 +174,7 @@ const graphs=[
 {title:'3D Cube',id:'3666017f8b'}
 ]
 const dg=document.getElementById('desmos-grid')
-for(const g of graphs){const el=document.createElement('article');el.className='card';const url=`https://www.desmos.com/calculator/${g.id}`;const thumb=`https://www.desmos.com/api/v1/thumb?graph=${g.id}&w=800&h=460`;el.innerHTML=`<h3 style="margin:0 0 8px">${g.title}</h3><img class=\"preview\" src=\"${thumb}\" alt=\"${g.title}\"><div class=\"actions\" style=\"margin-top:10px\"><a class=\"cta\" href=\"${url}\" target=\"_blank\" rel=\"noopener\">Open</a></div>`;dg.appendChild(el)}
+for(const g of graphs){const el=document.createElement('article');el.className='card';const url=`https://www.desmos.com/calculator/${g.id}`;const thumb=`https://www.desmos.com/api/v1/thumb?graph=${g.id}&w=800&h=460`;el.innerHTML=`<h3 style="margin:0 0 8px">${g.title}</h3><img class="preview" src="${thumb}" alt="${g.title}"><div class="actions" style="margin-top:10px"><a class="cta" href="${url}" target="_blank" rel="noopener">Open</a></div>`;dg.appendChild(el)}
 
 const rings=document.getElementById('rings');const rx=rings.getContext('2d');let W,H,t=0
 function rs(){W=rings.width=innerWidth*2;H=rings.height=innerHeight*2}
@@ -193,9 +193,7 @@ function magnetize(el){const s=40;el.addEventListener('mousemove',e=>{const r=el
 for(const m of document.querySelectorAll('.magnet'))magnetize(m)
 
 const form=document.getElementById('contact-form');const statusEl=document.getElementById('form-status')
-form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('name').value.trim();const email=document.getElementById('email').value.trim();const message=document.getElementById('message').value.trim();if(!name||!email||!message){statusEl.textContent='Fill all fields.';statusEl.style.color='#a61e4d';return}const mail=`mailto:hello@leoshabarov.com?subject=${encodeURIComponent('Site contact from '+name)}&body=${encodeURIComponent(message+'
-
-From: '+name+' <'+email+'>')}`;window.location.href=mail;statusEl.textContent='Opening your email app…';statusEl.style.color='#0b8b6b';form.reset()})
+form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('name').value.trim();const email=document.getElementById('email').value.trim();const message=document.getElementById('message').value.trim();if(!name||!email||!message){statusEl.textContent='Fill all fields.';statusEl.style.color='#a61e4d';return}const mail=`mailto:hello@leoshabarov.com?subject=${encodeURIComponent('Site contact from '+name)}&body=${encodeURIComponent(message+'\n\nFrom: '+name+' <'+email+'>')}`;window.location.href=mail;statusEl.textContent='Opening your email app…';statusEl.style.color='#0b8b6b';form.reset()})
 </script>
 </body>
 </html>
