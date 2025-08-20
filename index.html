@@ -4,73 +4,73 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leo Shabarov</title>
-<meta name="description" content="Leo Shabarov — motion-heavy, parallax, and playful web.">
+<meta name="description" content="Leo Shabarov — playful builds, math-brained, psychedelic aesthetics.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Space+Grotesk:wght@400..800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0e15;--ink:#eef2ff;--muted:#b8bfdd;--line:#1f2540;--a:#7c5cff;--b:#5fe1ff;--c:#ff60d2;--glow:rgba(124,92,255,.45)}
+:root{--bg:#faf7ff;--ink:#0c0a0f;--muted:#3b3750;--line:#e6defa;--g1:#ff7ad9;--g2:#7adfff;--g3:#ffd36e;--ring:#8f7aff}
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:radial-gradient(1400px 700px at -10% -10%,#ffe8fb,transparent 60%),radial-gradient(1400px 700px at 110% 0%,#e8fbff,transparent 60%),var(--bg);overflow-x:hidden}
 .container{width:min(1180px,92%);margin-inline:auto}
-.header{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,rgba(11,14,21,.85),rgba(11,14,21,.55) 70%,transparent);backdrop-filter:blur(12px)}
+.header{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,rgba(250,247,255,.7),rgba(250,247,255,.4) 70%,transparent);backdrop-filter:blur(12px)}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit}
-.logo{width:42px;height:42px;border-radius:12px;background:conic-gradient(from var(--ang),var(--a),var(--b),var(--c),var(--a));display:grid;place-items:center;box-shadow:0 10px 30px #0008}
+.logo{width:44px;height:44px;border-radius:14px;background:conic-gradient(from var(--ang),var(--g1),var(--g2),var(--g3),var(--g1));display:grid;place-items:center;box-shadow:0 10px 24px rgba(143,122,255,.25)}
 .title{font-family:"Space Grotesk",Inter,sans-serif;font-weight:800}
 .links{display:flex;gap:1.1rem}
 .links a{color:var(--ink);text-decoration:none;font-weight:600;opacity:.9}
-.cta{padding:.6rem 1rem;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 10px 30px #0006}
+.cta{padding:.6rem 1rem;border-radius:12px;background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 10px 30px rgba(0,0,0,.08);border:0}
 .hero{position:relative;isolation:isolate}
 .fx{position:fixed;inset:-20vh -20vw;pointer-events:none;z-index:0}
 .layer{position:absolute;inset:-10vh -10vw;pointer-events:none;will-change:transform}
-.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.6}
-.b1{width:800px;height:800px;left:-220px;top:-240px;background:radial-gradient(closest-side,rgba(124,92,255,.55),transparent)}
-.b2{width:680px;height:680px;right:-260px;top:-100px;background:radial-gradient(closest-side,rgba(95,225,255,.5),transparent)}
-.b3{width:620px;height:620px;left:50%;bottom:-220px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,96,210,.45),transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.7}
+.b1{width:840px;height:840px;left:-220px;top:-240px;background:radial-gradient(closest-side,rgba(255,122,217,.5),transparent)}
+.b2{width:720px;height:720px;right:-260px;top:-120px;background:radial-gradient(closest-side,rgba(122,223,255,.5),transparent)}
+.b3{width:680px;height:680px;left:50%;bottom:-240px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,211,110,.45),transparent)}
 .hero-wrap{position:relative;padding:120px 0 60px;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;z-index:2}
-.h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(2.6rem,6vw,5rem);line-height:1.02;margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
-.spark{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.02;margin:0 0 10px;font-weight:800;letter-spacing:-.02em;position:relative}
+.masked{position:relative;display:inline-block}
+.masked .mask-bg{position:absolute;inset:-20% -10%;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,122,217,.9),rgba(122,223,255,.85),rgba(255,211,110,.9));filter:blur(18px);transform:translateZ(0)}
+.masked .text{position:relative;background:linear-gradient(90deg,#000,#000);-webkit-background-clip:text;background-clip:text;color:transparent;mix-blend-mode:multiply}
 .lead{font-size:1.08rem;color:var(--muted);max-width:60ch}
 .actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:22px;align-items:center}
-.iconbtn{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#0f142a;border:1px solid var(--line);transition:transform .08s ease, box-shadow .2s ease}
-.iconbtn:hover{transform:translateY(-1px);box-shadow:0 10px 24px #0006}
-.card{background:linear-gradient(180deg,rgba(16,20,42,.95),rgba(10,14,28,.92));border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 16px 42px #0008;transform-style:preserve-3d}
-.portrait{position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+.iconbtn{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:#fff;border:1px solid var(--line);transition:transform .06s ease, box-shadow .2s ease}
+.iconbtn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.8));border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 16px 40px rgba(143,122,255,.15);transform-style:preserve-3d}
+.portrait{position:relative;aspect-ratio:4/5;border-radius:22px;overflow:hidden;border:1px solid var(--line)}
 .portrait img{width:100%;height:100%;object-fit:cover;transform:translateZ(30px)}
 .float-badges{position:absolute;inset:auto 14px 14px 14px;display:flex;flex-wrap:wrap;gap:10px}
-.badge{padding:.6rem .9rem;border-radius:999px;background:linear-gradient(135deg,#14172b,#0f1121);border:1px solid #262a44;font-weight:800;display:flex;align-items:center;gap:.5rem;transform:translateZ(40px)}
+.badge{padding:.55rem .85rem;border-radius:999px;background:linear-gradient(135deg,#ffffff,#f5f2ff);border:1px solid var(--line);font-weight:800;display:flex;align-items:center;gap:.5rem;transform:translateZ(40px)}
 .section{padding:34px 0 14px}
 .section h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(1.5rem,2.6vw,2.1rem);margin:18px 0 12px}
-.preview{width:100%;border-radius:16px;border:1px solid var(--line);object-fit:cover;aspect-ratio:16/10;transform-style:preserve-3d}
 .center{display:grid;place-items:center}
-.pill{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.2rem;border-radius:999px;background:radial-gradient(60% 100% at 50% 0%,var(--glow),transparent 70%),linear-gradient(135deg,var(--a),var(--c));color:#0b0e15;font-weight:900}
-.marquee3d{position:relative;perspective:1200px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(180deg,#0f1226,#0b0e1a);overflow:hidden}
-.rail{display:flex;gap:18px;align-items:center;padding:18px;animation:move 26s linear infinite;transform-style:preserve-3d}
-.rail:nth-child(2){animation-direction:reverse;filter:brightness(1.05) saturate(1.1)}
-.course{padding:.75rem 1.1rem;border-radius:14px;background:#111633;border:1px solid #262a44;font-weight:900;transform:rotateX(16deg) rotateY(-6deg) translateZ(40px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
-.course:nth-child(odd){transform:rotateX(-12deg) rotateY(8deg) translateZ(30px)}
+.pill{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;border-radius:999px;border:0;background:radial-gradient(60% 100% at 50% 0%,rgba(124,92,255,.25),transparent 70%),linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-weight:900;box-shadow:0 10px 30px rgba(124,92,255,.3)}
+.marquee3d{position:relative;perspective:1200px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(180deg,#ffffff,#f7f4ff);overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,.06)}
+.rail{display:flex;gap:20px;align-items:center;padding:18px;animation:move 24s linear infinite;transform-style:preserve-3d}
+.course{padding:.8rem 1.15rem;border-radius:16px;background:#fff;border:1px solid var(--line);font-weight:900;transform:rotateX(14deg) rotateY(-8deg) translateZ(48px);box-shadow:0 12px 28px rgba(143,122,255,.15)}
+.course:nth-child(odd){transform:rotateX(-10deg) rotateY(8deg) translateZ(36px)}
 @keyframes move{to{transform:translateX(-50%)}}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-hr.sep{height:1px;border:0;background:linear-gradient(90deg,transparent,#262a44,transparent);margin:24px 0}
-input,textarea{width:100%;background:#0c1023;border:1px solid #1f2337;border-radius:12px;padding:1rem;color:#e6e8f5;font:inherit}
+.preview{width:100%;border-radius:16px;border:1px solid var(--line);object-fit:cover;aspect-ratio:16/10}
+hr.sep{height:1px;border:0;background:linear-gradient(90deg,transparent,#e3dcf6,transparent);margin:24px 0}
+input,textarea{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem;color:#18111b;font:inherit}
 textarea{min-height:120px;resize:vertical}
 form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 form .actions{margin:0}
-footer{padding:34px 0 60px;color:#b4bad6}
-#scrolltop{position:fixed;right:14px;bottom:14px;width:44px;height:44px;border-radius:12px;background:#111425;border:1px solid #1f2337;color:#cfd2e9;display:grid;place-items:center;opacity:0;transform:translateY(20px);transition:.2s;z-index:120}
+footer{padding:34px 0 60px;color:#6d678a}
+#scrolltop{position:fixed;right:14px;bottom:14px;width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);color:#2b2440;display:grid;place-items:center;opacity:0;transform:translateY(20px);transition:.2s;z-index:120;box-shadow:0 8px 20px rgba(0,0,0,.08)}
 #scrolltop.show{opacity:1;transform:translateY(0)}
 @media (max-width:1000px){.hero-wrap{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.grid{grid-template-columns:1fr}.links{display:none}}
-.hueshift{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.25;filter:hue-rotate(var(--ang));z-index:1}
 .reveal{opacity:0;transform:translateY(20px) scale(.98);transition:opacity .6s ease,transform .6s ease}
 .reveal.on{opacity:1;transform:none}
+.cursor{position:fixed;left:0;top:0;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(255,255,255,.3));mix-blend-mode:overlay;pointer-events:none;z-index:200;transform:translate(-50%,-50%)}
 </style>
 </head>
 <body>
 <canvas class="fx" id="rings"></canvas>
-<div class="hueshift" id="hues"></div>
 <header class="header">
   <div class="container nav">
     <a class="brand" href="#top">
@@ -80,6 +80,7 @@ footer{padding:34px 0 60px;color:#b4bad6}
     <div class="links">
       <a href="#about">About</a>
       <a href="#courses">Courses</a>
+      <a href="#desmos">Desmos</a>
       <a href="#contact" class="cta">Contact</a>
     </div>
   </div>
@@ -92,14 +93,14 @@ footer{padding:34px 0 60px;color:#b4bad6}
     <div class="layer b3"></div>
     <div class="hero-wrap">
       <div class="reveal">
-        <h1 class="h1">I think in <span class="spark">structures</span>, build from curiosity, and make learning feel like play.</h1>
-        <p class="lead">More motion, more color, still clean. Scroll for parallax.</p>
+        <h1 class="h1 masked"><span class="mask-bg" id="mask"></span><span class="text">I think in structures, build from curiosity, and make learning feel like play.</span></h1>
+        <p class="lead">Psychedelic‑lite, high‑readability design. Scroll and move your mouse—things react.</p>
         <div class="actions">
-          <a class="iconbtn" href="https://www.youtube.com/@leoshabarov" target="_blank" rel="noopener" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/><path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/></svg></a>
-          <a class="iconbtn" href="https://www.instagram.com/leoshabarov/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="24"><stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs><circle cx="12" cy="12" r="3.5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></a>
+          <a class="iconbtn magnet" href="https://www.youtube.com/@leoshabarov" target="_blank" rel="noopener" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/><path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/></svg></a>
+          <a class="iconbtn magnet" href="https://www.instagram.com/leoshabarov/" target="_blank" rel="noopener" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="24"><stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs><circle cx="12" cy="12" r="3.5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></a>
         </div>
       </div>
-      <div class="card portrait reveal" id="portrait">
+      <div class="card portrait reveal magnet" id="portrait">
         <img id="portraitImg" src="/portrait.jpg" alt="Portrait of Leo">
         <div class="float-badges"><div class="badge">Builder</div><div class="badge">Learner</div><div class="badge">Explainer</div></div>
       </div>
@@ -114,11 +115,10 @@ footer{padding:34px 0 60px;color:#b4bad6}
   <section id="courses" class="section">
     <h2 class="reveal">Courses I’ve finished</h2>
     <div class="marquee3d reveal">
-      <div class="rail" id="railA"></div>
-      <div class="rail" id="railB"></div>
+      <div class="rail" id="rail"></div>
     </div>
     <div class="center" style="margin-top:16px">
-      <div class="pill reveal">Currently exploring: Complex Analysis</div>
+      <div class="pill reveal">Currently learning: Complex Analysis</div>
     </div>
   </section>
 
@@ -133,13 +133,13 @@ footer{padding:34px 0 60px;color:#b4bad6}
       <form id="contact-form">
         <div class="row"><input id="name" name="name" placeholder="Name" required><input id="email" name="email" type="email" placeholder="Email" required></div>
         <textarea id="message" name="message" placeholder="Your message" required></textarea>
-        <div class="actions"><button class="cta" type="submit">Send</button><a class="iconbtn" href="mailto:hello@leoshabarov.com" aria-label="Email"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16v12H4z" stroke="#cfe1ff"/><path d="M4 7l8 6 8-6" stroke="#cfe1ff"/></svg></a></div>
+        <div class="actions"><button class="cta magnet" type="submit">Send</button></div>
         <p id="form-status" class="small"></p>
       </form>
     </div>
   </section>
 
-  <button id="scrolltop" aria-label="Scroll to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6l6 6-1.4 1.4L13 9.8V20h-2V9.8L7.4 13.4 6 12l6-6z" fill="#cfd2e9"/></svg></button>
+  <button id="scrolltop" aria-label="Scroll to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6l6 6-1.4 1.4L13 9.8V20h-2V9.8L7.4 13.4 6 12l6-6z" fill="#2b2440"/></svg></button>
 </main>
 
 <footer class="container" style="margin-top:16px">
@@ -149,11 +149,13 @@ footer{padding:34px 0 60px;color:#b4bad6}
   </div>
 </footer>
 
+<div class="cursor" id="cursor"></div>
+
 <script>
-let ang=0;function frame(){ang=(ang+0.6)%360;document.documentElement.style.setProperty('--ang',ang+'deg');requestAnimationFrame(frame)};frame()
+let ang=0;function frame(){ang=(ang+0.7)%360;document.documentElement.style.setProperty('--ang',ang+'deg');requestAnimationFrame(frame)};frame()
 const layers=document.querySelectorAll('.layer');const strength=[0.22,0.32,0.44]
-window.addEventListener('scroll',()=>{const y=window.scrollY;layers.forEach((el,i)=>{el.style.transform=`translateY(${y*strength[i]}px)`});document.getElementById('hues').style.filter=`hue-rotate(${y/6}deg)`})
-window.addEventListener('mousemove',e=>{const cx=window.innerWidth/2;const cy=window.innerHeight/2;layers.forEach((el,i)=>{const dx=(e.clientX-cx)/cx;const dy=(e.clientY-cy)/cy;el.style.transform=`translate(${dx*18*(i+1)}px, ${window.scrollY*strength[i]+dy*18*(i+1)}px)`})})
+window.addEventListener('scroll',()=>{const y=window.scrollY;layers.forEach((el,i)=>{el.style.transform=`translateY(${y*strength[i]}px)`})})
+window.addEventListener('mousemove',e=>{const cx=window.innerWidth/2;const cy=window.innerHeight/2;layers.forEach((el,i)=>{const dx=(e.clientX-cx)/cx;const dy=(e.clientY-cy)/cy;el.style.transform=`translate(${dx*14*(i+1)}px, ${window.scrollY*strength[i]+dy*14*(i+1)}px)`})})
 
 const portrait=document.getElementById('portrait');portrait.addEventListener('mousemove',e=>{const r=portrait.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;portrait.style.transform=`perspective(1200px) rotateX(${y*-10}deg) rotateY(${x*10}deg)`});portrait.addEventListener('mouseleave',()=>{portrait.style.transform=''})
 
@@ -162,8 +164,9 @@ document.getElementById('year').textContent=new Date().getFullYear()
 const st=document.getElementById('scrolltop');window.addEventListener('scroll',()=>{window.scrollY>420?st.classList.add('show'):st.classList.remove('show')});st.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}))
 
 const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis']
-function buildRail(){const rail=document.createElement('div');rail.className='rail';for(const c of courses){const el=document.createElement('div');el.className='course';el.textContent=c;rail.appendChild(el)}return rail}
-const railA=document.getElementById('railA');const railB=document.getElementById('railB');railA.appendChild(buildRail());railA.appendChild(buildRail());railB.appendChild(buildRail());railB.appendChild(buildRail())
+const rail=document.getElementById('rail')
+function buildRail(){const row=document.createElement('div');row.style.display='flex';row.style.gap='20px';row.style.alignItems='center';for(const c of courses){const el=document.createElement('div');el.className='course';el.textContent=c;row.appendChild(el)}return row}
+rail.appendChild(buildRail());rail.appendChild(buildRail())
 
 const graphs=[
 {title:'Unit Circle Visualization',id:'be7a168fbe'},
@@ -171,18 +174,28 @@ const graphs=[
 {title:'3D Cube',id:'3666017f8b'}
 ]
 const dg=document.getElementById('desmos-grid')
-for(const g of graphs){const el=document.createElement('article');el.className='card';const url=`https://www.desmos.com/calculator/${g.id}`;const thumb=`https://www.desmos.com/api/v1/thumb?graph=${g.id}&w=800&h=460`;el.innerHTML=`<h3 style="margin:0 0 8px">${g.title}</h3><img class=\"preview\" src=\"${thumb}\" alt=\"${g.title}\"><div class=\"actions\" style=\"margin-top:10px\"><a class=\"cta\" href=\"${url}\" target=\"_blank\" rel=\"noopener\">Open</a></div>`;el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1100px) rotateX(${y*-6}deg) rotateY(${x*6}deg)`});el.addEventListener('mouseleave',()=>{el.style.transform=''}) ;dg.appendChild(el)}
+for(const g of graphs){const el=document.createElement('article');el.className='card';const url=`https://www.desmos.com/calculator/${g.id}`;const thumb=`https://www.desmos.com/api/v1/thumb?graph=${g.id}&w=800&h=460`;el.innerHTML=`<h3 style="margin:0 0 8px">${g.title}</h3><img class=\"preview\" src=\"${thumb}\" alt=\"${g.title}\"><div class=\"actions\" style=\"margin-top:10px\"><a class=\"cta\" href=\"${url}\" target=\"_blank\" rel=\"noopener\">Open</a></div>`;dg.appendChild(el)}
 
 const rings=document.getElementById('rings');const rx=rings.getContext('2d');let W,H,t=0
 function rs(){W=rings.width=innerWidth*2;H=rings.height=innerHeight*2}
-function draw(){rx.clearRect(0,0,W,H);rx.save();rx.translate(W/2,H/2);for(let i=0;i<16;i++){const r=240+i*70+10*Math.sin((t+i)*.08);rx.beginPath();rx.arc(0,0,r,0,Math.PI*2);rx.strokeStyle=`hsla(${(t+i*12)%360},100%,70%,${.05+.002*i})`;rx.lineWidth=1.5;rx.stroke()}rx.restore();t+=1;requestAnimationFrame(draw)}
+function draw(){rx.clearRect(0,0,W,H);rx.save();rx.translate(W/2,H/2);for(let i=0;i<14;i++){const r=240+i*70+10*Math.sin((t+i)*.08);rx.beginPath();rx.arc(0,0,r,0,Math.PI*2);rx.strokeStyle=`hsla(${(t+i*12)%360},85%,55%,${.06+.003*i})`;rx.lineWidth=1.5;rx.stroke()}rx.restore();t+=1;requestAnimationFrame(draw)}
 rs();draw();addEventListener('resize',rs)
 
 const obs=new IntersectionObserver((entries)=>{for(const e of entries){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15})
 for(const el of document.querySelectorAll('.reveal'))obs.observe(el)
 
+const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0
+function loop(){cx+= (tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)}
+loop()
+window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;const mask=document.getElementById('mask');const rect=document.querySelector('.masked').getBoundingClientRect();const mx=((e.clientX-rect.left)/rect.width*100).toFixed(2)+'%';const my=((e.clientY-rect.top)/rect.height*100).toFixed(2)+'%';mask.style.setProperty('--mx',mx);mask.style.setProperty('--my',my)})
+
+function magnetize(el){const s=40;el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`translate(${x*s}px,${y*s}px)`});el.addEventListener('mouseleave',()=>{el.style.transform=''})}
+for(const m of document.querySelectorAll('.magnet'))magnetize(m)
+
 const form=document.getElementById('contact-form');const statusEl=document.getElementById('form-status')
-form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('name').value.trim();const email=document.getElementById('email').value.trim();const message=document.getElementById('message').value.trim();if(!name||!email||!message){statusEl.textContent='Fill all fields.';statusEl.style.color='#f59e0b';return}const mail=`mailto:hello@leoshabarov.com?subject=${encodeURIComponent('Site contact from '+name)}&body=${encodeURIComponent(message+'\n\nFrom: '+name+' <'+email+'>')}`;window.location.href=mail;statusEl.textContent='Opening your email app…';statusEl.style.color='#10b981';form.reset()})
+form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('name').value.trim();const email=document.getElementById('email').value.trim();const message=document.getElementById('message').value.trim();if(!name||!email||!message){statusEl.textContent='Fill all fields.';statusEl.style.color='#a61e4d';return}const mail=`mailto:hello@leoshabarov.com?subject=${encodeURIComponent('Site contact from '+name)}&body=${encodeURIComponent(message+'
+
+From: '+name+' <'+email+'>')}`;window.location.href=mail;statusEl.textContent='Opening your email app…';statusEl.style.color='#0b8b6b';form.reset()})
 </script>
 </body>
 </html>
