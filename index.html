@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leo Shabarov, Is this working?</title>
+  <style>
+    :root { --bg: #0b0b0f; --text: #e2e8f0; --accent: #ef4444; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; padding: 24px 28px; text-align: center; font-weight: 700; font-size: clamp(20px, 2vw + 10px, 36px); letter-spacing: .2px; z-index: 2; }
+    .playfield { position: fixed; inset: 0; overflow: hidden; }
+    .square { position: absolute; width: 64px; height: 64px; background: var(--accent); border-radius: 8px; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.35); }
+  </style>
+</head>
+<body>
+  <div role="heading" aria-level="1" class="header">Leo Shabarov, is this working?</div>
+  <div id="playfield" class="playfield" aria-hidden="true">
+    <div id="square" class="square"></div>
+  </div>
+
+  <script>
+    (() => {
+      const square = document.getElementById('square');
+      const header = document.querySelector('.header');
+      const size = 64; 
+
+     
+      let x = Math.random() * (window.innerWidth - size);
+      let y = Math.random() * (window.innerHeight - size);
+
+   
+      let vx = (Math.random() > 0.5 ? 1 : -1) * 240;
+      let vy = (Math.random() > 0.5 ? 1 : -1) * 180;
+      let last = performance.now();
+
+      function bounds() {
+        const topOffset = header.getBoundingClientRect().bottom;
+        return {
+          minX: 0,
+          minY: topOffset + 8, 
+          maxX: window.innerWidth - size,
+          maxY: window.innerHeight - size
+        };
+      }
+
+      function step(now) {
+        const dt = Math.min((now - last) / 1000, 0.05); 
+        last = now;
+
+        x += vx * dt;
+        y += vy * dt;
+
+        const b = bounds();
+        if (x <= b.minX) { x = b.minX; vx = Math.abs(vx); }
+        else if (x >= b.maxX) { x = b.maxX; vx = -Math.abs(vx); }
+
+        if (y <= b.minY) { y = b.minY; vy = Math.abs(vy); }
+        else if (y >= b.maxY) { y = b.maxY; vy = -Math.abs(vy); }
+
+        square.style.transform = `translate(${x}px, ${y}px)`;
+        requestAnimationFrame(step);
+      }
+
+      window.addEventListener('resize', () => {
+        const b = bounds();
+        x = Math.max(b.minX, Math.min(x, b.maxX));
+        y = Math.max(b.minY, Math.min(y, b.maxY));
+      }, { passive: true });
+
+
+      last = performance.now();
+      requestAnimationFrame(step);
+    })();
+  </script>
+</body>
+</html>
