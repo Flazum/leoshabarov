@@ -1,113 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leo Shabarov</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    :root{--mx:50%;--my:50%;--h:0deg}
-    body{font-family:'Space Grotesk',sans-serif;background:#06060a;color:#fff;overflow-x:hidden}
-    .bg{position:fixed;inset:0;z-index:-3;background:radial-gradient(1200px 600px at -10% -10%,#2b124a 0%,transparent 60%),radial-gradient(1200px 600px at 110% 0%,#0e3b47 0%,transparent 60%),#06060a}
-    .blob{position:fixed;inset:-20vh -20vw;z-index:-2;filter:blur(80px);opacity:.7}
-    .b1{position:absolute;width:900px;height:900px;left:-220px;top:-240px;background:radial-gradient(closest-side,rgba(255,96,210,.6),transparent)}
-    .b2{position:absolute;width:760px;height:760px;right:-260px;top:-120px;background:radial-gradient(closest-side,rgba(95,225,255,.55),transparent)}
-    .b3{position:absolute;width:720px;height:720px;left:50%;bottom:-260px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(167,139,250,.55),transparent)}
-    .hue{position:fixed;inset:0;z-index:-1;mix-blend-mode:overlay;filter:hue-rotate(var(--h));opacity:.35;background:conic-gradient(from 0deg at 50% 50%,#ff7ad9,#7adfff,#ffd36e,#ff7ad9)}
-    header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;position:relative}
-    h1{font-size:clamp(3rem,10vw,7rem);text-align:center;line-height:1;position:relative}
-    .masked{position:relative;display:inline-block}
-    .masked .mask-glow{position:absolute;inset:-20% -10%;background:radial-gradient(500px 500px at var(--mx) var(--my),#ff7ad9 0%,#7adfff 45%,#ffd36e 70%,transparent 75%);filter:blur(18px)}
-    .masked .text{position:relative;background:linear-gradient(90deg,#fff,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;m ix-blend-mode:screen}
-    .lead{color:#c8c9ff;max-width:70ch;text-align:center}
-    .portrait{width:280px;height:350px;border-radius:22px;overflow:hidden;border:1px solid #292254;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;transform-style:preserve-3d;transition:transform .15s}
-    .portrait img{width:100%;height:100%;object-fit:cover;transform:translateZ(30px)}
-    .socials{display:flex;gap:22px}
-    .icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid #2b2750;transition:transform .08s,box-shadow .2s}
-    .icon:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
-    section{padding:96px 20px;position:relative}
-    h2{font-size:clamp(1.6rem,3vw,2.2rem);text-align:center;margin-bottom:18px}
-    .rail-wrap{perspective:1200px}
-    .rail{display:flex;gap:18px;align-items:center;white-space:nowrap;overflow:hidden;border-radius:22px;border:1px solid #272350;background:linear-gradient(180deg,#0f0f1a,#0b0b14);padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.35)}
-    .track{display:inline-flex;gap:18px;animation:mar 26s linear infinite}
-    @keyframes mar{to{transform:translateX(-50%)}}
-    .chip{display:inline-grid;place-items:center;padding:.9rem 1.2rem;border-radius:16px;border:1px solid #2c2855;background:linear-gradient(180deg,#14142a,#0f0f20);font-weight:900;transform:rotateX(14deg) rotateY(-8deg) translateZ(46px);box-shadow:0 12px 28px rgba(143,122,255,.18)}
-    .chip:nth-child(odd){transform:rotateX(-10deg) rotateY(8deg) translateZ(36px)}
-    .chip span{background:linear-gradient(90deg,#ff7ad9,#7adfff);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .current{display:grid;place-items:center;margin-top:18px}
-    .pill{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.4rem;border-radius:999px;border:1px solid #2d2a54;background:radial-gradient(50% 120% at 50% 0%,rgba(255,122,217,.35),transparent 60%),linear-gradient(135deg,#ff7ad9,#7adfff);color:#05050b;font-weight:900;box-shadow:0 12px 30px rgba(124,92,255,.35)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:22px}
-    .card{border-radius:20px;border:1px solid #292254;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));backdrop-filter:blur(8px);box-shadow:0 14px 36px rgba(0,0,0,.35);transition:transform .15s;transform-style:preserve-3d}
-    .card img{width:100%;height:auto;display:block}
-    .card a{display:block;padding:14px 16px;color:#fff;text-decoration:none}
-    .reveal{opacity:0;transform:translateY(20px) scale(.98);transition:opacity .6s,transform .6s}
-    .reveal.on{opacity:1;transform:none}
-    .cursor{position:fixed;width:36px;height:36px;border-radius:50%;left:0;top:0;pointer-events:none;z-index:50;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9),rgba(255,255,255,.25));mix-blend-mode:overlay;transform:translate(-50%,-50%)}
-    @media (max-width:860px){header{padding:40px 20px}.portrait{width:240px;height:310px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leo Shabarov</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#eaf1ff;--muted:#a8b4d9;--line:#1e2438;--bg:#070a12;--a:#6ee7ff;--b:#8b5cf6;--c:#22d3ee}
+html,body{height:100%}
+body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+.wrap{width:min(1180px,92%);margin-inline:auto}
+.header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(7,10,18,.8),rgba(7,10,18,.4) 70%,transparent);backdrop-filter:blur(10px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit}
+.logo{width:42px;height:42px;border-radius:12px;background:conic-gradient(from var(--rot,0deg),var(--a),var(--b),var(--c),var(--a));display:grid;place-items:center;box-shadow:0 8px 24px #0009}
+.title{font-weight:700}
+.links{display:flex;gap:1rem}
+.links a{color:var(--ink);text-decoration:none;font-weight:700;opacity:.9}
+.iconbtn{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:#0c1122;border:1px solid var(--line);transition:transform .08s ease,box-shadow .2s ease}
+.iconbtn:hover{transform:translateY(-1px);box-shadow:0 12px 28px #0008}
+.hero{position:relative;min-height:82vh;display:grid;place-items:center}
+.hgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.h1{font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1.02;letter-spacing:-.01em}
+.lead{color:var(--muted);margin-top:10px}
+.actions{display:flex;gap:12px;margin-top:18px}
+.portrait{width:360px;max-width:100%;aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#0c1122;transform-style:preserve-3d;transition:transform .15s ease}
+.portrait img{width:100%;height:100%;object-fit:cover;transform:translateZ(30px)}
+.section{padding:40px 0}
+.section h2{font-size:clamp(1.4rem,2.6vw,2rem);margin-bottom:12px}
+.rail{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f1e,#0a0c18)}
+.track{display:flex;gap:18px;align-items:center;padding:16px;animation:scroll 24s linear infinite}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.chip{padding:.8rem 1.1rem;border-radius:14px;border:1px solid #232947;background:#0c1122;font-weight:900;transform:rotateX(14deg) rotateY(-8deg) translateZ(40px);box-shadow:0 10px 24px #0008}
+.chip:nth-child(odd){transform:rotateX(-12deg) rotateY(8deg) translateZ(34px)}
+.center{display:grid;place-items:center;margin-top:12px}
+.pill{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.2rem;border-radius:999px;background:linear-gradient(135deg,var(--a),var(--b));color:#071018;font-weight:900;border:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));box-shadow:0 14px 36px #0009;transform-style:preserve-3d;transition:transform .15s}
+.card img{width:100%;display:block;border-bottom:1px solid var(--line)}
+.card a{display:block;padding:14px 16px;color:var(--ink);text-decoration:none}
+footer{padding:28px 0 46px;color:#9fb0d9}
+#bg3d{position:fixed;inset:0;z-index:-1}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+.cursor{position:fixed;left:0;top:0;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.8),rgba(255,255,255,.2));mix-blend-mode:overlay;pointer-events:none;z-index:99;transform:translate(-50%,-50%)}
+@media (max-width:980px){.hgrid{grid-template-columns:1fr}.portrait{width:280px}}
+</style>
 </head>
 <body>
-  <div class="bg"></div>
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
-  <div class="hue"></div>
-  <div id="cursor" class="cursor"></div>
-
-  <header>
-    <h1 class="masked">
-      <span class="mask-glow" id="mask"></span>
-      <span class="text">Leo Shabarov</span>
-    </h1>
-    <p class="lead">I like clean logic, playful builds, and aesthetics that move.</p>
-    <div class="portrait magnet" id="portrait">
-      <img src="portrait.jpg" alt="Portrait">
+<canvas id="bg3d"></canvas>
+<header class="header">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#courses">Courses</a>
+      <a href="#desmos">Desmos</a>
+      <a href="#contact">Contact</a>
     </div>
-    <div class="socials">
-      <a class="icon magnet" href="https://www.youtube.com/@leoshabarov" target="_blank" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/><path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/></svg></a>
-      <a class="icon magnet" href="https://www.instagram.com/leoshabarov/" target="_blank" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="24"><stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs><rect x="4" y="4" width="16" height="16" rx="5" fill="url(#g)"/><circle cx="12" cy="12" r="3.5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></a>
-    </div>
-  </header>
+  </div>
+</header>
 
-  <section class="reveal">
+<main class="wrap">
+  <section class="hero" id="top">
+    <div class="hgrid">
+      <div>
+        <h1 class="h1">I build playful, math‑flavored things.</h1>
+        <p class="lead">Crisp logic, bright visuals, lots of motion. Scroll and everything shifts in depth.</p>
+        <div class="actions">
+          <a class="iconbtn magnet" href="https://www.youtube.com/@leoshabarov" target="_blank" aria-label="YouTube"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/><path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/></svg></a>
+          <a class="iconbtn magnet" href="https://www.instagram.com/leoshabarov/" target="_blank" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="24"><stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs><rect x="4" y="4" width="16" height="16" rx="5" fill="url(#g)"/><circle cx="12" cy="12" r="3.5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></a>
+        </div>
+      </div>
+      <div class="portrait magnet" id="portrait"><img src="/portrait.jpg" alt="Portrait of Leo"></div>
+    </div>
+  </section>
+
+  <section id="about" class="section reveal">
+    <h2>About</h2>
+    <p class="lead">I like problems that reward patience and clarity. My favorite loop is learn → explain → build. I drift toward visuals that make tricky concepts feel obvious.</p>
+  </section>
+
+  <section id="courses" class="section reveal">
     <h2>Courses I’ve finished</h2>
-    <div class="rail-wrap">
-      <div class="rail">
-        <div class="track" id="track"></div>
-        <div class="track" id="track2"></div>
+    <div class="rail">
+      <div class="track" id="track"></div>
+    </div>
+    <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
+  </section>
+
+  <section id="desmos" class="section reveal">
+    <h2>Desmos Gallery</h2>
+    <div class="grid" id="desmos-grid"></div>
+  </section>
+
+  <section id="contact" class="section reveal">
+    <h2>Contact</h2>
+    <div class="grid">
+      <div class="card">
+        <a href="mailto:hello@leoshabarov.com">Email</a>
       </div>
     </div>
-    <div class="current"><div class="pill">Currently learning: Complex Analysis</div></div>
   </section>
+</main>
 
-  <section class="reveal">
-    <h2>Desmos Creations</h2>
-    <div class="grid" id="desmos"></div>
-  </section>
-
-  <script>
-    const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();
-    window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;const m=document.getElementById('mask');const r=document.querySelector('.masked').getBoundingClientRect();const mx=((e.clientX-r.left)/r.width*100)+'%';const my=((e.clientY-r.top)/r.height*100)+'%';m.style.setProperty('--mx',mx);m.style.setProperty('--my',my)});
-    window.addEventListener('scroll',()=>{document.documentElement.style.setProperty('--h',window.scrollY/4+'deg')});
-
-    function magnetize(el){const s=40;el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`translate(${x*s}px,${y*s}px)`});el.addEventListener('mouseleave',()=>{el.style.transform=''})}
-    for(const m of document.querySelectorAll('.magnet')) magnetize(m)
-
-    const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis'];
-    function buildRow(){const row=document.createElement('div');row.style.display='inline-flex';row.style.gap='18px';for(const c of courses){const chip=document.createElement('div');chip.className='chip';chip.innerHTML='<span>'+c+'</span>';row.appendChild(chip)}return row}
-    const t1=document.getElementById('track');const t2=document.getElementById('track2');t1.appendChild(buildRow());t1.appendChild(buildRow());t2.appendChild(buildRow());t2.appendChild(buildRow());
-
-    const graphs=[
-      {title:'Unit Circle Visualization',id:'be7a168fbe'},
-      {title:'Animation Preview',id:'14a5e1c18a'},
-      {title:'3D Cube',id:'3666017f8b'}
-    ];
-    const grid=document.getElementById('desmos');
-    for(const g of graphs){const el=document.createElement('a');el.className='card';el.href=`https://www.desmos.com/calculator/${g.id}`;el.target='_blank';el.rel='noopener';const img=document.createElement('img');img.src=`https://www.desmos.com/api/v1/thumb?graph=${g.id}&w=900&h=520`;img.alt=g.title;const cap=document.createElement('div');cap.style.padding='12px 16px';cap.textContent=g.title;el.appendChild(img);el.appendChild(cap);grid.appendChild(el);el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1100px) rotateX(${y*-6}deg) rotateY(${x*6}deg)`});el.addEventListener('mouseleave',()=>{el.style.transform=''})}
-
-    const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});
-    for(const el of document.querySelectorAll('.reveal')) obs.observe(el);
-  </script>
+<footer class="wrap"><div class="nav" style="padding:0"><a class="brand" href="#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a><div style="color:#7f93c9">© <span id="year"></span></div></div></footer>
+<div class="cursor" id="cursor"></div>
+<script>
+let rr=0;setInterval(()=>{rr=(rr+3)%360;document.documentElement.style.setProperty('--rot',rr+'deg')},60)
+const bg=document.getElementById('bg3d');const g=bg.getContext('2d');let W,H,t=0
+function rs(){W=bg.width=innerWidth*2;H=bg.height=innerHeight*2}
+function P(x,y,z){const s=700;const d=3;const px=x/(z+d)*s,py=y/(z+d)*s;return [W/2+px,H/2+py]}
+function draw(){g.clearRect(0,0,W,H);g.save();g.translate(0,0);const n=1100;const time=t*0.002;for(let i=0;i<n;i++){const u=i/n*Math.PI*4;const v=(i%220)/220*Math.PI*2;let R=1.2+0.24*Math.sin(u*3+time*2);let r=.42+.08*Math.cos(u*2-time*3);let x=(R+r*Math.cos(v))*Math.cos(u);let y=(R+r*Math.cos(v))*Math.sin(u);let z=r*Math.sin(v);const ax=time*.7,ay=time*.9,az=time*.5;let X=x, Y=y*Math.cos(ax)-z*Math.sin(ax), Z=y*Math.sin(ax)+z*Math.cos(ax);let X2=X*Math.cos(ay)+Z*Math.sin(ay), Y2=Y, Z2=-X*Math.sin(ay)+Z*Math.cos(ay);let X3=X2*Math.cos(az)-Y2*Math.sin(az), Y3=X2*Math.sin(az)+Y2*Math.cos(az), Z3=Z2+1.8+0.6*Math.sin(time);const p=P(X3*220,Y3*220,Z3);const hue=(i/n*360+time*120)%360;g.fillStyle=`hsla(${hue},100%,60%,.65)`;g.beginPath();g.arc(p[0],p[1],1.6+1.4*(Z3),0,6.283);g.fill()}g.restore();t++;requestAnimationFrame(draw)}
+rs();draw();addEventListener('resize',rs)
+const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY})
+function magnet(el){const s=40;el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`translate(${x*s}px,${y*s}px)`});el.addEventListener('mouseleave',()=>{el.style.transform=''})}
+for(const m of document.querySelectorAll('.magnet')) magnet(m)
+const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis']
+const track=document.getElementById('track');function row(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;d.appendChild(el)}return d}
+track.appendChild(row());track.appendChild(row())
+const graphs=[{title:'Unit Circle Visualization',id:'be7a168fbe'},{title:'Animation Preview',id:'14a5e1c18a'},{title:'3D Cube',id:'3666017f8b'}]
+const grid=document.getElementById('desmos-grid');for(const gph of graphs){const el=document.createElement('a');el.className='card';el.href=`https://www.desmos.com/calculator/${gph.id}`;el.target='_blank';el.rel='noopener';const img=document.createElement('img');img.src=`https://www.desmos.com/api/v1/thumb?graph=${gph.id}&w=900&h=520`;img.alt=gph.title;const cap=document.createElement('div');cap.style.padding='12px 16px';cap.textContent=gph.title;el.appendChild(img);el.appendChild(cap);grid.appendChild(el);el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1100px) rotateX(${y*-6}deg) rotateY(${x*6}deg)`});el.addEventListener('mouseleave',()=>{el.style.transform=''})}
+const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});for(const el of document.querySelectorAll('.reveal')) obs.observe(el)
+</script>
 </body>
 </html>
