@@ -216,16 +216,16 @@ track.appendChild(row());track.appendChild(row());
 
 const courseInfo={
   'Algebra I':{d:'Linear relationships, slope, and intercepts.',b:['Slope as rise/run','Slope-intercept form','Point-slope links','Systems intuition'],a:'alg1'},
-  'Geometry':{d:'Similarity via angle-angle, proportionality, and overlays.',b:['AA similarity','Correspondence','Scale factors','Angle chasing'],a:'geom'},
-  'Algebra II':{d:'Higher-degree behavior and real roots.',b:['Polynomial shape','Multiplicity','End behavior','Exact zeros'],a:'alg2'},
-  'Pre-Calc':{d:'Unit-circle motion linked to sin and cos traces.',b:['Unit circle','Sine and cosine','Phase alignment','Parametric view'],a:'precalc'},
-  'Calculus I':{d:'Change and accumulation with static curve + Riemann sums.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
-  'Calculus II':{d:'Polar area swept by a changing radius.',b:['Polar curves','Area sweep','Parametric angle','Series vibe'],a:'calc2'},
-  'Calculus III':{d:'Surface with tangent vectors along parameter directions.',b:['Param surface','Boundary curve','Tangent field','Flux feel'],a:'calc3'},
-  'ODE':{d:'Heat-map style hues evolving over a square domain.',b:['Diffusion feel','Spatial gradients','Temporal smoothing','Color field'],a:'ode'},
-  'Linear Algebra':{d:'Global grid under a dynamic linear map.',b:['Full-plane transform','Basis span','Eigen hints','Distortion'],a:'linalg'},
-  'Discrete Math':{d:'Closed loop with fast cycling highlight.',b:['Cycle path','Connectivity','Traversal','Rhythm'],a:'discrete'},
-  'Real Analysis':{d:'ε–δ style focusing window.',b:['ε-band','δ-window','Sequences approach','Tight control'],a:'real'}
+  'Geometry':{d:'AA similarity: overlay, then slide right and scale.',b:['AA similarity','Correspondence','Scale factor grows','Angles preserved'],a:'geom'},
+  'Algebra II':{d:'Polynomial x^5 − 4x^3 + 3x with zeros.',b:['Multiplicity view','End behavior','Exact zeros','Reveal order'],a:'alg2'},
+  'Pre-Calc':{d:'Unit-circle point drives the sine and cosine traces.',b:['Unit circle','Sin & cos','Phase lock','Parametric link'],a:'precalc'},
+  'Calculus I':{d:'Static curve with drifting Riemann rectangles.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
+  'Calculus II':{d:'Polar curve with sweeping area.',b:['Polar curves','Area sweep','Param angle','Dynamic radius'],a:'calc2'},
+  'Calculus III':{d:'3D axes and a line with a sweeping line-integral trace.',b:['3D axes','Param line','Sweep highlight','Path length feel'],a:'calc3'},
+  'ODE':{d:'Rainbow chaos that diffuses into larger regions.',b:['Random start','Neighbor blending','Bigger groups','Heat-map vibe'],a:'ode'},
+  'Linear Algebra':{d:'Larger transformed grid; basis vectors never cut out.',b:['Matrix action','Basis span','Eigen hints','Full coverage'],a:'linalg'},
+  'Discrete Math':{d:'Closed loop with denser connections, fast cycling.',b:['Cycle path','More edges','Traversal','Rhythm'],a:'discrete'},
+  'Real Analysis':{d:'ε–δ focusing window.',b:['ε-band','δ-window','Sequences approach','Tight control'],a:'real'}
 };
 
 const panel=document.getElementById('coursePanel');
@@ -303,28 +303,31 @@ function startAnim(type){
     }
 
     if(type==='geom'){
-      function tri(s,offx,offy,rot){
+      function tri(s,offx,offy,rot,col){
         const A=[-60*s,-40*s],B=[70*s,-20*s],C=[-10*s,60*s];
         const R=(p)=>{const c=Math.cos(rot),d=Math.sin(rot);return [c*p[0]-d*p[1]+offx,d*p[0]+c*p[1]+offy]};
         const P=[R(A),R(B),R(C)];
-        ctx.beginPath();ctx.moveTo(P[0][0],P[0][1]);ctx.lineTo(P[1][0],P[1][1]);ctx.lineTo(P[2][0],P[2][1]);ctx.closePath();ctx.stroke();
-        function arc(p,q,r,col){ctx.strokeStyle=col;ctx.beginPath();ctx.arc(p[0],p[1],12*s,Math.atan2(q[1]-p[1],q[0]-p[0]),Math.atan2(r[1]-p[1],r[0]-p[0]));ctx.stroke()}
-        ctx.lineWidth=2;arc(P[0],P[1],P[2],'#8ec5ff');arc(P[1],P[2],P[0],'#8ec5ff');arc(P[2],P[0],P[1],'#8ec5ff');ctx.lineWidth=2.5
+        ctx.strokeStyle=col;ctx.beginPath();ctx.moveTo(P[0][0],P[0][1]);ctx.lineTo(P[1][0],P[1][1]);ctx.lineTo(P[2][0],P[2][1]);ctx.closePath();ctx.stroke();
+        function arc(p,q,r){ctx.beginPath();ctx.arc(p[0],p[1],12*s,Math.atan2(q[1]-p[1],q[0]-p[0]),Math.atan2(r[1]-p[1],r[0]-p[0]));ctx.stroke()}
+        ctx.lineWidth=2;arc(P[0],P[1],P[2]);arc(P[1],P[2],P[0]);arc(P[2],P[0],P[1]);ctx.lineWidth=2.5
         return P
       }
-      const overlayX=-40, moveRight=120, phase=(Math.sin(t*0.02)*0.5+0.5);
-      const offx=overlayX+phase*moveRight;
-      const scale=1+phase*0.5;
-      ctx.strokeStyle='rgba(142,197,255,.95)';const big=tri(1,0,0,0.0);
-      ctx.strokeStyle='rgba(170,160,255,.95)';const small=tri(scale,offx,10,0.0);
+      const leftX=-160, leftY=10, baseScale=1;
+      const cycle=(t%360)/360;
+      const phase=cycle;
+      const moveRight=200;
+      const s=baseScale*(1+phase*0.6);
+      const x=leftX+phase*moveRight;
+      ctx.strokeStyle='rgba(142,197,255,.95)';tri(baseScale,leftX,leftY,0,'rgba(142,197,255,.95)');
+      ctx.strokeStyle='rgba(170,160,255,.95)';tri(s,x,leftY,0,'rgba(170,160,255,.95)');
       ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';
-      ctx.fillText('AA similarity overlay → scale',-W/2+12,-H/2+18);
+      ctx.fillText('overlay → slide right + scale (AA similarity)',-W/2+12,-H/2+18);
     }
 
     if(type==='alg2'){
       function f(x){return Math.pow(x,5)-4*Math.pow(x,3)+3*x}
       ctx.beginPath();
-      for(let x=-W/2;x<W/2;x+=2){const y=f(x/60);const sy=-y*20; x===-W/2?ctx.moveTo(x,sy):ctx.lineTo(x,sy)}
+      for(let xp=-W/2;xp<W/2;xp+=2){const x=xp/60;const y=f(x);const sy=-y*20; xp===-W/2?ctx.moveTo(xp,sy):ctx.lineTo(xp,sy)}
       ctx.stroke();
       const roots=[-Math.sqrt(3)*60,-60,0,60,Math.sqrt(3)*60];
       const idx=Math.floor((t/60)%roots.length);
@@ -338,20 +341,21 @@ function startAnim(type){
     }
 
     if(type==='precalc'){
-      const R=70, a=(t*0.04)%(Math.PI*2);
-      ctx.beginPath();ctx.arc(-W/4,0,R,0,6.283);ctx.stroke();
-      const px=-W/4+R*Math.cos(a), py=R*Math.sin(a);
+      const R=70;
+      const a=(t*0.04)%(Math.PI*2);
+      const cx=-W/4, cy=0;
+      ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.stroke();
+      const px=cx+R*Math.cos(a), py=cy+R*Math.sin(a);
       ctx.fillStyle='#aac8ff';ctx.beginPath();ctx.arc(px,py,4,0,6.283);ctx.fill();
-      ctx.strokeStyle='rgba(255,255,255,.5)';ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(-W/4,0);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
-      const left=-W/8, right=W/2;
-      const xNow=left+(right-left)*(a/(2*Math.PI));
-      ctx.strokeStyle='rgba(170,160,255,.9)';
-      ctx.beginPath();for(let x=left;x<=xNow;x+=3){const y=40*Math.sin((x-left)/((right-left)/(2*Math.PI)));x===left?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.strokeStyle='rgba(120,220,255,.9)';
-      ctx.beginPath();for(let x=left;x<=xNow;x+=3){const y=40*Math.cos((x-left)/((right-left)/(2*Math.PI)));x===left?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.35)';
-      ctx.beginPath();ctx.moveTo(xNow,-H/2);ctx.lineTo(xNow,H/2);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('angle → sin/cos alignment',-W/2+12,-H/2+18);
+      ctx.strokeStyle='rgba(255,255,255,.5)';ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
+      const left=-W/8, right=W/2, span=right-left;
+      ctx.strokeStyle='rgba(170,160,255,.9)';ctx.beginPath();
+      for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.sin(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      ctx.strokeStyle='rgba(120,220,255,.9)';ctx.beginPath();
+      for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.cos(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      const xNow=left+(a/(2*Math.PI))*span;
+      ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.moveTo(xNow,-H/2);ctx.lineTo(xNow,H/2);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('angle → synced sin/cos traces',-W/2+12,-H/2+18);
     }
 
     if(type==='calc1'){
@@ -377,70 +381,91 @@ function startAnim(type){
     }
 
     if(type==='calc3'){
-      function surf(u,v){const x=120*(u-0.5), y=80*(v-0.5), z=25*Math.sin(2*u*Math.PI)*Math.cos(2*v*Math.PI); return [x*0.8, y*0.4-z]}
-      ctx.strokeStyle='rgba(142,197,255,.7)';ctx.lineWidth=1.5;
-      for(let v=0;v<=1;v+=0.08){ctx.beginPath();for(let u=0;u<=1;u+=0.02){const p=surf(u,v);u===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke()}
-      for(let u=0;u<=1;u+=0.08){ctx.beginPath();for(let v=0;v<=1;v+=0.02){const p=surf(u,v);v===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke()}
-      ctx.strokeStyle='rgba(255,190,120,.95)';ctx.lineWidth=2;
-      for(let v=0.1;v<=0.9;v+=0.2){
-        for(let u=0.1;u<=0.9;u+=0.2){
-          const p=surf(u,v), pu=surf(u+0.02,v), pv=surf(u,v+0.02);
-          const tu=[pu[0]-p[0],pu[1]-p[1]], tv=[pv[0]-p[0],pv[1]-p[1]];
-          const s=10;
-          ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[0]+tu[0]*s,p[1]+tu[1]*s);ctx.stroke();
-          ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[0]+tv[0]*s,p[1]+tv[1]*s);ctx.stroke();
-        }
-      }
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('surface + tangent directions',-W/2+12,-H/2+18);
+      function proj(x,y,z){return [0.8*x+0.0*y,0.4*y-0.7*z]}
+      ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;
+      for(let x=-140;x<=140;x+=20){let p0=proj(x,-100,0),p1=proj(x,100,0);ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()}
+      for(let y=-100;y<=100;y+=20){let p0=proj(-140,y,0),p1=proj(140,y,0);ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()}
+      const A=[-100,-40,-30], B=[120,60,40];
+      function lerp(a,b,s){return a+(b-a)*s}
+      function P(s){return [lerp(A[0],B[0],s),lerp(A[1],B[1],s),lerp(A[2],B[2],s)]}
+      ctx.strokeStyle='rgba(142,197,255,.7)';ctx.lineWidth=2;
+      ctx.beginPath();for(let s=0;s<=1;s+=0.02){const q=proj(...P(s));s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke();
+      const sNow=(t%240)/240;
+      ctx.strokeStyle='rgba(255,190,120,.95)';ctx.lineWidth=4;
+      ctx.beginPath();for(let s=0;s<=sNow;s+=0.02){const q=proj(...P(s));s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke();
+      const q=proj(...P(sNow));ctx.fillStyle='rgba(255,220,160,1)';ctx.beginPath();ctx.arc(q[0],q[1],4,0,6.283);ctx.fill();
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('line integral sweep',-W/2+12,-H/2+18);
     }
 
     if(type==='ode'){
-      const Wb=200,Hb=200;
-      ctx.strokeStyle='rgba(255,255,255,.35)';ctx.strokeRect(-Wb/2,-Hb/2,Wb,Hb);
-      for(let y=-Hb/2;y<=Hb/2;y+=2){
-        for(let x=-Wb/2;x<=Wb/2;x+=2){
-          const v=0.5+0.5*Math.sin(0.04*x+0.02*t)+0.5*Math.cos(0.05*y+0.018*t);
-          const r=80+120*v, g=100+100*(1-v), b=200+55*v;
-          ctx.fillStyle=`rgb(${r|0},${g|0},${b|0})`;
-          ctx.fillRect(x,y,2,2);
+      const gw=84, gh=52;
+      if(!startAnim_ode){
+        startAnim_ode={h:[],s:[],l:[],tmp:[]};
+        for(let j=0;j<gh;j++){startAnim_ode.h[j]=[];startAnim_ode.s[j]=[];startAnim_ode.l[j]=[];startAnim_ode.tmp[j]=[];
+          for(let i=0;i<gw;i++){startAnim_ode.h[j][i]=Math.random()*360;startAnim_ode.s[j][i]=70+Math.random()*30;startAnim_ode.l[j][i]=45+Math.random()*20}}
+      }
+      const Hh=startAnim_ode.h, Ss=startAnim_ode.s, Ll=startAnim_ode.l;
+      const chaos=Math.max(0,1-Math.min(1,t/600));
+      const alpha=0.35*(1-chaos)+0.08;
+      for(let j=0;j<gh;j++){
+        for(let i=0;i<gw;i++){
+          let vx=0,vy=0,cnt=0;
+          for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){
+            const y=j+dj,x=i+di; if(y<0||y>=gh||x<0||x>=gw)continue;
+            const ang=Hh[y][x]*Math.PI/180; vx+=Math.cos(ang); vy+=Math.sin(ang); cnt++;
+          }
+          const ang=Math.atan2(vy/cnt,vx/cnt); let deg=(ang*180/Math.PI+360)%360;
+          Hh[j][i]=Hh[j][i]*(1-alpha)+deg*alpha;
+          Ss[j][i]=Ss[j][i]*(1-alpha)+(60+20*(1-chaos))*alpha;
+          Ll[j][i]=Ll[j][i]*(1-alpha)+(55-10*(1-chaos))*alpha;
         }
       }
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('heat-map hues',-W/2+12,-H/2+18);
+      const Wb=220,Hb=220, left=-Wb/2, top=-Hb/2, cw=Wb/gw, ch=Hb/gh;
+      ctx.strokeStyle='rgba(255,255,255,.35)';ctx.strokeRect(left,top,Wb,Hb);
+      for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){
+        const h=Hh[j][i]|0,s=Ss[j][i]|0,l=Ll[j][i]|0;
+        ctx.fillStyle=`hsl(${h} ${s}% ${l}%)`;
+        ctx.fillRect(left+i*cw,top+j*ch,cw+1,ch+1);
+      }
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('rainbow heat-map, chaos → clusters',-W/2+12,-H/2+18);
     }
 
     if(type==='linalg'){
       const a=1+0.4*Math.sin(t*0.02), b=0.6*Math.cos(t*0.015), c=0.3*Math.sin(t*0.017), d=1+0.3*Math.cos(t*0.018);
       function T(x,y){return [a*x+b*y,c*x+d*y]}
-      ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;
-      for(let x=-W; x<=W; x+=20){ctx.beginPath();ctx.moveTo(x,-H);ctx.lineTo(x,H);ctx.stroke()}
-      for(let y=-H; y<=H; y+=20){ctx.beginPath();ctx.moveTo(-W,y);ctx.lineTo(W,y);ctx.stroke()}
-      ctx.strokeStyle='rgba(142,197,255,.9)';ctx.lineWidth=1.5;
-      for(let X=-W;X<=W;X+=30){ctx.beginPath();let first=true;for(let Y=-H;Y<=H;Y+=10){const p=T(X,Y);const px=p[0]*0.45,py=p[1]*0.45;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
-      for(let Y=-H;Y<=H;Y+=30){ctx.beginPath();let first=true;for(let X=-W;X<=W;X+=10){const p=T(X,Y);const px=p[0]*0.45,py=p[1]*0.45;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+      ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=1;
+      for(let x=-W;x<=W;x+=20){ctx.beginPath();ctx.moveTo(x,-H);ctx.lineTo(x,H);ctx.stroke()}
+      for(let y=-H;y<=H;y+=20){ctx.beginPath();ctx.moveTo(-W,y);ctx.lineTo(W,y);ctx.stroke()}
+      ctx.strokeStyle='rgba(142,197,255,.95)';ctx.lineWidth=1.5;
+      const S=0.55;
+      for(let X=-W*1.6;X<=W*1.6;X+=28){ctx.beginPath();let first=true;for(let Y=-H*1.6;Y<=H*1.6;Y+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+      for(let Y=-H*1.6;Y<=H*1.6;Y+=28){ctx.beginPath();let first=true;for(let X=-W*1.6;X<=W*1.6;X+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
       ctx.strokeStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
-      const e1=T(140,0),e2=T(0,140);
-      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e1[0]*0.45,e1[1]*0.45);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e2[0]*0.45,e2[1]*0.45);ctx.stroke();
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('global transform',-W/2+12,-H/2+18);
+      const e1=T(160,0),e2=T(0,160);
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e1[0]*S,e1[1]*S);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(e2[0]*S,e2[1]*S);ctx.stroke();
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('larger basis coverage',-W/2+12,-H/2+18);
     }
 
     if(type==='discrete'){
-      if(!startAnimLoop.nodes){
+      if(!startAnim_discrete){
         const N=18, R=H/2.6;
         const nodes=[];for(let i=0;i<N;i++){const ang=i/N*2*Math.PI;nodes.push([Math.cos(ang)*R,Math.sin(ang)*R])}
-        startAnimLoop.nodes=nodes;startAnimLoop.N=N;
+        const edges=[];
+        for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){if(Math.random()<0.38)edges.push([i,j])}
+        startAnim_discrete={nodes,edges,N};
       }
-      const nodes=startAnimLoop.nodes, N=startAnimLoop.N;
+      const {nodes,edges,N}=startAnim_discrete;
       ctx.strokeStyle='rgba(142,197,255,.45)';ctx.lineWidth=1.5;
       ctx.beginPath();for(let i=0;i<=N;i++){const p=nodes[i%N];i===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke();
+      for(const [i,j] of edges){ctx.beginPath();ctx.moveTo(nodes[i][0],nodes[i][1]);ctx.lineTo(nodes[j][0],nodes[j][1]);ctx.stroke()}
       ctx.fillStyle='rgba(170,200,255,1)';for(const p of nodes){ctx.beginPath();ctx.arc(p[0],p[1],4,0,6.283);ctx.fill()}
-      const step=Math.floor((t/6)%N);
-      const len=Math.floor(N*0.35);
+      const step=Math.floor((t/6)%N);const len=Math.floor(N*0.35);
       ctx.strokeStyle='rgba(255,200,130,.95)';ctx.lineWidth=3;
       ctx.beginPath();for(let k=0;k<=len;k++){const p=nodes[(step+k)%N];k===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke();
       ctx.fillStyle='rgba(255,120,120,1)';const s=nodes[step%N];ctx.beginPath();ctx.arc(s[0],s[1],5,0,6.283);ctx.fill();
       ctx.fillStyle='rgba(120,255,160,1)';const e=nodes[(step+len)%N];ctx.beginPath();ctx.arc(e[0],e[1],5,0,6.283);ctx.fill();
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('closed loop, fast cycle',-W/2+12,-H/2+18);
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('closed loop + denser edges',-W/2+12,-H/2+18);
     }
 
     if(type==='real'){
@@ -473,8 +498,6 @@ const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function 
 document.getElementById('year').textContent=new Date().getFullYear();
 
 const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});for(const el of document.querySelectorAll('.reveal')) obs.observe(el)
-
-function startAnimLoop(){}
 </script>
 </body>
 </html>
