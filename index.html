@@ -28,8 +28,9 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
 .portrait img{width:100%;height:100%;object-fit:cover}
 .section{padding:44px 0}
 .section h2{font-size:clamp(1.5rem,2.6vw,2rem);margin-bottom:14px}
-.rail{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f1e,#090b18)}
-.track{display:flex;gap:18px;align-items:center;padding:16px;animation:move 26s linear infinite}
+.rail{position:relative;overflow-x:auto;overflow-y:hidden;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f1e,#090b18);scrollbar-width:thin;scrollbar-color:#3a437a transparent;cursor:grab}
+.rail:active{cursor:grabbing}
+.track{display:flex;gap:18px;align-items:center;padding:16px;animation:move 26s linear infinite;min-width:max-content}
 @keyframes move{to{transform:translateX(-50%)}}
 .rail.paused .track{animation-play-state:paused}
 .chip{position:relative;padding:.9rem 1.15rem;border-radius:16px;border:1px solid #22284a;background:#0a0f26;font-weight:900;box-shadow:0 10px 24px #0007;white-space:nowrap;transition:transform .18s,box-shadow .25s,border-color .2s,background .2s,opacity .2s,filter .2s}
@@ -222,9 +223,9 @@ const courseInfo={
   'Calculus I':{d:'Static curve with drifting Riemann rectangles.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
   'Calculus II':{d:'Polar curve with sweeping area.',b:['Polar curves','Area sweep','Param angle','Dynamic radius'],a:'calc2'},
   'Calculus III':{d:'3D axes and a surface with a sweeping path integral.',b:['3D axes','Surface mesh','Path sweep','Integral feel'],a:'calc3'},
-  'ODE':{d:'Rainbow chaos that diffuses quickly into clusters, then resets.',b:['Random start','Fast blend','Bigger groups','Loop cycle'],a:'ode'},
-  'Linear Algebra':{d:'Zoomed transform grid; arrowed basis vectors.',b:['Matrix action','Basis span','Eigen hints','Full coverage'],a:'linalg'},
-  'Discrete Math':{d:'Closed loop with many edges; shortest-path highlight.',b:['Cycle ring','Extra edges','Shortest path','Quick hop'],a:'discrete'},
+  'ODE':{d:'Rainbow chaos that diffuses at a normal pace, resets every 5s.',b:['Random start','Neighbor blending','Clusters','Timed reset'],a:'ode'},
+  'Linear Algebra':{d:'Zoomed transform grid; smaller arrowed basis, matched grids.',b:['Matrix action','Basis span','Eigen hints','Aligned grids'],a:'linalg'},
+  'Discrete Math':{d:'Closed loop with many edges; rapid shortest-path cycles.',b:['Cycle ring','Extra edges','Fast paths','Hop hop'],a:'discrete'},
   'Real Analysis':{d:'ε–δ focusing window.',b:['ε-band','δ-window','Sequences approach','Tight control'],a:'real'}
 };
 
@@ -284,7 +285,7 @@ function startAnim(type){
     ctx.clearRect(0,0,W,H);
     axes(W,H);
     ctx.save();
-    ctx.translate(W/2,H/2);
+    ctx.translate(W/2+20,H/2);
     ctx.lineWidth=2.5;
     ctx.strokeStyle='rgba(142,197,255,.95)';
 
@@ -312,9 +313,9 @@ function startAnim(type){
         ctx.lineWidth=2;arc(P[0],P[1],P[2]);arc(P[1],P[2],P[0]);arc(P[2],P[0],P[1]);ctx.lineWidth=2.5
         return P
       }
-      const leftX=-180, leftY=10, baseScale=1;
+      const leftX=-150, leftY=10, baseScale=1;
       const phase=(t%360)/360;
-      const moveRight=260;
+      const moveRight=300;
       const s=baseScale*(1+phase*0.6);
       const x=leftX+phase*moveRight;
       const A=tri(baseScale,leftX,leftY,0,'rgba(142,197,255,.95)');
@@ -384,7 +385,8 @@ function startAnim(type){
     }
 
     if(type==='calc3'){
-      function proj(x,y,z){return [0.8*x+0.0*y,0.35*y-0.7*z]}
+      const zoom=1.18;
+      function proj(x,y,z){return [zoom*(0.8*x+0.0*y),zoom*(0.35*y-0.7*z)]}
       ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=1.5;
       ctx.beginPath();let p=proj(0,0,0),px=proj(150,0,0),py=proj(0,120,0),pz=proj(0,0,120);ctx.moveTo(p[0],p[1]);ctx.lineTo(px[0],px[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(py[0],py[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(pz[0],pz[1]);ctx.stroke();
       const ax=0.035, ay=0.035;
@@ -399,11 +401,11 @@ function startAnim(type){
 
     if(type==='ode'){
       const gw=72, gh=44, cycle=300;
-      if(!window._ode){window._ode={h:[],s:[],l:[],seed:0,t0:0};for(let j=0;j<gh;j++){_ode.h[j]=[];_ode.s[j]=[];_ode.l[j]=[]}}
+      if(!window._ode){window._ode={h:[],s:[],l:[],t0:0};for(let j=0;j<gh;j++){_ode.h[j]=[];_ode.s[j]=[];_ode.l[j]=[]}}
       const p=((t-_ode.t0)%cycle)/cycle;
       if(p<0.02){for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){_ode.h[j][i]=Math.random()*360;_ode.s[j][i]=70+Math.random()*30;_ode.l[j][i]=45+Math.random()*20}}
       const Hh=_ode.h, Ss=_ode.s, Ll=_ode.l;
-      const alpha=0.55*(1-p)+0.02;
+      const alpha=0.08;
       for(let j=0;j<gh;j++){
         for(let i=0;i<gw;i++){
           let vx=0,vy=0,cnt=0;
@@ -425,26 +427,26 @@ function startAnim(type){
         ctx.fillRect(left+i*cw,top+j*ch,cw+1,ch+1);
       }
       if(p>0.999) _ode.t0=t;
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('chaos → clusters (5s loop)',-W/2+12,-H/2+18);
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('normal blend, 5s reset',-W/2+12,-H/2+18);
     }
 
     if(type==='linalg'){
       const a=1+0.4*Math.sin(t*0.02), b=0.6*Math.cos(t*0.015), c=0.3*Math.sin(t*0.017), d=1+0.3*Math.cos(t*0.018);
       function T(x,y){return [a*x+b*y,c*x+d*y]}
+      const S=0.7;
       ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=1;
-      for(let x=-W;x<=W;x+=20){ctx.beginPath();ctx.moveTo(x,-H);ctx.lineTo(x,H);ctx.stroke()}
-      for(let y=-H;y<=H;y+=20){ctx.beginPath();ctx.moveTo(-W,y);ctx.lineTo(W,y);ctx.stroke()}
+      for(let x=-W*1.6;x<=W*1.6;x+=20){ctx.beginPath();ctx.moveTo(x,-H*1.6);ctx.lineTo(x,H*1.6);ctx.stroke()}
+      for(let y=-H*1.6;y<=H*1.6;y+=20){ctx.beginPath();ctx.moveTo(-W*1.6,y);ctx.lineTo(W*1.6,y);ctx.stroke()}
       ctx.strokeStyle='rgba(142,197,255,.95)';ctx.lineWidth=1.5;
-      const S=0.8;
-      for(let X=-W*2;X<=W*2;X+=26){ctx.beginPath();let first=true;for(let Y=-H*2;Y<=H*2;Y+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
-      for(let Y=-H*2;Y<=H*2;Y+=26){ctx.beginPath();let first=true;for(let X=-W*2;X<=W*2;X+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
-      function arrow(x0,y0,x1,y1){const ang=Math.atan2(y1-y0,x1-x0),len=12;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-len*Math.cos(ang-0.3),y1-len*Math.sin(ang-0.3));ctx.lineTo(x1-len*Math.cos(ang+0.3),y1-len*Math.sin(ang+0.3));ctx.closePath();ctx.fill()}
+      for(let X=-W*1.6;X<=W*1.6;X+=26){ctx.beginPath();let first=true;for(let Y=-H*1.6;Y<=H*1.6;Y+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+      for(let Y=-H*1.6;Y<=H*1.6;Y+=26){ctx.beginPath();let first=true;for(let X=-W*1.6;X<=W*1.6;X+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+      function arrow(x0,y0,x1,y1){const ang=Math.atan2(y1-y0,x1-x0),len=10;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-len*Math.cos(ang-0.3),y1-len*Math.sin(ang-0.3));ctx.lineTo(x1-len*Math.cos(ang+0.3),y1-len*Math.sin(ang+0.3));ctx.closePath();ctx.fill()}
       ctx.strokeStyle='rgba(255,190,120,.95)';ctx.fillStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
-      const e1=T(180,0),e2=T(0,180);
+      const e1=T(140,0),e2=T(0,140);
       arrow(0,0,e1[0]*S,e1[1]*S);arrow(0,0,e2[0]*S,e2[1]*S);
       ctx.fillStyle='rgba(255,220,170,1)';ctx.font='13px Space Grotesk';
       ctx.fillText('e₁',e1[0]*S+6,e1[1]*S+4);ctx.fillText('e₂',e2[0]*S+6,e2[1]*S+4);
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('zoomed transform grid',-W/2+12,-H/2+18);
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('matched grids, smaller basis',-W/2+12,-H/2+18);
     }
 
     if(type==='discrete'){
@@ -452,7 +454,7 @@ function startAnim(type){
         const N=18, R=H/2.6, nodes=[];for(let i=0;i<N;i++){const ang=i/N*2*Math.PI;nodes.push([Math.cos(ang)*R,Math.sin(ang)*R])}
         const edges=[];for(let i=0;i<N;i++)edges.push([i,(i+1)%N]);
         for(let i=0;i<N;i++)for(let j=i+2;j<N;j++){if(Math.random()<0.35&&j!==i-1)edges.push([i,j])}
-        window._disc={N,nodes,edges,path:[],stepT:0,tPick:0}
+        window._disc={N,nodes,edges,path:[],tPick:0}
       }
       const {N,nodes,edges}=window._disc;
       function drawBase(){
@@ -468,17 +470,17 @@ function startAnim(type){
         if(par[tg]===-1)return [s,tg];
         const path=[];let cur=tg;while(cur!==par[cur]){path.push(cur);cur=par[cur]}path.push(s);path.reverse();return path
       }
-      if(!window._disc.path.length || (t-window._disc.tPick)>220){
+      if(!window._disc.path.length || (t-window._disc.tPick)>90){
         let s=0,e=0;for(let tries=0;tries<50;tries++){s=(Math.random()*N)|0;e=(Math.random()*N)|0;const d=Math.abs(s-e);if(d>N/4){break}}
-        window._disc.path=bfs(s,e);window._disc.tPick=t;window._disc.stepT=0
+        window._disc.path=bfs(s,e);window._disc.tPick=t
       }
       drawBase();
-      const path=window._disc.path;const prog=Math.min(path.length-1,Math.floor((t-window._disc.tPick)/5));
+      const path=window._disc.path;const speed=2.5;const prog=Math.min(path.length-1,Math.floor((t-window._disc.tPick)/speed));
       ctx.strokeStyle='rgba(255,200,130,.95)';ctx.lineWidth=3;
       ctx.beginPath();let p0=nodes[path[0]];ctx.moveTo(p0[0],p0[1]);for(let k=1;k<=prog;k++){const p=nodes[path[k]];ctx.lineTo(p[0],p[1])}ctx.stroke();
       ctx.fillStyle='rgba(255,120,120,1)';const sN=nodes[path[0]];ctx.beginPath();ctx.arc(sN[0],sN[1],5,0,6.283);ctx.fill();
       ctx.fillStyle='rgba(120,255,160,1)';const eN=nodes[path[Math.min(prog,path.length-1)]];ctx.beginPath();ctx.arc(eN[0],eN[1],5,0,6.283);ctx.fill();
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('shortest path highlight',-W/2+12,-H/2+18);
+      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('fast shortest-path cycles',-W/2+12,-H/2+18);
     }
 
     if(type==='real'){
@@ -506,6 +508,12 @@ document.querySelectorAll('.chip').forEach(ch=>{
 });
 panel.addEventListener('mouseenter',()=>{panelHover=true;rail.classList.add('paused')});
 panel.addEventListener('mouseleave',()=>{panelHover=false;hidePanel()});
+
+let isDown=false,startX=0,scrollL=0;
+rail.addEventListener('pointerdown',e=>{isDown=true;rail.setPointerCapture(e.pointerId);startX=e.clientX;scrollL=rail.scrollLeft});
+rail.addEventListener('pointermove',e=>{if(!isDown)return;rail.scrollLeft=scrollL-(e.clientX-startX)});
+rail.addEventListener('pointerup',()=>{isDown=false});
+rail.addEventListener('wheel',e=>{if(rail.classList.contains('paused')){rail.scrollLeft+=e.deltaY}});
 
 const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY})
 document.getElementById('year').textContent=new Date().getFullYear();
