@@ -31,7 +31,9 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
 .rail{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f1e,#090b18)}
 .track{display:flex;gap:18px;align-items:center;padding:16px;animation:move 26s linear infinite}
 @keyframes move{to{transform:translateX(-50%)}}
-.chip{padding:.85rem 1.2rem;border-radius:16px;border:1px solid #22284a;background:#0a0f26;font-weight:900;box-shadow:0 10px 24px #0007;white-space:nowrap}
+.rail.paused .track{animation-play-state:paused}
+.chip{padding:.85rem 1.2rem;border-radius:16px;border:1px solid #22284a;background:#0a0f26;font-weight:900;box-shadow:0 10px 24px #0007;white-space:nowrap;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}
+.chip.active{transform:translateZ(0) scale(1.08);background:linear-gradient(180deg,#111733,#0a0f26);border-color:#3a4182;box-shadow:0 16px 40px rgba(110,231,255,.2)}
 .center{display:grid;place-items:center;margin-top:14px}
 .pill{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.3rem;border-radius:999px;border:0;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18;font-weight:900;box-shadow:0 10px 28px #0009}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
@@ -54,6 +56,14 @@ footer{padding:28px 0 46px;color:#9fb0d9}
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .gallery a{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b1022}
 .gallery img{display:block;width:100%;height:auto}
+.course-info{position:relative;margin-top:16px}
+.course-panel{display:none;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#0b1024,#0a0f1e);box-shadow:0 16px 40px rgba(0,0,0,.4);padding:16px;animation:fadeIn .2s ease}
+.course-panel.show{display:grid}
+.course-title{font-weight:800;font-size:1.1rem;margin-bottom:6px}
+.course-desc{color:#a8b4d9;font-size:.98rem}
+.preview{position:relative;width:100%;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#050812}
+#courseCanvas{width:100%;height:200px;display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -92,7 +102,16 @@ footer{padding:28px 0 46px;color:#9fb0d9}
 
   <section id="courses" class="section reveal">
     <h2>Courses I’ve finished</h2>
-    <div class="rail"><div class="track" id="track"></div></div>
+    <div class="rail" id="rail"><div class="track" id="track"></div></div>
+    <div class="course-info">
+      <div class="course-panel" id="coursePanel">
+        <div>
+          <div class="course-title" id="courseTitle"></div>
+          <div class="course-desc" id="courseDesc"></div>
+        </div>
+        <div class="preview"><canvas id="courseCanvas"></canvas></div>
+      </div>
+    </div>
     <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
   </section>
 
@@ -126,9 +145,10 @@ const tiles=document.getElementById('tiles');let cols,rows,size
 function build(){
   tiles.innerHTML='';
   const w=innerWidth,h=innerHeight;
+  const gap=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap'))||8;
   size=Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
-  cols=Math.ceil(w/(size+parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap'))));
-  rows=Math.ceil(h/(size+parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap'))));
+  cols=Math.ceil(w/(size+gap));
+  rows=Math.ceil(h/(size+gap));
   const g=document.createElement('div');
   g.className='tgrid';
   g.style.setProperty('--cols',cols);
@@ -161,8 +181,7 @@ document.addEventListener('mousemove',e=>{
   const g=tiles.firstElementChild;if(!g)return;
   const rect=g.getBoundingClientRect();
   const gap=parseFloat(getComputedStyle(g).gap)||8;
-  const firstTile=g.children[0];
-  if(!firstTile)return;
+  const firstTile=g.children[0];if(!firstTile)return;
   const tileW=firstTile.offsetWidth;
   const tileH=firstTile.offsetHeight;
   const gx=Math.floor((e.clientX-rect.left)/(tileW+gap));
@@ -184,9 +203,104 @@ document.addEventListener('mousemove',e=>{
 });
 
 const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis']
+const courseInfo={
+  'Algebra I':{d:'Variables, linear equations, functions, and basic graphing.',a:'line'},
+  'Geometry':{d:'Euclidean shapes, angles, similarity, and proofs.',a:'poly'},
+  'Algebra II':{d:'Quadratics, exponentials, complex numbers, and polynomials.',a:'parab'},
+  'Pre-Calc':{d:'Trig, identities, analytic geometry, and limits preview.',a:'trig'},
+  'Calculus I':{d:'Limits, derivatives, tangent lines, and basic integrals.',a:'slope'},
+  'Calculus II':{d:'Integration techniques, series, and convergence.',a:'series'},
+  'Calculus III':{d:'Multivariable, gradients, and surfaces.',a:'field'},
+  'ODE':{d:'Differential equations: slope fields and solutions.',a:'slopefield'},
+  'Linear Algebra':{d:'Vectors, matrices, transformations, eigen-things.',a:'matrix'},
+  'Discrete Math':{d:'Graphs, combinatorics, logic, and recursion.',a:'graph'},
+  'Real Analysis':{d:'Rigor of limits, continuity, and sequences.',a:'limit'}
+}
+const rail=document.getElementById('rail')
 const track=document.getElementById('track')
-function row(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;d.appendChild(el)}return d}
+function row(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;el.dataset.course=c;d.appendChild(el)}return d}
 track.appendChild(row());track.appendChild(row())
+
+const panel=document.getElementById('coursePanel')
+const titleEl=document.getElementById('courseTitle')
+const descEl=document.getElementById('courseDesc')
+const canvas=document.getElementById('courseCanvas')
+const ctx=canvas.getContext('2d')
+let animRAF=null, animType=null, hoverTarget=null, panelHover=false
+
+function resizeCanvas(){const r=canvas.getBoundingClientRect();canvas.width=Math.floor(r.width*2);canvas.height=Math.floor(r.height*2)}
+resizeCanvas();addEventListener('resize',resizeCanvas)
+
+function showPanel(name){
+  const info=courseInfo[name]||{d:'',a:'line'}
+  titleEl.textContent=name
+  descEl.textContent=info.d
+  panel.classList.add('show')
+  rail.classList.add('paused')
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name))
+  startAnim(info.a)
+}
+function hidePanel(){
+  panel.classList.remove('show')
+  rail.classList.remove('paused')
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'))
+  stopAnim()
+}
+function startAnim(type){
+  animType=type
+  stopAnim()
+  let t=0
+  function draw(){
+    t++
+    const W=canvas.width,H=canvas.height
+    ctx.clearRect(0,0,W,H)
+    ctx.save()
+    ctx.translate(W/2,H/2)
+    ctx.strokeStyle='rgba(142,197,255,.9)'
+    ctx.lineWidth=3
+    if(type==='line'){
+      const m=Math.sin(t*0.05)*1.2+0.2
+      ctx.beginPath();for(let x=-W/2;x<W/2;x+=8){const y=m*(x/3);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+    }else if(type==='poly'){
+      for(let k=0;k<5;k++){const R=H/6+k*14;const n=3+((t>>5)+k)%5;ctx.beginPath();for(let i=0;i<=n;i++){const a=(i/n)*Math.PI*2+t*0.01;const x=Math.cos(a)*R,y=Math.sin(a)*R; i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
+    }else if(type==='parab'){
+      ctx.beginPath();for(let x=-W/3;x<W/3;x+=6){const y=(x*x)/(H/6)-H/6+20*Math.sin(t*0.05);if(x===-W/3)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+    }else if(type==='trig'){
+      ctx.beginPath();for(let x=-W/2;x<W/2;x+=6){const y=H/10*Math.sin(x/40+t*0.08);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+    }else if(type==='slope'){
+      ctx.beginPath();for(let x=-W/2;x<W/2;x+=8){const y=(x*0.6)+40*Math.sin(t*0.04);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+    }else if(type==='series'){
+      for(let n=1;n<=5;n++){ctx.beginPath();for(let x=-W/2;x<W/2;x+=6){const y=H/12*Math.sin(n*(x/50)+t*0.04)/n;if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
+    }else if(type==='field'){
+      ctx.lineWidth=2;for(let y=-H/4;y<=H/4;y+=40){for(let x=-W/4;x<=W/4;x+=40){const a=Math.atan2(y,x)+t*0.02;const len=16;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len*Math.cos(a),y+len*Math.sin(a));ctx.stroke()}}
+    }else if(type==='slopefield'){
+      ctx.lineWidth=2;for(let y=-H/4;y<=H/4;y+=36){for(let x=-W/4;x<=W/4;x+=36){const m=(x-y)/(H/8)+0.6*Math.sin(t*0.03);const ang=Math.atan(m);const len=18;ctx.beginPath();ctx.moveTo(x-len*Math.cos(ang),y-len*Math.sin(ang));ctx.lineTo(x+len*Math.cos(ang),y+len*Math.sin(ang));ctx.stroke()}}
+    }else if(type==='matrix'){
+      const s=40;for(let y=-H/4;y<=H/4;y+=s){for(let x=-W/4;x<=W/4;x+=s){const vx=1.1,vy=0.4+0.2*Math.sin(t*0.05);const nx=vx*x+0*y,ny=vy*y;ctx.beginPath();ctx.arc(nx*0.2,ny*0.2,3,0,6.283);ctx.stroke()}}
+    }else if(type==='graph'){
+      ctx.lineWidth=2;const N=10;for(let i=0;i<N;i++){for(let j=i+1;j<N;j++){const ai=i/N*2*Math.PI+t*0.01,aj=j/N*2*Math.PI-t*0.01;const xi=Math.cos(ai)*H/6,yi=Math.sin(ai)*H/6;const xj=Math.cos(aj)*H/6,yj=Math.sin(aj)*H/6;ctx.beginPath();ctx.moveTo(xi,yi);ctx.lineTo(xj,yj);ctx.stroke()}}
+    }else if(type==='limit'){
+      ctx.beginPath();for(let x=-W/3;x<W/3;x+=6){const y=H/8*(1-Math.exp(-Math.abs(x)/80))*Math.sign(x);if(x===-W/3)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+    }
+    ctx.restore()
+    animRAF=requestAnimationFrame(draw)
+  }
+  draw()
+}
+function stopAnim(){if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}}
+
+document.querySelectorAll('.chip').forEach(ch=>{
+  ch.addEventListener('mouseenter',e=>{
+    hoverTarget=ch
+    showPanel(ch.dataset.course)
+  })
+  ch.addEventListener('mouseleave',e=>{
+    setTimeout(()=>{if(!panelHover&&hoverTarget===ch)hidePanel()},60)
+  })
+})
+
+panel.addEventListener('mouseenter',()=>{panelHover=true;rail.classList.add('paused')})
+panel.addEventListener('mouseleave',()=>{panelHover=false;hidePanel()})
 
 const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY})
 
