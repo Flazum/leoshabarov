@@ -28,19 +28,29 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
 .portrait img{width:100%;height:100%;object-fit:cover;transform:translateZ(30px)}
 .section{padding:44px 0}
 .section h2{font-size:clamp(1.5rem,2.6vw,2rem);margin-bottom:14px}
+
+/* Courses rail */
 .rail{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,#0a0f1e,#090b18)}
 .track{display:flex;gap:18px;align-items:center;padding:16px;animation:move 26s linear infinite}
 @keyframes move{to{transform:translateX(-50%)}}
 .rail.paused .track{animation-play-state:paused}
-.chip{padding:.85rem 1.2rem;border-radius:16px;border:1px solid #22284a;background:#0a0f26;font-weight:900;box-shadow:0 10px 24px #0007;white-space:nowrap;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}
-.chip.active{transform:translateZ(0) scale(1.08);background:linear-gradient(180deg,#111733,#0a0f26);border-color:#3a4182;box-shadow:0 16px 40px rgba(110,231,255,.2)}
+.chip{position:relative;padding:.9rem 1.15rem;border-radius:16px;border:1px solid #22284a;background:#0a0f26;font-weight:900;box-shadow:0 10px 24px #0007;white-space:nowrap;transition:transform .18s,box-shadow .25s,border-color .2s,background .2s,opacity .2s}
+.rail.paused .chip{opacity:.5}
+.rail.paused .chip.active{opacity:1}
+.chip.active{transform:translateZ(0) scale(1.14);background:linear-gradient(180deg,#111733,#0a0f26);border-color:#4a52a6;box-shadow:0 18px 50px rgba(110,231,255,.25),0 0 0 2px rgba(110,231,255,.18) inset}
+.chip.active::after{content:"";position:absolute;inset:-4px;border-radius:20px;pointer-events:none;box-shadow:0 0 0 2px rgba(110,231,255,.2),0 0 26px rgba(139,92,246,.35)}
+
+/* Pill */
 .center{display:grid;place-items:center;margin-top:14px}
 .pill{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.3rem;border-radius:999px;border:0;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18;font-weight:900;box-shadow:0 10px 28px #0009}
+
+/* Desmos gallery */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .card{border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));box-shadow:0 14px 36px #0009;transform-style:preserve-3d;transition:transform .15s}
 .card img{width:100%;display:block;border-bottom:1px solid var(--line)}
-.card a{display:block;padding:14px 16px;color:var(--ink);text-decoration:none}
-footer{padding:28px 0 46px;color:#9fb0d9}
+.card a{display:block;padding:14px 16px;color:#eaf1ff;text-decoration:none}
+
+/* Tiled background */
 #tiles{position:fixed;inset:0;z-index:-1;pointer-events:none}
 .tgrid{position:absolute;inset:-10vh -10vw;display:grid;gap:var(--gap);grid-template-columns:repeat(var(--cols),minmax(0,1fr));transform:perspective(1200px) rotateX(var(--rx,14deg)) rotateY(var(--ry,-10deg)) scale(1.05) translate3d(0,0,0);transform-origin:50% 30%;will-change:transform}
 .tile{width:100%;aspect-ratio:1/1;perspective:800px;will-change:transform}
@@ -49,21 +59,27 @@ footer{padding:28px 0 46px;color:#9fb0d9}
 .front{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid #121630}
 .back{transform:rotateY(180deg);background:radial-gradient(circle at 50% 50%,rgba(110,231,255,.9),rgba(139,92,246,.9) 60%,rgba(110,231,255,.7) 100%);box-shadow:0 12px 32px rgba(110,231,255,.25)}
 .tile.active .face{transform:rotateY(180deg)}
+
+/* Reveal + cursor */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
 .reveal.on{opacity:1;transform:none}
 .cursor{position:fixed;left:0;top:0;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.85),rgba(255,255,255,.2));mix-blend-mode:overlay;pointer-events:none;z-index:99;transform:translate(-50%,-50%)}
+
+/* Course panel */
+.course-info{position:relative;margin-top:16px}
+.course-panel{display:none;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#0b1024,#0a0f1e);box-shadow:0 18px 50px rgba(0,0,0,.45),0 0 0 1px rgba(110,231,255,.08) inset;padding:16px;animation:fadeIn .22s ease}
+.course-panel.show{display:grid}
+.course-title{font-weight:800;font-size:1.15rem;margin-bottom:6px}
+.course-desc{color:#c1cced;font-size:.98rem;line-height:1.45}
+.course-bullets{margin-top:8px;color:#a8b4d9;font-size:.95rem}
+.course-bullets li{margin-left:18px;margin-top:4px}
+.preview{position:relative;width:100%;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#070a12,#050812)}
+#courseCanvas{width:100%;height:220px;display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (max-width:980px){.hgrid{grid-template-columns:1fr}.portrait{width:280px}}
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .gallery a{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b1022}
 .gallery img{display:block;width:100%;height:auto}
-.course-info{position:relative;margin-top:16px}
-.course-panel{display:none;grid-template-columns:1.2fr .8fr;gap:16px;align-items:center;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#0b1024,#0a0f1e);box-shadow:0 16px 40px rgba(0,0,0,.4);padding:16px;animation:fadeIn .2s ease}
-.course-panel.show{display:grid}
-.course-title{font-weight:800;font-size:1.1rem;margin-bottom:6px}
-.course-desc{color:#a8b4d9;font-size:.98rem}
-.preview{position:relative;width:100%;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#050812}
-#courseCanvas{width:100%;height:200px;display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -103,30 +119,42 @@ footer{padding:28px 0 46px;color:#9fb0d9}
   <section id="courses" class="section reveal">
     <h2>Courses I’ve finished</h2>
     <div class="rail" id="rail"><div class="track" id="track"></div></div>
+
     <div class="course-info">
       <div class="course-panel" id="coursePanel">
         <div>
           <div class="course-title" id="courseTitle"></div>
           <div class="course-desc" id="courseDesc"></div>
+          <ul class="course-bullets" id="courseBullets"></ul>
         </div>
         <div class="preview"><canvas id="courseCanvas"></canvas></div>
       </div>
     </div>
+
     <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
   </section>
 
   <section id="desmos" class="section reveal">
     <h2>Desmos Gallery</h2>
-    <div class="gallery">
-      <a href="https://www.desmos.com/calculator/be7a168fbe" target="_blank" rel="noopener">
-        <img src="images/unit_circle.png" alt="Unit Circle Visualization">
-      </a>
-      <a href="https://www.desmos.com/calculator/14a5e1c18a" target="_blank" rel="noopener">
-        <img src="images/stinky.png" alt="Animation Preview">
-      </a>
-      <a href="https://www.desmos.com/calculator/3666017f8b" target="_blank" rel="noopener">
-        <img src="images/3d_cube.png" alt="3D Cube">
-      </a>
+    <div class="grid">
+      <div class="card">
+        <a href="https://www.desmos.com/calculator/be7a168fbe" target="_blank" rel="noopener">
+          <img src="images/unit_circle.png" alt="Unit Circle Visualization">
+          Unit Circle Visualization
+        </a>
+      </div>
+      <div class="card">
+        <a href="https://www.desmos.com/calculator/14a5e1c18a" target="_blank" rel="noopener">
+          <img src="images/stinky.png" alt="Animation Preview">
+          Animation Preview
+        </a>
+      </div>
+      <div class="card">
+        <a href="https://www.desmos.com/calculator/3666017f8b" target="_blank" rel="noopener">
+          <img src="images/3d_cube.png" alt="3D Cube">
+          3D Cube
+        </a>
+      </div>
     </div>
   </section>
 
@@ -140,7 +168,10 @@ footer{padding:28px 0 46px;color:#9fb0d9}
 <div class="cursor" id="cursor"></div>
 
 <script>
+/* Logo shimmer */
 let rr=0;setInterval(()=>{rr=(rr+3)%360;document.documentElement.style.setProperty('--rot',rr+'deg')},60)
+
+/* Tilted tile grid background with precise hover hit-test */
 const tiles=document.getElementById('tiles');let cols,rows,size
 function build(){
   tiles.innerHTML='';
@@ -157,12 +188,9 @@ function build(){
     for(let x=0;x<cols;x++){
       const t=document.createElement('div');
       t.className='tile';
-      const f=document.createElement('div');
-      f.className='face';
-      const a=document.createElement('div');
-      a.className='front';
-      const b=document.createElement('div');
-      b.className='back';
+      const f=document.createElement('div');f.className='face';
+      const a=document.createElement('div');a.className='front';
+      const b=document.createElement('div');b.className='back';
       const u=x/(cols-1||1),v=y/(rows-1||1);
       const hue=200+40*u-20*v;
       const sat=70+10*Math.sin((x+y)*.3);
@@ -176,136 +204,227 @@ function build(){
 }
 build();addEventListener('resize',build);
 
+/* Tile hover + plane tilt (no scroll movement) */
 let lastHover=null,timers=new WeakMap();
 document.addEventListener('mousemove',e=>{
   const g=tiles.firstElementChild;if(!g)return;
   const rect=g.getBoundingClientRect();
   const gap=parseFloat(getComputedStyle(g).gap)||8;
   const firstTile=g.children[0];if(!firstTile)return;
-  const tileW=firstTile.offsetWidth;
-  const tileH=firstTile.offsetHeight;
+  const tileW=firstTile.offsetWidth, tileH=firstTile.offsetHeight;
   const gx=Math.floor((e.clientX-rect.left)/(tileW+gap));
   const gy=Math.floor((e.clientY-rect.top)/(tileH+gap));
-  const cx=rect.left+rect.width/2;
-  const cy=rect.top+rect.height/3;
-  const dx=(e.clientX-cx)/rect.width;
-  const dy=(e.clientY-cy)/rect.height;
+  const cx=rect.left+rect.width/2, cy=rect.top+rect.height/3;
+  const dx=(e.clientX-cx)/rect.width, dy=(e.clientY-cy)/rect.height;
   g.style.setProperty('--ry',(10 - dx*10)+'deg');
   g.style.setProperty('--rx',(14 - dy*12)+'deg');
   if(gx<0||gy<0||gx>=cols||gy>=rows)return;
-  const idx=gy*cols+gx;
-  const t=g.children[idx];
+  const idx=gy*cols+gx, t=g.children[idx];
   if(!t||t===lastHover)return;
-  lastHover=t;
-  t.classList.add('active');
+  lastHover=t; t.classList.add('active');
   if(timers.has(t))clearTimeout(timers.get(t));
   timers.set(t,setTimeout(()=>{t.classList.remove('active');timers.delete(t)},500));
 });
 
-const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis']
-const courseInfo={
-  'Algebra I':{d:'Variables, linear equations, functions, and basic graphing.',a:'line'},
-  'Geometry':{d:'Euclidean shapes, angles, similarity, and proofs.',a:'poly'},
-  'Algebra II':{d:'Quadratics, exponentials, complex numbers, and polynomials.',a:'parab'},
-  'Pre-Calc':{d:'Trig, identities, analytic geometry, and limits preview.',a:'trig'},
-  'Calculus I':{d:'Limits, derivatives, tangent lines, and basic integrals.',a:'slope'},
-  'Calculus II':{d:'Integration techniques, series, and convergence.',a:'series'},
-  'Calculus III':{d:'Multivariable, gradients, and surfaces.',a:'field'},
-  'ODE':{d:'Differential equations: slope fields and solutions.',a:'slopefield'},
-  'Linear Algebra':{d:'Vectors, matrices, transformations, eigen-things.',a:'matrix'},
-  'Discrete Math':{d:'Graphs, combinatorics, logic, and recursion.',a:'graph'},
-  'Real Analysis':{d:'Rigor of limits, continuity, and sequences.',a:'limit'}
-}
-const rail=document.getElementById('rail')
-const track=document.getElementById('track')
+/* Courses marquee + info panel with animated previews */
+const rail=document.getElementById('rail');
+const track=document.getElementById('track');
+const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis'];
 function row(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;el.dataset.course=c;d.appendChild(el)}return d}
-track.appendChild(row());track.appendChild(row())
+track.appendChild(row());track.appendChild(row());
 
-const panel=document.getElementById('coursePanel')
-const titleEl=document.getElementById('courseTitle')
-const descEl=document.getElementById('courseDesc')
-const canvas=document.getElementById('courseCanvas')
-const ctx=canvas.getContext('2d')
-let animRAF=null, animType=null, hoverTarget=null, panelHover=false
+/* Rich info + which animation to run */
+const courseInfo={
+  'Algebra I':{d:'Foundations for symbolic manipulation and linear reasoning.',b:['Variables & expressions','Linear equations/inequalities','Graphing lines','Systems of equations'],a:'line'},
+  'Geometry':{d:'Reason about shape, space, and proof.',b:['Congruence & similarity','Triangles & circles','Area/volume','Intro proofs'],a:'poly'},
+  'Algebra II':{d:'Nonlinear models and complex arithmetic.',b:['Quadratics & polynomials','Exponentials/logs','Complex numbers','Polynomial roots'],a:'parab'},
+  'Pre-Calc':{d:'Bridge to calculus via trig & advanced functions.',b:['Trigonometric graphs','Identities','Polar & parametric','Limits preview'],a:'trig'},
+  'Calculus I':{d:'Change via derivatives; accumulation via integrals.',b:['Limits & continuity','Derivatives & rules','Optimization','Riemann sums'],a:'riemann'},
+  'Calculus II':{d:'Integration power-ups and infinite processes.',b:['Substitution, parts, partial fractions','Improper integrals','Sequences & series','Taylor approximations'],a:'series'},
+  'Calculus III':{d:'Multivariable calculus and 3D intuition.',b:['Partial derivatives & gradient','Level sets & surfaces','Double/triple integrals','Vector fields'],a:'field'},
+  'ODE':{d:'Dynamics modeled by differential equations.',b:['Direction fields','Separable & linear ODEs','Phase lines','Applications'],a:'slopefield'},
+  'Linear Algebra':{d:'Structure of vectors and transformations.',b:['Matrix transforms','Row spaces & rank','Eigenvalues/vectors','Projections'],a:'matrix'},
+  'Discrete Math':{d:'Finite structures, counting, and logic.',b:['Graphs & trees','Induction & recursion','Pigeonhole & inclusion–exclusion','Basic number theory'],a:'graph'},
+  'Real Analysis':{d:'Rigor behind calculus.',b:['Epsilon–delta limits','Sequences & series','Continuity & compactness','Differentiation/Integration basics'],a:'limit'}
+};
 
-function resizeCanvas(){const r=canvas.getBoundingClientRect();canvas.width=Math.floor(r.width*2);canvas.height=Math.floor(r.height*2)}
-resizeCanvas();addEventListener('resize',resizeCanvas)
+const panel=document.getElementById('coursePanel');
+const titleEl=document.getElementById('courseTitle');
+const descEl=document.getElementById('courseDesc');
+const bulletsEl=document.getElementById('courseBullets');
+const canvas=document.getElementById('courseCanvas');
+const ctx=canvas.getContext('2d');
+let animRAF=null, animType=null, panelHover=false;
+
+function resizeCanvas(){
+  const r=canvas.getBoundingClientRect();
+  const dpr=Math.min(devicePixelRatio||1,2);
+  canvas.width=Math.floor(r.width*dpr);
+  canvas.height=Math.floor(220*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resizeCanvas();addEventListener('resize',resizeCanvas);
+
+function axesGrid(){
+  const W=canvas.width/(devicePixelRatio||1),H=canvas.height/(devicePixelRatio||1);
+  ctx.save();
+  ctx.translate(0,0);
+  ctx.fillStyle='rgba(255,255,255,0.02)';
+  for(let x=0;x<=W;x+=20){ctx.fillRect(x,0,1,H)}
+  for(let y=0;y<=H;y+=20){ctx.fillRect(0,y,W,1)}
+  ctx.restore();
+}
 
 function showPanel(name){
-  const info=courseInfo[name]||{d:'',a:'line'}
-  titleEl.textContent=name
-  descEl.textContent=info.d
-  panel.classList.add('show')
-  rail.classList.add('paused')
-  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name))
-  startAnim(info.a)
+  const info=courseInfo[name];
+  titleEl.textContent=name;
+  descEl.textContent=info.d;
+  bulletsEl.innerHTML=info.b.map(s=>`<li>${s}</li>`).join('');
+  panel.classList.add('show');
+  rail.classList.add('paused');
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name));
+  startAnim(info.a);
 }
 function hidePanel(){
-  panel.classList.remove('show')
-  rail.classList.remove('paused')
-  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'))
-  stopAnim()
+  panel.classList.remove('show');
+  rail.classList.remove('paused');
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  stopAnim();
 }
+
 function startAnim(type){
-  animType=type
-  stopAnim()
-  let t=0
-  function draw(){
-    t++
-    const W=canvas.width,H=canvas.height
-    ctx.clearRect(0,0,W,H)
-    ctx.save()
-    ctx.translate(W/2,H/2)
-    ctx.strokeStyle='rgba(142,197,255,.9)'
-    ctx.lineWidth=3
-    if(type==='line'){
-      const m=Math.sin(t*0.05)*1.2+0.2
-      ctx.beginPath();for(let x=-W/2;x<W/2;x+=8){const y=m*(x/3);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
-    }else if(type==='poly'){
-      for(let k=0;k<5;k++){const R=H/6+k*14;const n=3+((t>>5)+k)%5;ctx.beginPath();for(let i=0;i<=n;i++){const a=(i/n)*Math.PI*2+t*0.01;const x=Math.cos(a)*R,y=Math.sin(a)*R; i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
-    }else if(type==='parab'){
-      ctx.beginPath();for(let x=-W/3;x<W/3;x+=6){const y=(x*x)/(H/6)-H/6+20*Math.sin(t*0.05);if(x===-W/3)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
-    }else if(type==='trig'){
-      ctx.beginPath();for(let x=-W/2;x<W/2;x+=6){const y=H/10*Math.sin(x/40+t*0.08);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
-    }else if(type==='slope'){
-      ctx.beginPath();for(let x=-W/2;x<W/2;x+=8){const y=(x*0.6)+40*Math.sin(t*0.04);if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
-    }else if(type==='series'){
-      for(let n=1;n<=5;n++){ctx.beginPath();for(let x=-W/2;x<W/2;x+=6){const y=H/12*Math.sin(n*(x/50)+t*0.04)/n;if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
-    }else if(type==='field'){
-      ctx.lineWidth=2;for(let y=-H/4;y<=H/4;y+=40){for(let x=-W/4;x<=W/4;x+=40){const a=Math.atan2(y,x)+t*0.02;const len=16;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len*Math.cos(a),y+len*Math.sin(a));ctx.stroke()}}
-    }else if(type==='slopefield'){
-      ctx.lineWidth=2;for(let y=-H/4;y<=H/4;y+=36){for(let x=-W/4;x<=W/4;x+=36){const m=(x-y)/(H/8)+0.6*Math.sin(t*0.03);const ang=Math.atan(m);const len=18;ctx.beginPath();ctx.moveTo(x-len*Math.cos(ang),y-len*Math.sin(ang));ctx.lineTo(x+len*Math.cos(ang),y+len*Math.sin(ang));ctx.stroke()}}
-    }else if(type==='matrix'){
-      const s=40;for(let y=-H/4;y<=H/4;y+=s){for(let x=-W/4;x<=W/4;x+=s){const vx=1.1,vy=0.4+0.2*Math.sin(t*0.05);const nx=vx*x+0*y,ny=vy*y;ctx.beginPath();ctx.arc(nx*0.2,ny*0.2,3,0,6.283);ctx.stroke()}}
-    }else if(type==='graph'){
-      ctx.lineWidth=2;const N=10;for(let i=0;i<N;i++){for(let j=i+1;j<N;j++){const ai=i/N*2*Math.PI+t*0.01,aj=j/N*2*Math.PI-t*0.01;const xi=Math.cos(ai)*H/6,yi=Math.sin(ai)*H/6;const xj=Math.cos(aj)*H/6,yj=Math.sin(aj)*H/6;ctx.beginPath();ctx.moveTo(xi,yi);ctx.lineTo(xj,yj);ctx.stroke()}}
-    }else if(type==='limit'){
-      ctx.beginPath();for(let x=-W/3;x<W/3;x+=6){const y=H/8*(1-Math.exp(-Math.abs(x)/80))*Math.sign(x);if(x===-W/3)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()
+  animType=type; stopAnim();
+  let t=0;
+  (function draw(){
+    t++;
+    const W=canvas.getBoundingClientRect().width;
+    const H=220;
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2, cy=H/2;
+    axesGrid();
+
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.lineWidth=2.5;
+    ctx.strokeStyle='rgba(142,197,255,.95)';
+
+    if(type==='line'){ // Algebra I
+      const m=0.8+0.5*Math.sin(t*0.05);
+      ctx.beginPath();
+      for(let x=-cx;x<cx;x+=6){const y=m*(x/3); (x===-cx)?ctx.moveTo(x,y):ctx.lineTo(x,y)}
+      ctx.stroke();
     }
-    ctx.restore()
-    animRAF=requestAnimationFrame(draw)
-  }
-  draw()
+    else if(type==='poly'){ // Geometry: rotating polygon family
+      for(let k=0;k<4;k++){
+        const R=H/6+k*14; const n=3+((t>>4)+k)%5;
+        ctx.beginPath();
+        for(let i=0;i<=n;i++){const a=(i/n)*Math.PI*2+t*0.01;ctx[i?'lineTo':'moveTo'](Math.cos(a)*R,Math.sin(a)*R)}
+        ctx.stroke();
+      }
+    }
+    else if(type==='parab'){ // Algebra II: moving parabola + complex roots circle hint
+      ctx.beginPath();
+      for(let x=-W/3;x<W/3;x+=6){const y=(x*x)/(H/6)-H/6+18*Math.sin(t*0.05);ctx[x===-W/3?'moveTo':'lineTo'](x,y)}
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(0,0,38+6*Math.sin(t*0.07),0,6.283); ctx.stroke();
+    }
+    else if(type==='trig'){ // Pre-Calc: sine & cosine Lissajous
+      ctx.beginPath();
+      for(let x=-cx;x<cx;x+=4){const y=H/10*Math.sin(x/40+t*0.09);ctx[x===-cx?'moveTo':'lineTo'](x,y)}
+      ctx.stroke();
+      ctx.strokeStyle='rgba(170,160,255,.9)';
+      ctx.beginPath();
+      for(let a=0;a<Math.PI*2;a+=0.03){const x=80*Math.sin(2*a+t*0.02),y=50*Math.sin(3*a+t*0.03);ctx[a===0?'moveTo':'lineTo'](x,y)}
+      ctx.stroke();
+    }
+    else if(type==='riemann'){ // Calculus I: curve + Riemann rectangles
+      const f=x=>0.6*Math.sin(x/40)+0.4*Math.cos(x/25);
+      ctx.beginPath();
+      for(let x=-cx;x<cx;x+=3){const y=80*f(x)+10*Math.sin(t*0.05);ctx[x===-cx?'moveTo':'lineTo'](x,y)}
+      ctx.stroke();
+      const a=-180,b=180,N=12; const drift= ((t%60)/60)*( (b-a)/N );
+      for(let i=0;i<N;i++){
+        const x0=a+i*(b-a)/N+drift, x1=a+(i+1)*(b-a)/N+drift, xm=(x0+x1)/2;
+        const y=80*f(xm)+10*Math.sin(t*0.05);
+        ctx.fillStyle='rgba(110,231,255,.18)'; ctx.strokeStyle='rgba(110,231,255,.5)';
+        ctx.beginPath(); ctx.rect(x0,y, x1-x0, -y); ctx.fill(); ctx.stroke();
+      }
+    }
+    else if(type==='series'){ // Calculus II: Fourier-ish partial sums
+      const K=6;
+      for(let k=1;k<=K;k++){
+        ctx.strokeStyle=`rgba(142,197,255,${.25+.12*k})`;
+        ctx.beginPath();
+        for(let x=-cx;x<cx;x+=3){const y=50*Math.sin((k)*(x/42)+t*0.02)/k;ctx[x===-cx?'moveTo':'lineTo'](x,y)}
+        ctx.stroke();
+      }
+    }
+    else if(type==='field'){ // Calculus III: swirling vector field
+      ctx.lineWidth=2; ctx.strokeStyle='rgba(142,197,255,.9)';
+      for(let y=-H/4;y<=H/4;y+=36){
+        for(let x=-W/4;x<=W/4;x+=36){
+          const a=Math.atan2(y,x)+t*0.02; const len=16;
+          ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+len*Math.cos(a),y+len*Math.sin(a)); ctx.stroke();
+        }
+      }
+    }
+    else if(type==='slopefield'){ // ODE: direction (slope) field
+      ctx.lineWidth=2; ctx.strokeStyle='rgba(142,197,255,.9)';
+      for(let y=-H/4;y<=H/4;y+=30){
+        for(let x=-W/4;x<=W/4;x+=30){
+          const m=(x-y)/(H/8)+0.6*Math.sin(t*0.03); const ang=Math.atan(m); const len=16;
+          ctx.beginPath(); ctx.moveTo(x-len*Math.cos(ang),y-len*Math.sin(ang)); ctx.lineTo(x+len*Math.cos(ang),y+len*Math.sin(ang)); ctx.stroke();
+        }
+      }
+    }
+    else if(type==='matrix'){ // Linear Algebra: transforming a grid over time
+      const s=40;
+      for(let y=-H/4;y<=H/4;y+=s){
+        for(let x=-W/4;x<=W/4;x+=s){
+          const ax=1+0.3*Math.sin(t*0.03), bx=0.4*Math.cos(t*0.02);
+          const ay=0.2*Math.sin(t*0.02), by=1+0.25*Math.cos(t*0.03);
+          const nx=ax*x+bx*y, ny=ay*x+by*y;
+          ctx.fillStyle='rgba(142,197,255,.95)';
+          ctx.beginPath(); ctx.arc(nx*0.25,ny*0.25,2.5,0,6.283); ctx.fill();
+        }
+      }
+    }
+    else if(type==='graph'){ // Discrete: moving circle of nodes with edges
+      ctx.lineWidth=1.8; const N=10;
+      const P=[]; for(let i=0;i<N;i++){const a=i/N*2*Math.PI+t*0.01;P.push([Math.cos(a)*H/5,Math.sin(a)*H/5])}
+      ctx.strokeStyle='rgba(142,197,255,.75)'; 
+      for(let i=0;i<N;i++){for(let j=i+1;j<N;j++){ctx.beginPath();ctx.moveTo(P[i][0],P[i][1]);ctx.lineTo(P[j][0],P[j][1]);ctx.stroke();}}
+      ctx.fillStyle='rgba(170,200,255,1)';
+      for(const [x,y] of P){ctx.beginPath();ctx.arc(x,y,3.5,0,6.283);ctx.fill();}
+    }
+    else if(type==='limit'){ // Real Analysis: epsilon bands + approaching sequence
+      ctx.strokeStyle='rgba(142,197,255,.95)';
+      const L=0, eps=30*(0.4+0.3*Math.abs(Math.sin(t*0.02)));
+      ctx.fillStyle='rgba(110,231,255,.12)';
+      ctx.fillRect(-cx, L-eps, W, 2*eps);
+      ctx.beginPath(); ctx.moveTo(-cx,L); ctx.lineTo(cx,L); ctx.stroke();
+      ctx.fillStyle='rgba(170,200,255,1)';
+      for(let n=1;n<=26;n++){const x=-cx+n*(W/26); const y=L + (H/3)/(n) * Math.sin(t*0.03+ n*0.4); ctx.beginPath(); ctx.arc(x-cx,y,3,0,6.283); ctx.fill();}
+    }
+
+    ctx.restore();
+    animRAF=requestAnimationFrame(draw);
+  })();
 }
 function stopAnim(){if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}}
 
+/* Hover interactions */
+let hoverTarget=null;
 document.querySelectorAll('.chip').forEach(ch=>{
-  ch.addEventListener('mouseenter',e=>{
-    hoverTarget=ch
-    showPanel(ch.dataset.course)
-  })
-  ch.addEventListener('mouseleave',e=>{
-    setTimeout(()=>{if(!panelHover&&hoverTarget===ch)hidePanel()},60)
-  })
-})
+  ch.addEventListener('mouseenter',()=>{hoverTarget=ch;showPanel(ch.dataset.course)});
+  ch.addEventListener('mouseleave',()=>{setTimeout(()=>{if(!panelHover&&hoverTarget===ch)hidePanel()},80)});
+});
+panel.addEventListener('mouseenter',()=>{panelHover=true;rail.classList.add('paused')});
+panel.addEventListener('mouseleave',()=>{panelHover=false;hidePanel()});
 
-panel.addEventListener('mouseenter',()=>{panelHover=true;rail.classList.add('paused')})
-panel.addEventListener('mouseleave',()=>{panelHover=false;hidePanel()})
-
+/* Cursor nicety + reveals + year */
 const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY})
-
-document.getElementById('year').textContent=new Date().getFullYear()
-
+document.getElementById('year').textContent=new Date().getFullYear();
 const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});for(const el of document.querySelectorAll('.reveal')) obs.observe(el)
 </script>
 </body>
