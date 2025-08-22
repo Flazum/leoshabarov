@@ -261,7 +261,7 @@ const courseInfo={
   'ODE':{d:'Competing directions on a color field that align into clusters, then reset.',b:['Random start','Slow neighbor blending','Clusters','Timed reset'],a:'ode'},
   'Linear Algebra':{d:'Transform grid with smaller arrowed basis (same background).',b:['Matrix action','Basis span','Eigen hints','Aligned grids'],a:'linalg'},
   'Discrete Math':{d:'Top node to all others—rapid multi-hop paths.',b:['Cycle source','Dense edges','Curved routes','Quick rhythm'],a:'discrete'},
-  'Real Analysis':{d:'Oscillations squeezed between bounding curves, amplitude → 0 at center.',b:['Upper/lower bounds','Damped oscillation','Phase drift','Convergence'],a:'real'}
+  'Real Analysis':{d:'Squeeze Theorem: oscillations confined between shrinking bounds near 0.',b:['Upper/lower bounds','x sin(1/x)','Phase drift','Convergence'],a:'real'}
 };
 
 function resizeCanvas(){
@@ -301,7 +301,6 @@ function startAnim(type){
       ctx.beginPath();for(let x=-W;x<=W;x+=2){const y=-(m*x+b);x===-W?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
       const x0=-120, y0=-(m*x0+b), dx=130, dy=-(m*dx);
       ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+dx,y0);ctx.moveTo(x0+dx,y0);ctx.lineTo(x0+dx,y0+dy);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('Δx',x0+dx/2-8,y0-6);ctx.fillText('Δy',x0+dx+6,y0+dy/2);ctx.fillText('y = m x + b',-W/2+12,-H/2+18);
     }
 
     if(type==='geom'){
@@ -314,8 +313,8 @@ function startAnim(type){
         ctx.lineWidth=2;arc(P[0],P[1],P[2]);arc(P[1],P[2],P[0]);arc(P[2],P[0],P[1]);ctx.lineWidth=2.5;return P
       }
       const leftX=-160, leftY=10, baseScale=1;
-      const animDur=240, holdDur=120, cyc=animDur+holdDur, u=t%cyc, phase=u<animDur?u/animDur:1;
-      const moveRight=200, s=baseScale*(1+phase*0.5), x=leftX+phase*moveRight+20;
+      const animDur=200, holdDur=90, cyc=animDur+holdDur, u=t%cyc, phase=u<animDur?u/animDur:1;
+      const moveRight=180, s=baseScale*(1+phase*0.5), x=leftX+phase*moveRight+20;
       const A=tri(baseScale,leftX+20,leftY,0,'rgba(142,197,255,.95)');
       const Bp=tri(s,x,leftY,0,'rgba(170,160,255,.95)');
       ctx.setLineDash([5,7]);ctx.strokeStyle='rgba(255,255,255,.45)';ctx.beginPath();
@@ -382,7 +381,6 @@ function startAnim(type){
       const Wb=220,Hb=220,left=-Wb/2,top=-Hb/2,cw=Wb/gw,ch=Hb/gh;
       for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){const h=Hh[j][i]|0,s=Ss[j][i]|0,l=Ll[j][i]|0;ctx.fillStyle='hsl('+h+','+s+'%,'+l+'%)';ctx.fillRect(left+i*cw,top+j*ch,cw+1,ch+1)}
       if(p>0.999)_ode.t0=t;
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';ctx.fillText('Ordinary Differential Equations — smoother, slower blend',-W/2+12,-H/2+18);
     }
 
     if(type==='linalg'){
@@ -395,7 +393,6 @@ function startAnim(type){
       function arrow(x0,y0,x1,y1){const ang=Math.atan2(y1-y0,x1-x0),len=10;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-len*Math.cos(ang-0.3),y1-len*Math.sin(ang-0.3));ctx.lineTo(x1-len*Math.cos(ang+0.3),y1-len*Math.sin(ang+0.3));ctx.closePath();ctx.fill()}
       ctx.strokeStyle='rgba(255,190,120,.95)';ctx.fillStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
       const e1=T(120,0),e2=T(0,120);arrow(0,0,e1[0]*S,e1[1]*S);arrow(0,0,e2[0]*S,e2[1]*S);
-      ctx.fillStyle='rgba(255,220,170,1)';ctx.font='13px Space Grotesk';ctx.fillText('e₁',e1[0]*S+6,e1[1]*S+4);ctx.fillText('e₂',e2[0]*S+6,e2[1]*S+4);
     }
 
     if(type==='discrete'){
@@ -425,18 +422,19 @@ function startAnim(type){
     }
 
     if(type==='real'){
-      const env=x=>0.0025*(x*x)+22;
-      ctx.strokeStyle='rgba(255,120,120,.95)';ctx.lineWidth=2.5;
-      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=env(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=-env(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      const ph=t*0.08;
-      ctx.strokeStyle='rgba(120,180,255,1)';ctx.lineWidth=2.2;
+      const A=x=>0.45*Math.abs(x);
+      ctx.strokeStyle='rgba(255,130,150,.9)';ctx.lineWidth=2.2;
+      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=-A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+      ctx.fillStyle='rgba(110,231,255,.08)';
+      ctx.beginPath();ctx.moveTo(-W/2,A(-W/2));for(let x=-W/2;x<=W/2;x+=2){ctx.lineTo(x,A(x))}for(let x=W/2;x>=-W/2;x-=2){ctx.lineTo(x,-A(x))}ctx.closePath();ctx.fill();
+      const phase=t*0.06, k=1200;
+      ctx.strokeStyle='rgba(120,200,255,1)';ctx.lineWidth=2.2;
       ctx.beginPath();
-      for(let x=-W/2;x<=W/2;x+=2){
-        const a=env(x)*(Math.abs(x)/(W/2));
-        const freq=0.25+1800/(x*x+4000);
-        const y=a*Math.sin(x*freq/1000+ph);
-        x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)
+      for(let x=-W/2;x<=W/2;x+=1.5){
+        const ax=A(x);
+        const y=ax*Math.sin(k/(Math.max(2,Math.abs(x)))+phase);
+        if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)
       }
       ctx.stroke();
     }
