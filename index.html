@@ -432,7 +432,7 @@ function startAnim(type){
       ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=-A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
       ctx.fillStyle='rgba(110,231,255,.08)';
       ctx.beginPath();ctx.moveTo(-W/2,A(-W/2));for(let x=-W/2;x<=W/2;x+=2){ctx.lineTo(x,A(x))}for(let x=W/2;x>=-W/2;x-=2){ctx.lineTo(x,-A(x))}ctx.closePath();ctx.fill();
-      const phase=t*0.055, k=220, c=40;
+      const phase=t*0.035, k=420, c=40;
       ctx.strokeStyle='rgba(120,200,255,1)';ctx.lineWidth=2.2;
       ctx.beginPath();
       for(let x=-W/2;x<=W/2;x+=1.25){
