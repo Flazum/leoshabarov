@@ -72,6 +72,14 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .gallery a{display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b1022}
 .gallery img{display:block;width:100%;height:auto}
+@media (max-width:480px) and (orientation:portrait){
+  .section{padding:28px 0}
+  .hgrid{grid-template-columns:1fr;gap:24px}
+  .portrait{width:54vw}
+  .preview{border-radius:14px}
+  .rail{border-radius:14px}
+  .cursor{display:none}
+}
 </style>
 </head>
 <body>
@@ -171,7 +179,8 @@ function buildTiles(){
   tiles.innerHTML='';
   const w=innerWidth,h=innerHeight;
   const gap=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap'))||8;
-  size=Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
+  const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+  size=tallPhone?Math.max(64,Math.min(110,Math.floor(Math.min(w,h)/12))):Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
   cols=Math.ceil(w/(size+gap));
   rows=Math.ceil(h/(size+gap));
   const g=document.createElement('div');g.className='tgrid';g.style.setProperty('--cols',cols);tiles.appendChild(g);
@@ -266,7 +275,9 @@ const courseInfo={
 
 function resizeCanvas(){
   const dpr=Math.min(devicePixelRatio||1,2);
-  const cssW=preview.clientWidth||600, cssH=260;
+  const cssW=preview.clientWidth||600;
+  const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+  const cssH=tallPhone?Math.max(260,Math.min(500,cssW*0.95)):Math.max(240,Math.min(360,cssW*0.70));
   canvas.width=Math.floor(cssW*dpr);canvas.height=Math.floor(cssH*dpr);
   ctx.setTransform(dpr,0,0,dpr,0,0);
 }
@@ -292,8 +303,12 @@ function startAnim(type){
   let t=0;
   function draw(){
     t++;
-    const W=preview.clientWidth||600, H=260;
-    ctx.clearRect(0,0,W,H);axes(W,H);ctx.save();ctx.translate(W/2+24,H/2);ctx.lineWidth=2.5;ctx.strokeStyle='rgba(142,197,255,.95)';
+    const W=preview.clientWidth||600, H=canvas.height/(Math.min(devicePixelRatio||1,2))||260;
+    ctx.clearRect(0,0,W,H);axes(W,H);ctx.save();
+    const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+    ctx.translate(W/2+(tallPhone?6:24),H/2);
+    if(tallPhone) ctx.scale(0.92,0.92);
+    ctx.lineWidth=2.5;ctx.strokeStyle='rgba(142,197,255,.95)';
 
     if(type==='alg1'){
       const m=0.25+0.55*Math.abs(Math.sin(t*0.008));
@@ -425,7 +440,8 @@ function startAnim(type){
     }
 
     if(type==='real'){
-      ctx.save();ctx.translate(-18,0);
+      const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+      ctx.save();ctx.translate(tallPhone?-8:-18,0);
       const A=x=>0.45*Math.abs(x);
       ctx.strokeStyle='rgba(255,130,150,.9)';ctx.lineWidth=2.2;
       ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
