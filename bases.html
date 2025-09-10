@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What base are we in? • Leo Shabarov</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#eaf1ff;--muted:#a8b4d9;--line:#1a1f36;--bg:#070913;--g1:#6ee7ff;--g2:#8b5cf6;--gap:8px}
+html,body{height:100%}
+body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+.wrap{width:min(880px,92%);margin-inline:auto}
+.header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(7,9,19,.8),rgba(7,9,19,.5) 70%,transparent);backdrop-filter:blur(10px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit}
+.logo{width:40px;height:40px;border-radius:12px;background:conic-gradient(from var(--rot,0deg),var(--g1),var(--g2),#4dd4ff,#a78bfa,var(--g1));display:grid;place-items:center;box-shadow:0 10px 30px #0009}
+.title{font-weight:700}
+.back{color:var(--ink);text-decoration:none;opacity:.9;font-weight:700}
+main{padding:24px 0 56px}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05;letter-spacing:-.01em;margin:10px 0 6px}
+.lead{color:var(--muted);margin-bottom:16px}
+.article{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));box-shadow:0 14px 36px #0009;padding:22px}
+.article h2{font-size:1.25rem;margin:18px 0 8px}
+.article p{line-height:1.7;margin:10px 0;color:#d9e2ff}
+.kbd{font-variant-numeric:tabular-nums}
+.hr{height:1px;background:linear-gradient(90deg,transparent,#1b2246,transparent);margin:18px 0}
+.callout{border:1px solid #22284a;border-radius:14px;background:#0a0f26;padding:12px 14px;color:#cbd5ff}
+.list{margin-left:18px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+#tiles{position:fixed;inset:0;z-index:-1}
+.tgrid{position:absolute;inset:-10vh -10vw;display:grid;gap:var(--gap);grid-template-columns:repeat(var(--cols),minmax(0,1fr));transform:perspective(1200px) rotateX(14deg) rotateY(-10deg) scale(1.05);transform-origin:50% 30%}
+.tile{width:100%;aspect-ratio:1/1;perspective:800px}
+.face{position:relative;width:100%;height:100%;border-radius:10px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.front,.back{position:absolute;inset:0;border-radius:10px;backface-visibility:hidden}
+.front{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid #121630}
+.back{transform:rotateY(180deg);background:radial-gradient(circle at 50% 50%,rgba(110,231,255,.9),rgba(139,92,246,.9) 60%,rgba(110,231,255,.7) 100%);box-shadow:0 12px 32px rgba(110,231,255,.25)}
+.tile.active .face{transform:rotateY(180deg)}
+.footer{color:#7f93c9;font-size:.95rem;margin-top:22px;display:flex;justify-content:space-between;align-items:center}
+@media (max-width:480px) and (orientation:portrait){.wrap{width:min(94%,92%)}}
+</style>
+</head>
+<body>
+<div id="tiles"></div>
+
+<header class="header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html#top"><div class="logo"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+    <a class="back" href="index.html#notes">← Back to Notebook</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>What base are we in?</h1>
+  <p class="lead">2 + 2 doesn’t always equal 4. Depending on the base, it can be 10, 11, or 100. It’s all about the place-value system you choose.</p>
+
+  <article class="article">
+    <h2>Positional notation</h2>
+    <p>We usually work in Base 10. The digits are 0–9, and each place is a power of 10. For example, <span class="mono kbd">1234</span> expands to <span class="mono kbd">1×10³ + 2×10² + 3×10¹ + 4×10⁰</span>.</p>
+    <div class="hr"></div>
+
+    <h2>Changing the base</h2>
+    <p>In Base <span class="mono">b</span>, the allowed digits are 0 through <span class="mono">b−1</span>, and places are powers of <span class="mono">b</span>. To convert a Base-10 number to Base-2 (binary), repeatedly divide by 2 and record remainders from last to first.</p>
+    <div class="callout mono">1234 ÷ 2 → r0 → 617<br>617 ÷ 2 → r1 → 308<br>308 ÷ 2 → r0 → 154<br>154 ÷ 2 → r0 → 77<br>77 ÷ 2 → r1 → 38<br>38 ÷ 2 → r0 → 19<br>19 ÷ 2 → r1 → 9<br>9 ÷ 2 → r1 → 4<br>4 ÷ 2 → r0 → 2<br>2 ÷ 2 → r0 → 1<br>1 ÷ 2 → r1 → 0</div>
+    <p>This yields <span class="mono kbd">10011010010₂</span>. Expanding verifies the value:</p>
+    <p class="mono kbd">1×2¹⁰ + 0×2⁹ + 0×2⁸ + 1×2⁷ + 1×2⁶ + 0×2⁵ + 1×2⁴ + 0×2³ + 0×2² + 1×2¹ + 0×2⁰ = 1234₁₀</p>
+    <div class="hr"></div>
+
+    <h2>So does 2 + 2 = 4?</h2>
+    <p>Yes—in Base 10. But the same quantity looks different in other bases:</p>
+    <ul class="list mono">
+      <li>Base 2: <span class="kbd">10₂ + 10₂ = 100₂</span></li>
+      <li>Base 3: <span class="kbd">2₃ + 2₃ = 11₃</span></li>
+      <li>Base 4: <span class="kbd">2₄ + 2₄ = 10₄</span></li>
+    </ul>
+    <div class="hr"></div>
+
+    <h2>Common and unusual bases</h2>
+    <ul class="list">
+      <li><span class="mono">Base 10</span>: everyday decimal</li>
+      <li><span class="mono">Base 2</span>: binary in digital systems</li>
+      <li><span class="mono">Base 16</span>: hexadecimal for compact numeric encoding</li>
+      <li><span class="mono">Base −1 + i</span>: a complex base that can represent every integer without a minus sign and has surprising links to fractal-like patterns</li>
+    </ul>
+  </article>
+
+  <div class="footer">
+    <span>© <span id="year"></span> Leo Shabarov</span>
+    <a class="back" href="index.html#notes">Back to Notebook</a>
+  </div>
+</main>
+
+<script>
+let rr=0;setInterval(()=>{rr=(rr+3)%360;document.documentElement.style.setProperty('--rot',rr+'deg')},60)
+const tiles=document.getElementById('tiles');let cols,rows,size,tileCenters=[]
+function buildTiles(){
+  tiles.innerHTML='';
+  const w=innerWidth,h=innerHeight;
+  const gap=8;
+  size=Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
+  cols=Math.ceil(w/(size+gap));rows=Math.ceil(h/(size+gap));
+  const g=document.createElement('div');g.className='tgrid';g.style.setProperty('--cols',cols);tiles.appendChild(g);
+  for(let y=0;y<rows;y++){for(let x=0;x<cols;x++){
+    const t=document.createElement('div');t.className='tile';
+    const f=document.createElement('div');f.className='face';
+    const a=document.createElement('div');a.className='front';
+    const b=document.createElement('div');b.className='back';
+    const u=x/(cols-1||1),v=y/(rows-1||1);
+    const hue=200+40*u-20*v;const sat=70+10*Math.sin((x+y)*.3);const lum=12+8*u+8*(1-v);
+    a.style.background=`linear-gradient(180deg,hsla(${hue},${sat}%,${lum+6}%,.22),hsla(${hue},${sat}%,${lum}%,.12))`;
+    a.style.border=`1px solid hsla(${hue},50%,18%,1)`;
+    b.style.background=`radial-gradient(60% 60% at 50% 50%,hsla(${hue},90%,72%,.95),hsla(${hue+30},90%,65%,.9))`;
+    f.appendChild(a);f.appendChild(b);t.appendChild(f);g.appendChild(t);
+  }} requestAnimationFrame(computeTileCenters)
+}
+function computeTileCenters(){
+  tileCenters=[];
+  const g=tiles.firstElementChild;if(!g)return;
+  for(const t of g.children){const r=t.getBoundingClientRect();tileCenters.push({el:t,x:r.left+r.width/2,y:r.top+r.height/2})}
+}
+buildTiles();addEventListener('resize',buildTiles);
+let mx=0,my=0,hoverRAF=false;
+function flipNearest(){
+  if(!tileCenters.length){hoverRAF=false;return}
+  let best=null,bd=1e12;
+  for(const c of tileCenters){const dx=c.x-mx,dy=c.y-my;const d=dx*dx+dy*dy;if(d<bd){bd=d;best=c}}
+  if(best){
+    best.el.classList.add('active');
+    clearTimeout(best.el._t);
+    best.el._t=setTimeout(()=>best.el.classList.remove('active'),500)
+  }
+  hoverRAF=false
+}
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!hoverRAF){hoverRAF=true;requestAnimationFrame(flipNearest)}})
+document.getElementById('year').textContent=new Date().getFullYear()
+</script>
+</body>
+</html>
