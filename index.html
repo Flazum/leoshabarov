@@ -80,6 +80,10 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
   .rail{border-radius:14px}
   .cursor{display:none}
 }
+.notebook{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.note{border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));padding:16px;box-shadow:0 14px 36px #0009}
+.note a{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--ink);text-decoration:none;font-weight:700}
+.badge{font-size:.85rem;padding:.25rem .55rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18}
 </style>
 </head>
 <body>
@@ -91,6 +95,7 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
     <div class="links">
       <a href="#about">About</a>
       <a href="#courses">Courses</a>
+      <a href="#notes">Notebook</a>
       <a href="#desmos">Desmos</a>
       <a href="#contact">Contact</a>
     </div>
@@ -133,6 +138,18 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
     <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
   </section>
 
+  <section id="notes" class="section reveal">
+    <h2>Math Notebook</h2>
+    <div class="notebook">
+      <div class="note">
+        <a href="bases.html">
+          <span>What base are we in?</span>
+          <span class="badge">read</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section id="desmos" class="section reveal">
     <h2>Desmos Gallery</h2>
     <div class="grid">
@@ -173,7 +190,6 @@ body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helveti
 
 <script>
 let rr=0;setInterval(()=>{rr=(rr+3)%360;document.documentElement.style.setProperty('--rot',rr+'deg')},60)
-
 const tiles=document.getElementById('tiles');let cols,rows,size,tileCenters=[],angryTile=null
 function buildTiles(){
   tiles.innerHTML='';
@@ -468,7 +484,6 @@ function startAnim(type){
 
 const cursor=document.getElementById('cursor');let cx=0,cy=0,tx=0,ty=0;function loop(){cx+=(tx-cx)*0.18;cy+=(ty-cy)*0.18;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)};loop();addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY})
 document.getElementById('year').textContent=new Date().getFullYear();
-
 const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});for(const el of document.querySelectorAll('.reveal')) obs.observe(el)
 </script>
 </body>
