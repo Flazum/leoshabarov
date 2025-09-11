@@ -1,404 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Bases and Adics — Notes</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet"/>
-<!-- KaTeX for crisp, fast math -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVdO8vC28MlOZqvWyYQPTfT6DGm3QwGxK7fY9zQ4mVUTZl5Dg4R1XQ8XWFP0aG" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-+hN8Wm4Z4v3XhU1n1jT0mGd6+0cJp0sK0C7w6O0XgZzKc7u1F0fQy0k6bP0qYx3D" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQbq6p4Y+z6J8a0t1qfQX+8kz3cM3rA9H3yJmBfQYp2Z0ru3sS0v+K0Ww1y" crossorigin="anonymous"
-  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
-
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bases & Adics — Leo Shabarov</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#eaf1ff; --muted:#a8b4d9; --line:#1a1f36; --bg:#070913;
-  --g1:#6ee7ff; --g2:#8b5cf6; --glow: rgba(110,231,255,.35);
-}
 *{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#eaf1ff;--muted:#a8b4d9;--line:#1a1f36;--bg:#070913;--g1:#6ee7ff;--g2:#8b5cf6}
 html,body{height:100%}
-body{
-  background:var(--bg); color:var(--ink);
-  font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-}
-
-/* Header */
-.wrap{width:min(1100px,92%);margin-inline:auto}
-.header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(7,9,19,.86),rgba(7,9,19,.62) 70%,transparent);backdrop-filter:blur(10px)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit}
+body{font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#070913;color:var(--ink)}
+a{color:inherit}
+.header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,rgba(7,9,19,.9),rgba(7,9,19,.65) 70%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid #121630}
+.nav{max-width:980px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:.7rem;align-items:center;text-decoration:none}
 .logo{width:40px;height:40px;border-radius:12px;background:conic-gradient(from var(--rot,0deg),var(--g1),var(--g2),#4dd4ff,#a78bfa,var(--g1));display:grid;place-items:center;box-shadow:0 10px 30px #0009}
-.logo svg{opacity:.9}
-.links{display:flex;gap:1rem}
-.links a{color:var(--ink);text-decoration:none;font-weight:700;opacity:.9}
-.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
-
-/* Title */
-.hero{padding:38px 0 18px; text-align:center}
-.kicker{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-weight:800;font-size:.95rem;color:#0a0c18;
-  background:linear-gradient(135deg,var(--g1),var(--g2));
-  padding:.35rem .7rem;border-radius:999px;
-}
-.h1{font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.08;margin-top:12px}
-
-/* Prose */
-.prose{
-  width:min(860px,92%); margin: 26px auto 64px;
-  line-height:1.65; font-size:1.08rem;
-}
-.prose p{margin:0 0 1rem 0; color:#dfe7ff}
-.prose p.lead{color:var(--muted); font-size:1.18rem; text-align:center; margin-bottom:1.1rem}
-.prose h2{font-size:clamp(1.4rem,2.6vw,1.9rem); margin:1.6rem 0 .8rem; text-align:center}
-.prose h3{font-size:clamp(1.15rem,2.2vw,1.3rem); margin:1.2rem 0 .5rem; color:#cfe1ff; text-align:center}
-.center{text-align:center}
-.muted{color:var(--muted)}
-.callout{
-  border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin:18px auto;
-  background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));
-  box-shadow:0 12px 30px #0008; width:min(760px,100%);
-}
-
-/* Math */
-mjx-container[jax="SVG"]{overflow-x:auto}
-.math-block mjx-container{display:block;margin:10px auto;text-align:center}
-
-/* Widgets (centered, smooth) */
-.widget{
-  border:1px solid var(--line); border-radius:16px;
-  background:linear-gradient(180deg,#0a0f1e,#090b18);
-  padding:16px; margin:18px auto 22px; box-shadow:0 14px 36px #0009;
-  width:min(800px,100%);
-}
-.widget h4{margin:0 0 .6rem; font-size:1.05rem; text-align:center}
-.controls{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:center;margin:.5rem 0 1rem}
-.controls input[type="text"], .controls input[type="number"], .controls select{
-  background:#0a0f26; border:1px solid var(--line); color:var(--ink);
-  padding:.6rem .75rem; border-radius:12px; min-width:0;
-}
-.readout{
-  display:grid; gap:.5rem; justify-items:center;
-}
-.out{
-  background:#0b1022;border:1px solid var(--line);color:#eaf1ff;
-  padding:.7rem .9rem;border-radius:12px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace; word-break:break-all;
-  width:100%; max-width:720px;
-}
-.badge{font-size:.85rem;padding:.25rem .55rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18;margin-left:.5rem}
-
-/* Visual rhythm */
-.fade{opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease}
-.fade.on{opacity:1; transform:none}
-
-/* Carry demo row */
-.carry{
-  display:flex;gap:.5rem;justify-content:center;align-items:center;
-  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
-  color:#cfe1ff; letter-spacing:.06em; user-select:none;
-}
-.carry .bubble{
-  background:#0b1022;border:1px solid var(--line);padding:.35rem .6rem;border-radius:8px;
-  animation:pop .6s ease forwards; transform:translateY(8px); opacity:0;
-}
-@keyframes pop{to{transform:none;opacity:1}}
-
-/* Tail-match bar */
-.tmbar{
-  width:min(720px,100%);height:12px;border-radius:999px;
-  background:#10142b;border:1px solid #1e2342;overflow:hidden;margin:.4rem auto 0;
-}
-.tmbar > div{
-  height:100%;width:0%;background:linear-gradient(90deg,var(--g1),var(--g2));
-  box-shadow:0 0 24px var(--glow);
-  transition:width .45s ease;
-}
-
-/* Small screens */
-@media (max-width:580px){
-  .controls{flex-direction:column;align-items:stretch}
-}
-
-/* subtle cursor sheen */
-.cursor{position:fixed;left:0;top:0;width:26px;height:26px;border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.78),rgba(255,255,255,.18));
-  mix-blend-mode:overlay;pointer-events:none;z-index:50;transform:translate(-50%,-50%)}
+.logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+.toplinks{display:flex;gap:1rem}
+.toplinks a{opacity:.9;text-decoration:none}
+.wrap{max-width:880px;margin:0 auto;padding:32px 18px 64px}
+.h1{font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.03;letter-spacing:-.01em;margin-top:8px}
+.subtitle{color:var(--muted);margin-top:8px}
+.prose{font-size:clamp(1.02rem,2.2vw,1.15rem);line-height:1.75;margin-top:22px;color:#e9eeff}
+.prose p+p{margin-top:1rem}
+.prose h2{font-size:clamp(1.4rem,3vw,1.8rem);margin:36px 0 8px}
+.prose h3{font-size:clamp(1.18rem,2.6vw,1.3rem);margin:26px 0 6px;color:#cbd7ff}
+.prose .callout{margin:16px 0;padding:14px 16px;border:1px solid #1a2040;border-radius:14px;background:linear-gradient(180deg,#0b0f24,#0a0d1e)}
+.kbd{font-weight:700;background:#0e1227;border:1px solid #1a2040;padding:.1rem .4rem;border-radius:6px}
+.center{display:grid;place-items:center}
+.panel{margin:18px 0;border:1px solid #1a2040;border-radius:16px;background:linear-gradient(180deg,#0a0f26,#090c1e);box-shadow:0 14px 36px #0009}
+.panel .row{display:flex;flex-wrap:wrap;gap:10px;padding:14px}
+.input{flex:1 1 240px;display:flex;align-items:center;border:1px solid #232a55;background:#0d1330;border-radius:12px;padding:10px 12px}
+.input input,.input select{flex:1;font:inherit;background:transparent;color:var(--ink);border:0;outline:0}
+.badge{font-size:.85rem;padding:.25rem .55rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18;font-weight:800}
+.math{padding:16px;border-top:1px dashed #1b2246}
+.grid2{display:grid;grid-template-columns:1fr;gap:16px;padding:14px}
+@media (min-width:800px){.grid2{grid-template-columns:1.1fr .9fr}}
+.canvasbox{border:1px solid #1a2040;border-radius:14px;overflow:hidden;background:#090e22}
+.canvasbox canvas{display:block;width:100%;height:260px}
+.inline{display:inline-block;padding:.15rem .5rem;border-radius:999px;background:#0d1330;border:1px solid #232a55;font-weight:700}
+.hr{height:1px;background:linear-gradient(90deg,transparent,#1a2145,transparent);margin:32px 0}
+.fade{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s}
+.fade.on{opacity:1;transform:none}
+.footer{max-width:980px;margin:38px auto 32px;padding:0 18px;color:#91a1d6;display:flex;justify-content:space-between;align-items:center}
 </style>
 </head>
 <body>
 <header class="header">
-  <div class="wrap nav">
-    <a class="brand" href="/#top" aria-label="Back to Home">
-      <div class="logo"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div>
-      <span style="font-weight:700">Leo Shabarov</span>
-    </a>
-    <div class="links">
-      <a href="/#about">About</a>
-      <a href="/#courses">Courses</a>
-      <a href="/notes/">Notebook</a>
-      <a href="/#desmos">Desmos</a>
-      <a href="/#contact">Contact</a>
-    </div>
+  <div class="nav">
+    <a href="/" class="brand"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#fff" d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7z"/></svg></div><strong>Leo Shabarov</strong></a>
+    <div class="toplinks"><a href="/">Home</a><a href="/#notes">Notebook</a></div>
   </div>
-  <div class="hr"></div>
 </header>
 
-<main>
-  <section class="wrap hero fade">
-    <span class="kicker">Notebook</span>
-    <h1 class="h1">Bases and Adics</h1>
+<main class="wrap">
+  <section class="fade on">
+    <div class="badge">Notebook</div>
+    <h1 class="h1">Bases & Adics</h1>
+    <p class="subtitle">How changing place-value rewires arithmetic—and how p-adic numbers flip the idea of “closeness.”</p>
   </section>
 
-  <article class="prose">
-    <p class="lead fade">
-      Same quantity, different language. In base&nbsp;10, \(2+2=4\). In base&nbsp;4 it’s \(10\). In base&nbsp;2 it’s \(100\).
-    </p>
-
-    <div class="callout fade">
-      We’ll keep things conversational. First: bases as a language for place-value.
-      Then: \(p\)-adics, where “closeness” means “same <em>ending</em> digits.”
-    </div>
-
-    <h2 class="fade">A quick base refresher</h2>
-    <p class="fade center">
-      In base \(b\), the string \((d_k\cdots d_1 d_0)_b\) means \(\sum_{i=0}^k d_i b^i\),
-      with digits \(d_i\in\{0,\dots,b-1\}\).
-    </p>
-
-    <!-- Live Base Converter -->
-    <div class="widget fade" id="w-convert">
-      <h4>Base Converter <span class="badge">live</span></h4>
-      <div class="controls">
-        <input id="inNum" type="text" value="1234" placeholder="number (e.g. 1A3, 101101, 1234)" />
-        <input id="inBase" type="number" min="2" max="36" value="10" title="input base"/>
-        <span style="opacity:.6">→</span>
-        <input id="outBase" type="number" min="2" max="36" value="2" title="output base"/>
+  <section class="prose fade">
+    <p>When we write \(2+2=4\), we’re quietly assuming a language: <em>base 10</em>. Change the language, and the symbol that looks like “4” may become “10” (base 4), or “100” (base 2). The quantity is the same; the <em>digits</em> and <em>place-values</em> change.</p>
+    <h2>Place-value, slowly</h2>
+    <p>In base \(b\), a string of digits \(d_k d_{k-1}\dots d_1 d_0\) means \(\sum_{i=0}^{k} d_i\, b^i\), with each \(0\le d_i<b\). That’s all. Base 10 just happens to use \(b=10\) and digits \(0\)–\(9\).</p>
+    <div class="panel">
+      <div class="row">
+        <div class="input"><span style="opacity:.7;margin-right:8px">Number</span><input id="numInput" value="1234" spellcheck="false"></div>
+        <div class="input"><span style="opacity:.7;margin-right:8px">Base</span><input id="baseInput" type="number" min="2" max="36" value="10"></div>
+        <div class="input"><span style="opacity:.7;margin-right:8px">Show in</span><input id="toBase" type="number" min="2" max="36" value="2"></div>
       </div>
-      <div class="readout">
-        <div class="out" id="convertOut"></div>
-        <div class="out" id="expandOut"></div>
+      <div class="math"><div id="expansion" class="fade on"></div></div>
+    </div>
+    <p>Try changing the bases; the expansion updates as you type. For example, \(1234_{10}\) becomes \(10011010010_2\), and the sum of powers of 2 still equals the same quantity.</p>
+    <h2>Division-by-base intuition</h2>
+    <p>To convert an integer \(N\) into base \(b\), repeatedly divide by \(b\) and record remainders. Those remainders are the digits from right to left. It’s the same algorithm your calculator uses, just exposed.</p>
+    <div class="panel">
+      <div class="grid2">
+        <div class="canvasbox"><canvas id="longDiv"></canvas></div>
+        <div class="prose" style="margin:0">
+          <p><span class="inline">Live demo</span> Division peels off the lowest digit each step. The remainder at each step becomes a place in the base-\(b\) expansion.</p>
+          <p>For \(1234\) in base \(2\), the remainder pattern is \(0,1,0,0,1,0,1,1,0,0,1\) (right to left), giving \(10011010010_2\).</p>
+        </div>
       </div>
-      <p class="muted center" style="margin-top:.6rem">
-        Digits above 9 use A=10, B=11, …, Z=35. Updates as you type.
-      </p>
     </div>
-
-    <h2 class="fade">How the digits “stack”</h2>
-    <p class="fade center">
-      Example in base 10:
-      <span class="math-block">$$1234 = 1\cdot 10^3 + 2\cdot 10^2 + 3\cdot 10^1 + 4\cdot 10^0$$</span>
-      Same idea works for any base \(b\).
-    </p>
-
-    <h2 class="fade">Infinite carrying (10-adic intuition)</h2>
-    <p class="fade center">
-      In 10-adics, adding \(1\) to \(\ldots 9999\) carries forever — you land at \(\ldots 0000 = 0\).
-      So \(\ldots 9999 = -1\) (10-adically).
-    </p>
-
-    <!-- Animated carry demo -->
-    <div class="carry fade" aria-hidden="true">
-      <span class="bubble" style="animation-delay:.05s">… 9 9 9 9</span>
-      <span class="bubble" style="animation-delay:.25s">+</span>
-      <span class="bubble" style="animation-delay:.35s">1</span>
-      <span class="bubble" style="animation-delay:.55s">=</span>
-      <span class="bubble" style="animation-delay:.75s">… 0 0 0 0</span>
-    </div>
-
-    <div class="callout fade center">
-      \(\ldots 9999 = -1\), \(\;\ldots 3333 = -\tfrac{1}{3}\).
-      The more trailing digits two numbers share in base \(p\), the “closer” they are in \(p\)-adics.
-    </div>
-
-    <h2 class="fade">p-adic “closeness”, visualized</h2>
-    <p class="fade center">
-      Type two base-\(p\) numbers; the bar shows how many trailing digits match.
-    </p>
-
-    <!-- Tail Agreement widget -->
-    <div class="widget fade" id="w-tail">
-      <h4>Tail Agreement <span class="badge">live</span></h4>
-      <div class="controls">
-        <input id="pbase" type="number" min="2" max="16" value="10" title="base p"/>
-        <input id="taA" type="text" value="...999999" placeholder="first (e.g. ...9999, 101010)"/>
-        <input id="taB" type="text" value="-1" placeholder="second (e.g. -1, ...3333)"/>
+    <div class="hr"></div>
+    <h2>Why bother with different bases?</h2>
+    <p>Computers speak binary. Hex packs binary digits into readable groups. Base choices simplify patterns: divisibility tests, repeating fractions, checksums, encodings. Changing the place-value often makes a structure obvious.</p>
+    <h2>From digits to distance: p-adics</h2>
+    <p>Now flip the idea of “nearby.” In usual real numbers, \(0.001\) is close to \(0\) because the <em>left</em> side matches far out. In <em>p-adic</em> numbers, two integers are close if their <em>right</em> ends match in many digits in base \(p\). Tail agreement means proximity.</p>
+    <div class="panel">
+      <div class="row">
+        <div class="input"><span style="opacity:.7;margin-right:8px">p</span><input id="pBase" type="number" min="2" max="19" value="10"></div>
+        <div class="input"><span style="opacity:.7;margin-right:8px">A</span><input id="padicA" value="99999"></div>
+        <div class="input"><span style="opacity:.7;margin-right:8px">B</span><input id="padicB" value="-1"></div>
       </div>
-      <div class="readout">
-        <div class="out" id="taText">Matching trailing digits: 0</div>
-        <div class="tmbar"><div id="tmFill"></div></div>
+      <div style="padding:10px 16px;display:grid;gap:10px">
+        <div id="tailText" style="opacity:.9"></div>
+        <div style="height:10px;border-radius:999px;background:#131a3a;overflow:hidden;border:1px solid #1f2650">
+          <div id="tailBar" style="height:100%;width:0;background:linear-gradient(90deg,var(--g1),var(--g2));transition:width .35s"></div>
+        </div>
       </div>
-      <p class="muted center" style="margin-top:.6rem">
-        We treat “<code>...</code>” as “many trailing copies” of the last digit shown.
-      </p>
     </div>
-
-    <h2 class="fade">A neat flip: when divergence becomes convergence</h2>
-    <p class="fade center">
-      Geometric series \(1 + 10 + 10^2 + \cdots\) diverges in reals, but in 10-adics
-      (where \(|10|_{10} = \tfrac{1}{10} < 1\)) it converges:
-      <span class="math-block">$$1 + 10 + 10^2 + \cdots = \frac{1}{1-10} = -\frac{1}{9}.$$</span>
-      Which matches the “\(\ldots 1111\)” story.
-    </p>
-
-    <h2 class="fade">Where to go next</h2>
-    <p class="fade center">
-      Prime bases \(p\) behave cleanly (2-adics, 3-adics, …).
-      If you want, we can add a sequel page (valuations, units, Hensel’s lemma) in the same style.
-    </p>
-  </article>
+    <p>This makes identities like \(\ldots 9999_{10} = -1\) natural: add \(1\) and the carry ripples forever to the left, leaving all zeros—i.e., \(0\). In the 10-adics, that tail behavior means \(\ldots 9999\) is exactly one step away from \(0\), so it represents \(-1\).</p>
+    <h3>Carry-forever, animated</h3>
+    <div class="canvasbox"><canvas id="carry"></canvas></div>
+    <div class="hr"></div>
+    <h2>Convergence, reversed</h2>
+    <p>In reals, \(\sum 10^k\) diverges. In 10-adics, the same series converges because the partial sums end with more and more zeros—tails match better and better. p-adics solve equations that have no real solutions by changing what “getting close” means.</p>
+    <h2>Takeaways</h2>
+    <p>Base \(b\) controls how numbers are written. Prime bases \(p\) control how integers cluster. Once you see place-value as a design choice, a lot of “weird” phenomena turn into simple, mechanical rules.</p>
+  </section>
 </main>
 
-<footer class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:1rem">
-  <a class="brand" href="/#top" aria-label="Back to Home">
-    <div class="logo" style="width:34px;height:34px"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div>
-    <span style="font-weight:700">Home</span>
-  </a>
-  <div style="color:#7f93c9">© <span id="year"></span></div>
+<footer class="footer">
+  <div>© <span id="year"></span> Leo Shabarov</div>
+  <div><a href="/">Back to home</a></div>
 </footer>
 
-<div class="cursor" id="cursor"></div>
+<script>
+let rr=0;setInterval(()=>{rr=(rr+3)%360;document.documentElement.style.setProperty('--rot',rr+'deg')},60)
+
+const numInput=document.getElementById('numInput')
+const baseInput=document.getElementById('baseInput')
+const toBase=document.getElementById('toBase')
+const expansion=document.getElementById('expansion')
+const longDiv=document.getElementById('longDiv')
+const carry=document.getElementById('carry')
+const pBase=document.getElementById('pBase')
+const padicA=document.getElementById('padicA')
+const padicB=document.getElementById('padicB')
+const tailText=document.getElementById('tailText')
+const tailBar=document.getElementById('tailBar')
+
+function parseInBase(str,b){
+  const s=str.trim()
+  if(!s) return 0n
+  const neg=s[0]==='-'?1:0
+  const digs=s.slice(neg?1:0).toLowerCase()
+  const map='0123456789abcdefghijklmnopqrstuvwxyz'
+  let val=0n
+  for(const ch of digs){
+    const v=BigInt(map.indexOf(ch))
+    if(v<0n||v>=BigInt(b)) return NaN
+    val=val*BigInt(b)+v
+  }
+  return neg?-val:val
+}
+function toBaseStr(n,b){
+  const map='0123456789abcdefghijklmnopqrstuvwxyz'
+  let x=n
+  const neg=x<0n
+  if(neg) x=-x
+  if(x===0n) return '0'
+  let out=''
+  const B=BigInt(b)
+  while(x>0n){const r=Number(x%B);out=map[r]+out;x/=B}
+  return neg?'-'+out:out
+}
+function expansionTex(nStr,fromB,toB){
+  const N=parseInBase(nStr,fromB)
+  if(Number.isNaN(Number(N))) return 'Invalid digits for base'
+  const digits=toBaseStr(N,fromB)
+  let terms=[]
+  for(let i=0;i<digits.length;i++){
+    const d=digits[digits.length-1-i]
+    terms.push(`${parseInt(d,36)}\\,\\cdot\\,${fromB}^{${i}}`)
+  }
+  const left=`${nStr}_{${fromB}}`
+  const right=terms.reverse().join(' \\; + \\; ')
+  const conv=`${toBaseStr(N,toB)}_{${toB}}`
+  return `\$begin:math:display$ ${left}\\\\;=\\\\;${right}\\\\;=\\\\;${conv} \\$end:math:display$`
+}
+function updateAll(){
+  const b1=Math.max(2,Math.min(36,parseInt(baseInput.value||10)))
+  baseInput.value=b1
+  const b2=Math.max(2,Math.min(36,parseInt(toBase.value||10)))
+  toBase.value=b2
+  expansion.innerHTML=expansionTex(numInput.value,b1,b2)
+  if(window.MathJax&&MathJax.typesetPromise) MathJax.typesetPromise([expansion])
+
+  drawLongDiv(parseInBase(numInput.value,b1),b2)
+}
+numInput.addEventListener('input',updateAll)
+baseInput.addEventListener('input',updateAll)
+toBase.addEventListener('input',updateAll)
+
+function drawLongDiv(N,b){
+  const ctx=longDiv.getContext('2d')
+  const dpr=Math.min(devicePixelRatio||1,2)
+  const W=longDiv.clientWidth||720,H=260
+  longDiv.width=W*dpr;longDiv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)
+  ctx.clearRect(0,0,W,H)
+  ctx.fillStyle='#eaf1ff';ctx.font='14px Space Grotesk'
+  ctx.strokeStyle='rgba(255,255,255,.15)'
+  ctx.strokeRect(10,10,W-20,H-20)
+  if(typeof N!=='bigint'){ctx.fillText('Invalid input',24,40);return}
+  const B=BigInt(b)
+  let x=N
+  let rows=[]
+  let steps=0
+  while(x!==0n && steps<28){
+    const q=x/B,r=x%B
+    rows.push({x:String(x),q:String(q),r:Number(r)})
+    x=q;steps++
+  }
+  if(rows.length===0) rows.push({x:'0',q:'0',r:0})
+  const pad=28
+  const colX=28, colQ=W/2+10, colR=W-80
+  ctx.fillStyle='#a8b4d9'
+  ctx.fillText(`divide by base ${b}`,colQ,40)
+  ctx.fillText('value',colX,40)
+  ctx.fillText('quotient',colQ,60)
+  ctx.fillText('remainder → digit',colR-40,40)
+  ctx.fillStyle='#eaf1ff'
+  let y=80
+  for(const row of rows){
+    ctx.fillText(row.x,colX,y)
+    ctx.fillText(row.q,colQ,y)
+    ctx.fillText(String(row.r),colR,y)
+    y+=18
+  }
+  const digs=rows.map(r=>r.r)
+  ctx.fillStyle='#91d4ff'
+  ctx.fillText('digits (right→left): '+digs.join(', '),colX,H-28)
+}
+
+function animCarry(){
+  const ctx=carry.getContext('2d')
+  const dpr=Math.min(devicePixelRatio||1,2)
+  const W=carry.clientWidth||720,H=260
+  carry.width=W*dpr;carry.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)
+  let t=0
+  function draw(){
+    t++
+    ctx.clearRect(0,0,W,H)
+    ctx.fillStyle='rgba(255,255,255,.08)'
+    ctx.fillRect(0,0,W,H)
+    const n=18
+    const cx=W/2, cy=H/2
+    const start=Math.floor((t%240)/240*n)
+    ctx.textAlign='center'
+    ctx.textBaseline='middle'
+    ctx.font='28px Space Grotesk'
+    for(let i=0;i<n;i++){
+      const x=cx+(i-n/2)*28
+      const phase=i<=start
+      ctx.fillStyle=phase?'#a8ffde':'#eaf1ff'
+      ctx.fillText(phase?'0':'9',x,cy)
+    }
+    ctx.font='20px Space Grotesk'
+    ctx.fillStyle='#ffd6a8'
+    ctx.fillText('+ 1',cx-(n/2)*28-36,cy)
+    requestAnimationFrame(draw)
+  }
+  draw()
+}
+
+function padicUpdate(){
+  const p=parseInt(pBase.value||10)
+  const A=BigInt(isNaN(Number(padicA.value))?0:padicA.value)
+  const B=BigInt(isNaN(Number(padicB.value))?0:padicB.value)
+  const aStr=toBaseStr(A,p)
+  const bStr=toBaseStr(B,p)
+  let k=0
+  while(k<Math.min(aStr.length,bStr.length)){
+    const ca=aStr[aStr.length-1-k]||'0'
+    const cb=bStr[bStr.length-1-k]||'0'
+    if(ca!==cb) break
+    k++
+  }
+  const frac=Math.min(1,k/12)
+  tailBar.style.width=`${frac*100}%`
+  tailText.innerHTML=`Tail agreement in base ${p}: <strong>${k}</strong> matching digit${k===1?'':'s'} from the right.`
+}
+[pBase,padicA,padicB].forEach(el=>el.addEventListener('input',padicUpdate))
+
+function resizeCanvases(){
+  [longDiv,carry].forEach(c=>{
+    const ctx=c.getContext('2d');ctx.setTransform(1,0,0,1,0,0)
+  })
+  updateAll()
+}
+window.addEventListener('resize',resizeCanvases)
+
+const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15})
+document.querySelectorAll('.fade').forEach(el=>io.observe(el))
+
+document.getElementById('year').textContent=new Date().getFullYear()
+
+updateAll()
+padicUpdate()
+animCarry()
+</script>
 
 <script>
-/* gentle header logo drift */
-let rr=0; setInterval(()=>{ rr=(rr+3)%360; document.documentElement.style.setProperty('--rot',rr+'deg')}, 60);
-
-/* small cursor sheen */
-const cursor=document.getElementById('cursor'); let cx=0,cy=0,tx=0,ty=0;
-function loop(){ cx+=(tx-cx)*0.18; cy+=(ty-cy)*0.18; cursor.style.left=cx+'px'; cursor.style.top=cy+'px'; requestAnimationFrame(loop) }
-loop(); addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY});
-
-/* fade-in on view for rhythm */
-const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.12});
-for(const el of document.querySelectorAll('.fade')) io.observe(el);
-
-/* ---------- Base Converter (live) ---------- */
-(function(){
-  const inNum = document.getElementById('inNum');
-  const inBase = document.getElementById('inBase');
-  const outBase = document.getElementById('outBase');
-  const out = document.getElementById('convertOut');
-  const expandOut = document.getElementById('expandOut');
-
-  const digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const map = Object.fromEntries([...digits].map((d,i)=>[d,i]));
-
-  function parseToBigInt(str, base){
-    let s = (str||'').trim().toUpperCase();
-    if(!s) return 0n;
-    let sign = 1n;
-    if(s.startsWith('-')){ sign=-1n; s=s.slice(1) }
-    if(s.startsWith('+')) s=s.slice(1);
-    if(s.includes('.')) throw new Error('Use integers only');
-    const B = BigInt(base);
-    let val = 0n;
-    for(const ch of s){
-      const v = map[ch];
-      if(v==null || v>=base) throw new Error(`Bad digit "${ch}" for base ${base}`);
-      val = val*B + BigInt(v);
-    }
-    return sign*val;
-  }
-  function fromBigInt(n, base){
-    const B = BigInt(base);
-    if(n===0n) return '0';
-    const neg = n<0n; let x = neg? -n : n, s = '';
-    while(x>0n){ const r = Number(x%B); s = digits[r]+s; x/=B }
-    return (neg?'-':'')+s;
-  }
-  function mkExpand(nStr, b){
-    // pretty expansion in KaTeX
-    const s = (nStr||'').toUpperCase();
-    if(!s || s==='0') return '\\(0\\)';
-    const terms = [...s].reverse().map((ch,i)=>`${ch}\\cdot ${b}^{${i}}`).reverse().join(' + ');
-    return `\$begin:math:text$${s}_{{${b}}} = ${terms}\\$end:math:text$`;
-  }
-  function renderKatex(node, tex){
-    // safe render (KaTeX already loaded by auto-render, but we use direct render here)
-    try{
-      katex.render(tex.replace(/\\\(/g,'').replace(/\\\)/g,''), node, {throwOnError:false});
-    }catch{ node.textContent = tex; }
-  }
-  let raf = null;
-  function update(){
-    if(raf){ cancelAnimationFrame(raf) }
-    raf = requestAnimationFrame(()=>{
-      try{
-        const ib = clamp(+inBase.value||10,2,36);
-        const ob = clamp(+outBase.value||2,2,36);
-        const n = parseToBigInt(inNum.value, ib);
-        const s = fromBigInt(n, ob);
-        out.textContent = `${n.toString()} (base ${ib})  →  ${s} (base ${ob})`;
-        // show expansion in input base
-        const tex = mkExpand((inNum.value||'').trim(), ib);
-        expandOut.innerHTML = '';
-        const span = document.createElement('span');
-        span.style.display='block'; span.style.textAlign='center';
-        expandOut.appendChild(span);
-        renderKatex(span, tex);
-      }catch(err){
-        out.textContent = '⚠️ ' + err.message;
-        expandOut.textContent = '';
-      }
-    });
-  }
-  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-  ['input','change','keyup'].forEach(ev=>{
-    inNum.addEventListener(ev,update);
-    inBase.addEventListener(ev,update);
-    outBase.addEventListener(ev,update);
-  });
-  update();
-})();
-
-/* ---------- Tail Agreement (live) ---------- */
-(function(){
-  const pEl = document.getElementById('pbase');
-  const aEl = document.getElementById('taA');
-  const bEl = document.getElementById('taB');
-  const out = document.getElementById('taText');
-  const fill = document.getElementById('tmFill');
-
-  function norm(s){
-    s = (s||'').trim();
-    if(!s) return '';
-    // "...dddd" => long tail of last char
-    if(s.startsWith('...')){
-      const tail = s.slice(3).trim();
-      const last = tail.at(-1) || '0';
-      return 'x'.repeat(20) + last.repeat(120); // head ignored; long tail
-    }
-    if(s === '-1') return 'x'.repeat(20) + '9'.repeat(120); // 10-adic intuition
-    return s;
-  }
-  function tailMatchCount(a,b){
-    let i=a.length-1, j=b.length-1, k=0;
-    while(i>=0 && j>=0){
-      if(a[i]!==b[j]) break;
-      k++; i--; j--;
-    }
-    return k;
-  }
-  function update(){
-    const p = Math.max(2, +pEl.value||10);
-    const A = norm(aEl.value);
-    const B = norm(bEl.value);
-    const k = tailMatchCount(A,B);
-    const pct = Math.min(100, (k/60)*100);
-    out.textContent = `Matching trailing digits: ${k}`;
-    fill.style.width = pct.toFixed(1)+'%';
-  }
-  ['input','change','keyup'].forEach(ev=>{
-    pEl.addEventListener(ev,update);
-    aEl.addEventListener(ev,update);
-    bEl.addEventListener(ev,update);
-  });
-  update();
-})();
-
-/* year */
-document.getElementById('year').textContent = new Date().getFullYear();
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
 </body>
 </html>
