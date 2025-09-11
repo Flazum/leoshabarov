@@ -3,500 +3,214 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bases & Adics — Leo Shabarov</title>
-
-<!-- Type & color -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* ---- Theme: bright, vivid, home-adjacent ---- */
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#0e1328;         /* main text */
-  --muted:#4a577a;       /* secondary text */
-  --line:#e8ecfb;        /* hairlines */
-  --bg:#f9fbff;          /* page */
-  --surface:#ffffff;     /* cards */
-  --g1:#6ee7ff;          /* accents */
-  --g2:#8b5cf6;
-  --brand:linear-gradient(135deg,var(--g1),var(--g2));
-}
-html,body{height:100%}
-body{
-  font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  color:var(--ink); background:var(--bg);
-}
-
-/* ---- Header ---- */
-.header{
-  position:sticky; top:0; z-index:10;
-  background:linear-gradient(180deg,#fff,rgba(255,255,255,.82) 65%,transparent);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:saturate(1.2) blur(8px);
-}
-.nav{max-width:980px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;gap:.7rem;align-items:center;color:inherit;text-decoration:none}
-.logo{width:40px;height:40px;border-radius:12px;background:conic-gradient(from var(--rot,0deg),var(--g1),var(--g2),#4dd4ff,#a78bfa,var(--g1));display:grid;place-items:center;box-shadow:0 6px 18px rgba(90,120,255,.25)}
-.nav a{color:var(--ink);text-decoration:none}
-
-/* ---- Page layout ---- */
-.wrap{max-width:980px;margin:0 auto;padding:28px 18px 80px}
-.h1{font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.06;letter-spacing:-.01em}
-.subtitle{color:var(--muted);margin-top:8px}
-.toc{
-  display:flex;flex-wrap:wrap;gap:.5rem;margin-top:16px
-}
-.toc a{
-  padding:.5rem .8rem;border-radius:999px;background:#f1f5ff;border:1px solid var(--line);
-  color:#223057;font-weight:700;text-decoration:none
-}
-
-/* ---- Reading flow ---- */
-.prose{font-size:clamp(1.05rem,2.3vw,1.18rem);line-height:1.75;margin-top:22px}
-.prose p+p{margin-top:1rem}
-.prose h2{font-size:clamp(1.5rem,3vw,1.9rem);margin:34px 0 10px}
-.kicker{display:inline-grid;place-items:center;margin-right:.5rem;width:28px;height:28px;border-radius:10px;background:#eef3ff;color:#3a4c8f;border:1px solid var(--line);font-weight:800}
-.hr{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:30px 0}
-
-/* ---- Panels / inputs / canvases ---- */
-.panel{
-  margin:14px 0;border:1px solid var(--line);border-radius:16px;background:var(--surface);
-  box-shadow:0 10px 28px rgba(30,60,120,.08)
-}
-.panel .row{display:flex;flex-wrap:wrap;gap:10px;padding:12px}
-.input{
-  flex:1 1 240px;display:flex;align-items:center;gap:8px;
-  border:1px solid var(--line);border-radius:12px;background:#f7f9ff;padding:10px 12px
-}
-.input input,.input select{
-  flex:1;font:inherit;background:transparent;border:0;outline:0;color:var(--ink)
-}
-.input .mono{opacity:.75}
-.canvasbox{border-top:1px dashed var(--line);overflow:hidden;background:linear-gradient(180deg,#ffffff,#fbfdff)}
-.canvasbox canvas{display:block;width:100%;height:260px}
-.small canvas{height:200px}
-.note{margin:8px 12px 14px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;color:#33406b;background:#f7faff}
-
-/* ---- Motion polish ---- */
-.fade{opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
-.fade.on{opacity:1;transform:none}
-
-/* ---- Footer ---- */
-.footer{max-width:980px;margin:40px auto 26px;padding:0 18px;color:#55618a;display:flex;justify-content:space-between;align-items:center}
-</style>
+<link rel="stylesheet" href="/assets/site.css">
+<!-- MathJax (LaTeX) -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
-
-<header class="header">
-  <div class="nav">
-    <a href="/" class="brand">
-      <div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#fff" d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7z"/></svg></div>
-      <strong>Leo Shabarov</strong>
-    </a>
-    <a href="/#notes">Notebook</a>
-  </div>
-</header>
+<div id="tiles"></div>
+<div data-include="header"></div>
 
 <main class="wrap">
-  <section class="fade on">
+  <header class="fade on" style="margin-top:10px">
     <h1 class="h1">Bases & Adics</h1>
-    <p class="subtitle">A visual, interactive guide to place-value, conversion, and why \( \ldots 9999_{10}=-1 \) is perfectly sensible in the p-adics.</p>
-    <nav class="toc">
-      <a href="#carry">Carry across bases</a>
-      <a href="#place">Place-value ruler</a>
-      <a href="#int">Integer → base \(b\)</a>
-      <a href="#frac">Fractional digits</a>
-      <a href="#facts">Quick facts</a>
-      <a href="#adic">Adic intuition</a>
-      <a href="#pseries">p-adic series</a>
-    </nav>
-  </section>
+    <p class="subtitle">A visual guide to bases → p-adics, with animated carries and place-value intuition.</p>
+  </header>
 
-  <!-- Carry demo -->
-  <section class="prose fade" id="carry">
-    <h2><span class="kicker">•</span>Why \(2+2\) isn’t always “4”</h2>
-    <p>Base changes the **digit alphabet** and the **carry threshold**. In base \(4\) there is no symbol “4”—the next place is \(10_4\). So \(2+2\) becomes \(10_4\). In base \(2\), \(4_{10}=100_2\), so \(2+2=100_2\). In base \(3\), \(4_{10}=11_3\).</p>
-
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">base</span>
-          <input type="range" id="carryBase" min="2" max="12" value="2"><span id="carryBaseVal">2</span>
+  <!-- Hero animation: 2+2 across bases -->
+  <section class="fade" style="margin-top:20px">
+    <div class="card" style="padding:16px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+        <div>
+          <h2 style="margin-bottom:6px">Why \(2+2\) can be \(10\) or \(100\)</h2>
+          <p class="subtitle">Carries depend on the base. Slide the base and watch the sum change.</p>
         </div>
-        <div class="note">Slide the base. Watch the ones column roll over exactly at the base.</div>
+        <div>
+          <label style="font-weight:700;margin-right:8px">Base</label>
+          <input id="baseSlider" type="range" min="2" max="10" value="10" style="vertical-align:middle">
+          <span id="baseLabel" style="margin-left:8px;font-weight:700">10</span>
+        </div>
       </div>
-      <div class="canvasbox"><canvas id="carryCanvas"></canvas></div>
+      <div class="canvasbox small" style="margin-top:12px"><canvas id="carryCanvas"></canvas></div>
+      <p style="margin-top:10px">
+        In base \(b\), digits are \(0,1,\dots,b\!-\!1\). When a column reaches \(b\), it “rolls over” and carries left.  
+        Example: in base \(4\), \(2+2=10_4\); in base \(2\), \(2+2=100_2\); in base \(3\), \(2+2=11_3\).
+      </p>
     </div>
-
-    <div class="hr"></div>
   </section>
 
-  <!-- Place-value -->
-  <section class="prose fade" id="place">
-    <h2><span class="kicker">•</span>What a base is</h2>
-    <p>Base \(b\) means digits \(0,1,\dots,b\!-\!1\) and place values \(b^0,b^1,b^2,\dots\) going left. Example (base \(7\)): \(351_7=3\cdot7^2+5\cdot7+1=183\).</p>
+  <article class="fade" style="margin-top:24px">
+    <!-- Paste/expand your full guide text here; MathJax will render inline \( \) and block \[ \] -->
+    <h2 style="margin:8px 0">Place value & changing base</h2>
+    <p>
+      A base is both the size of your digit alphabet and the scale between places. In base \(b\), a numeral
+      \(a_k\ldots a_2a_1a_0\) means \(\sum_{i=0}^k a_i b^i\). Changing base changes the <em>symbols</em>, not the
+      quantity. Example in base \(7\): \(351_7=3\cdot7^2+5\cdot7+1=183\).
+    </p>
 
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">base</span><input id="rulerBase" type="range" min="2" max="16" value="7"><span id="rulerBaseVal">7</span></div>
-        <div class="input"><span class="mono">digits</span><input id="rulerDigits" value="351" spellcheck="false"></div>
-      </div>
-      <div class="canvasbox"><canvas id="rulerCanvas"></canvas></div>
-    </div>
+    <h2 style="margin:18px 0">From bases to adics (intuition)</h2>
+    <p>
+      For \(b\)-adics, “closeness” means sharing many trailing base-\(b\) digits. Infinite expansions extend left:
+      \(\ldots d_3d_2d_1d_0\). In \(10\)-adics, \(\ldots 9999 = -1\) because adding \(1\) triggers an infinite carry:
+      \(\ldots 9999 + 1 = \ldots 0000\).
+    </p>
+  </article>
 
-    <div class="hr"></div>
-  </section>
-
-  <!-- Integer → base b -->
-  <section class="prose fade" id="int">
-    <h2><span class="kicker">•</span>Convert a decimal integer to base \(b\)</h2>
-    <p>Divide by \(b\), record the remainder, repeat. Read remainders in reverse. That’s your numeral.</p>
-
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">n</span><input id="divN" value="347"></div>
-        <div class="input"><span class="mono">base</span><input id="divB" type="number" min="2" max="36" value="7"></div>
-        <div class="note">Each remainder is a digit. The stack flips to become the final number.</div>
-      </div>
-      <div class="canvasbox"><canvas id="divCanvas"></canvas></div>
-    </div>
-
-    <div class="hr"></div>
-  </section>
-
-  <!-- Fractional parts -->
-  <section class="prose fade" id="frac">
-    <h2><span class="kicker">•</span>Fractional digits by multiplying</h2>
-    <p>Multiply the fraction by \(b\). The integer part is the next digit. Strip it off and repeat. A reduced fraction terminates in base \(b\) exactly when its denominator’s prime factors all divide \(b\).</p>
-
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">fraction</span><input id="fracIn" value="0.625"></div>
-        <div class="input"><span class="mono">base</span><input id="fracB" type="number" min="2" max="16" value="2"></div>
-        <div class="note">The bar scales by \(b\); a digit “pops out” each cycle.</div>
-      </div>
-      <div class="canvasbox small"><canvas id="fracCanvas"></canvas></div>
-    </div>
-
-    <div class="hr"></div>
-  </section>
-
-  <!-- Quick facts -->
-  <section class="prose fade" id="facts">
-    <h2><span class="kicker">•</span>Quick base facts you’ll use</h2>
-    <p>Divisible by \(b\) iff the last base-\(b\) digit is \(0\). The last \(k\) digits determine the value mod \(b^k\). Changing base changes **symbols**, not the amount.</p>
-
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">b</span><input id="modB" type="number" min="2" max="16" value="10"></div>
-        <div class="input"><span class="mono">k</span><input id="modK" type="number" min="1" max="8" value="3"></div>
-        <div class="input"><span class="mono">n</span><input id="modN" value="1234567"></div>
-      </div>
-      <div class="canvasbox small"><canvas id="modCanvas"></canvas></div>
-    </div>
-
-    <div class="hr"></div>
-  </section>
-
-  <!-- Adic intuition -->
-  <section class="prose fade" id="adic">
-    <h2><span class="kicker">•</span>From bases to adic thinking</h2>
-    <p>p-adics flip what “close” means: numbers are close if their last digits match in base \(p\). Infinite expansions go to the **left**. That’s why \( \ldots 9999_{10}=-1 \): add \(1\) and carries wipe every \(9\) forever.</p>
-
-    <div class="panel">
-      <div class="row"><div class="note">Infinite-carry train: \( \ldots 9999 + 1 \to \ldots 0000 \).</div></div>
-      <div class="canvasbox"><canvas id="carryInfCanvas"></canvas></div>
-    </div>
-
-    <div class="hr"></div>
-  </section>
-
-  <!-- p-adic series -->
-  <section class="prose fade" id="pseries">
-    <h2><span class="kicker">•</span>Series that converge p-adically</h2>
-    <p>\(1+p+p^2+\dots = \frac{1}{1-p}\) in the p-adics because \(|p|_p=p^{-1}<1\). Example in \(2\)-adics: \(1+2+4+8+\cdots=-1\).</p>
-
-    <div class="panel">
-      <div class="row">
-        <div class="input"><span class="mono">p</span><input id="pVal" type="number" min="2" max="13" value="2"></div>
-        <div class="note">Each new term is “smaller” p-adically: the distance to the limit shrinks by a factor \(p^{-1}\).</div>
-      </div>
-      <div class="canvasbox small"><canvas id="pSeriesCanvas"></canvas></div>
+  <!-- Infinite carry demo -->
+  <section class="fade" style="margin-top:20px">
+    <div class="card" style="padding:16px">
+      <h2 style="margin-bottom:6px">The infinite carry: \(\ldots 9999 + 1 = 0\) (10-adics)</h2>
+      <p class="subtitle">Tap to trigger a cascading carry that wipes all 9s to 0s forever.</p>
+      <div class="canvasbox small" style="margin-top:12px"><canvas id="carryTrain"></canvas></div>
+      <div style="margin-top:10px"><button id="carryBtn" class="pill" type="button">Trigger carry</button></div>
     </div>
   </section>
 </main>
 
-<footer class="footer">
-  <div>© <span id="year"></span> Leo Shabarov</div>
-  <a href="/">Back to home</a>
-</footer>
+<div data-include="footer"></div>
 
-<!-- ---------- JS: polish + working interactives ---------- -->
+<script src="/assets/site.js" defer></script>
 <script>
-/* soft brand spin */
-let rr=0; setInterval(()=>{rr=(rr+3)%360; document.documentElement.style.setProperty('--rot', rr+'deg')}, 60);
-
-/* fade on scroll */
-const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});
-document.querySelectorAll('.fade').forEach(el=>io.observe(el));
-document.getElementById('year').textContent=new Date().getFullYear();
-
-/* Utilities */
-const DIGS='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-const DPR=()=>Math.min(window.devicePixelRatio||1,2);
-
-function sizeCanvas(canvas, cssH=260){
-  const dpr=DPR(), W=canvas.clientWidth||800, H=cssH;
-  canvas.width=Math.max(1,Math.floor(W*dpr));
-  canvas.height=Math.max(1,Math.floor(H*dpr));
-  const ctx=canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
-  return {ctx,W,H};
+/* ========= Shared-sized canvas helpers ========= */
+function fitCanvas(cnv, cssH=220){
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  const box = cnv.parentElement;
+  const W = box.clientWidth || 600;
+  const H = cssH;
+  cnv.width = Math.floor(W*dpr); cnv.height = Math.floor(H*dpr);
+  const ctx = cnv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, W, H};
 }
 
-/* ---------- Carry across bases (2+2) ---------- */
-const carryBase=document.getElementById('carryBase'), carryBaseVal=document.getElementById('carryBaseVal');
-const carryCanvas=document.getElementById('carryCanvas');
-function drawCarry(){
-  const {ctx,W,H}=sizeCanvas(carryCanvas,260);
-  ctx.clearRect(0,0,W,H);
-  const b=parseInt(carryBase.value); carryBaseVal.textContent=b;
+/* ========= 2+2 across bases (animated carry) ========= */
+(function(){
+  const slider = document.getElementById('baseSlider');
+  const label  = document.getElementById('baseLabel');
+  const cnv    = document.getElementById('carryCanvas');
+  let base = +slider.value, t=0, raf;
 
-  // digits bar
-  const cx=W/2, cy=H/2-36, cell=Math.min(46, Math.max(26, W/(b+6)));
-  ctx.font='14px Space Grotesk'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  for(let i=0;i<b;i++){
-    const x=cx-(b-1)*cell/2+i*cell;
-    ctx.fillStyle='#f1f5ff'; ctx.fillRect(x-16,cy-16,32,32);
-    ctx.strokeStyle='#e3eafc'; ctx.strokeRect(x-16,cy-16,32,32);
-    ctx.fillStyle='#20305f'; ctx.fillText(String(i),x,cy);
-  }
+  function draw(){
+    const {ctx,W,H} = fitCanvas(cnv, 200);
+    ctx.clearRect(0,0,W,H);
 
-  // math
-  const sum=4, roll=sum>=b, ones=roll?sum-b:sum, left=roll?1:0;
-  const baseY=H/2+20;
+    // layout
+    const cx = W/2, cy = H/2 - 10;
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(0,0,0,.12)';
 
-  ctx.fillStyle='#20305f'; ctx.font='18px Space Grotesk';
-  ctx.fillText('2', cx-36, baseY-22);
-  ctx.fillText('+ 2', cx-36, baseY);
+    // column boxes
+    const cols = 3; const boxW=70, boxH=70; const gap=10;
+    const left = cx - (cols*boxW + (cols-1)*gap)/2;
 
-  if(roll){
-    const t=(performance.now()/1000)%1, by=baseY-60-6*Math.sin(t*6.283);
-    ctx.beginPath(); ctx.fillStyle='rgba(110,231,255,.22)';
-    ctx.arc(cx+28,by,12,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#1a6ea9'; ctx.font='12px Space Grotesk'; ctx.fillText('carry',cx+28,by);
-  }
+    // compute 2+2 in base
+    const decSum = 4;
+    function toBase(n,b){const d=[]; do{d.push(n%b); n=(n/b)|0;}while(n>0); return d.reverse();}
+    const digits = toBase(decSum, base); // e.g. base2 => [1,0,0]
+    // We want to show leading column(s) too; pad to 3 columns for demo
+    const pad = Math.max(0, 3 - digits.length);
+    const show = Array(pad).fill(0).concat(digits);
 
-  ctx.fillStyle='#ff7f3f'; ctx.font='22px Space Grotesk';
-  const nice = roll ? (b===2?'100₂': b===3?'11₃': b===4?'10₄': `1·${b}+0`) : (b===10?'4₁₀': String(ones));
-  ctx.fillText(`= ${nice}`, cx+40, baseY+2);
+    // rolling bubble timing
+    const u = (Math.sin(t*0.03)*0.5+0.5); // 0..1 back-and-forth
+    // draw boxes
+    ctx.fillStyle = '#fff';
+    for(let i=0;i<3;i++){
+      const x = left + i*(boxW+gap), y = cy - boxH/2;
+      ctx.fillStyle = '#fff';
+      ctx.strokeStyle = 'rgba(0,0,0,.15)';
+      ctx.beginPath(); ctx.rect(x,y,boxW,boxH); ctx.fill(); ctx.stroke();
 
-  ctx.fillStyle='#20305f'; ctx.font='16px Space Grotesk';
-  ctx.fillText('The digit “rolls over” when it reaches the base.', W/2, H-28);
-}
+      // digit draw
+      ctx.fillStyle = 'rgba(30,40,80,.95)';
+      ctx.font = '32px Space Grotesk';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(show[i], x+boxW/2, y+boxH/2);
+    }
 
-/* ---------- Place-value ruler ---------- */
-const rulerBase=document.getElementById('rulerBase'), rulerBaseVal=document.getElementById('rulerBaseVal'), rulerDigits=document.getElementById('rulerDigits');
-const rulerCanvas=document.getElementById('rulerCanvas');
-function drawRuler(){
-  const {ctx,W,H}=sizeCanvas(rulerCanvas,260);
-  ctx.clearRect(0,0,W,H);
-  const b=parseInt(rulerBase.value); rulerBaseVal.textContent=b;
-  const s=(rulerDigits.value||'0').trim().toUpperCase();
-  const vals=[...s].map(ch=>Math.max(0,DIGS.indexOf(ch))).reverse();
-  const cx=W/2, baseline=H/2+22, step=Math.min(90, Math.max(56, W/(vals.length+2)));
+    // carry bubble (only appears when base <= 4 so the middle digit rolls)
+    if(base<=4){
+      const fromX = left + 2*(boxW+gap) + boxW/2;
+      const toX   = left + 1*(boxW+gap) + boxW/2;
+      const y     = cy - boxH/2 - 30;
+      const x     = fromX + (toX-fromX)*u;
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(60,120,220,.18)';
+      ctx.strokeStyle = 'rgba(60,120,220,.6)';
+      ctx.arc(x,y,12,0,Math.PI*2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = 'rgba(60,120,220,.95)'; ctx.font='12px Space Grotesk'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('carry', x, y);
+    }
 
-  ctx.textAlign='center'; ctx.textBaseline='middle';
-  let total=0;
-  for(let i=0;i<vals.length;i++){ total+= vals[i]*Math.pow(b,i); }
-
-  ctx.fillStyle='#20305f'; ctx.font='18px Space Grotesk';
-  ctx.fillText(`${s||'0'}_{${b}} = ${total}_{10}`, W/2, 28);
-
-  for(let i=0;i<vals.length;i++){
-    const x=cx+(i-(vals.length-1)/2)*step;
-    // rail
-    ctx.fillStyle='#eef3ff'; ctx.fillRect(x-24, baseline-44, 48, 88);
-    ctx.strokeStyle='#e3eafc'; ctx.strokeRect(x-24, baseline-44, 48, 88);
-    // bead
-    const ty=baseline-20 - 14*Math.sin((performance.now()/1000 + i)*0.9);
-    ctx.beginPath(); ctx.fillStyle='url(#)'; ctx.fillStyle='rgba(139,92,246,.18)'; ctx.arc(x,ty,14,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#223057'; ctx.font='14px Space Grotesk'; ctx.fillText(String(vals[i]),x,ty);
     // label
-    ctx.fillStyle='#4a577a'; ctx.font='12px Space Grotesk'; ctx.fillText(`× ${b}^${i}`, x, baseline+36);
+    ctx.fillStyle='rgba(0,0,0,.6)'; ctx.font='16px Space Grotesk'; ctx.textAlign='center';
+    ctx.fillText(`2 + 2 = ${show.join('')} (base ${base})`, cx, H-14);
+
+    t++;
+    raf = requestAnimationFrame(draw);
   }
-}
 
-/* ---------- Integer → base b (remainders) ---------- */
-const divN=document.getElementById('divN'), divB=document.getElementById('divB');
-const divCanvas=document.getElementById('divCanvas');
-function drawDiv(){
-  const {ctx,W,H}=sizeCanvas(divCanvas,260);
-  ctx.clearRect(0,0,W,H);
-  let n=parseInt(divN.value||0); if(!Number.isFinite(n) || n<0) n=0;
-  let b=clamp(parseInt(divB.value||10),2,36); divB.value=b;
+  slider.addEventListener('input', () => { base = +slider.value; label.textContent = base; });
+  const start = () => { cancelAnimationFrame(raf); draw(); };
+  window.addEventListener('resize', start);
+  start();
+})();
 
-  // rows
-  let rows=[], x=n;
-  for(let i=0;i<32 && x>0;i++){ const q=Math.floor(x/b), r=x%b; rows.push({x,q,r}); x=q; }
-  if(rows.length===0) rows.push({x:0,q:0,r:0});
-  const stack=rows.map(r=>r.r), digits=[...stack].reverse().map(d=>DIGS[d]).join('') || '0';
+/* ========= Infinite carry train (…999 + 1) ========= */
+(function(){
+  const cnv = document.getElementById('carryTrain');
+  const btn = document.getElementById('carryBtn');
+  let active = false, t = 0, raf;
 
-  // table
-  const left=28, col=[left, W/2, W-88], y0=60;
-  ctx.fillStyle='#4a577a'; ctx.font='12px Space Grotesk';
-  ctx.fillText('value',col[0],32); ctx.fillText(`÷ base ${b}`,col[1],32); ctx.fillText('remainder',col[2],32);
-  ctx.strokeStyle='#e9edff'; ctx.strokeRect(10,10,W-20,H-20);
+  function draw(){
+    const {ctx,W,H} = fitCanvas(cnv, 200);
+    ctx.clearRect(0,0,W,H);
+    const nCols = 14;
+    const boxW = Math.min(48, (W-40)/nCols);
+    const boxH = 58;
+    const left = (W - (nCols*boxW))/2;
+    const top  = (H - boxH)/2;
 
-  ctx.fillStyle='#20305f'; ctx.font='14px Space Grotesk';
-  let y=y0; for(const r of rows){ ctx.fillText(String(r.x),col[0],y); ctx.fillText(String(r.q),col[1],y); ctx.fillText(String(r.r),col[2],y); y+=18; }
+    // timeline
+    const k = Math.min(nCols, Math.floor(t/10)); // how many have flipped to 0
+    for(let i=0;i<nCols;i++){
+      const x = left + i*boxW;
+      ctx.fillStyle='#fff';
+      ctx.strokeStyle='rgba(0,0,0,.15)';
+      ctx.beginPath(); ctx.rect(x, top, boxW-6, boxH); ctx.fill(); ctx.stroke();
 
-  // stack flip
-  const t=(performance.now()/1000)%1, k=t;
-  const sx=W/2, sy=H-36;
-  ctx.save(); ctx.translate(sx,sy);
-  for(let i=0;i<stack.length;i++){
-    const up=i*18*k;
-    ctx.globalAlpha=0.9;
-    ctx.fillStyle='rgba(110,231,255,.22)'; ctx.fillRect(-24,-10-up,48,20);
-    ctx.globalAlpha=1;
-    ctx.fillStyle='#1a6ea9'; ctx.font='14px Space Grotesk'; ctx.textAlign='center';
-    ctx.fillText(String(stack[i]),0,-up);
+      const flipped = active && (nCols-1-i) < k;
+      const digit = flipped ? '0' : '9';
+      ctx.fillStyle = 'rgba(30,40,80,.95)';
+      ctx.font = '28px Space Grotesk'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(digit, x+(boxW-6)/2, top+boxH/2);
+    }
+
+    // the +1 bubble at the far right
+    if(active){
+      const bx = left + (nCols-1)*boxW + (boxW-6)/2;
+      const by = top - 26;
+      ctx.beginPath(); ctx.fillStyle='rgba(220,140,60,.18)'; ctx.strokeStyle='rgba(220,140,60,.7)';
+      ctx.arc(bx,by,12,0,Math.PI*2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle='rgba(220,140,60,.95)'; ctx.font='12px Space Grotesk'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('+1', bx, by);
+      t++;
+      if(Math.floor(t/10) > nCols){ active=false; t=0; }
+    }
+    raf = requestAnimationFrame(draw);
   }
-  ctx.restore();
 
-  ctx.fillStyle='#ff7f3f'; ctx.font='18px Space Grotesk'; ctx.textAlign='center';
-  ctx.fillText(`${n}_{10} = ${digits}_{${b}}`, W/2, H-10);
-}
-
-/* ---------- Fractional digit peeling ---------- */
-const fracIn=document.getElementById('fracIn'), fracB=document.getElementById('fracB');
-const fracCanvas=document.getElementById('fracCanvas');
-function drawFrac(){
-  const {ctx,W,H}=sizeCanvas(fracCanvas,200);
-  ctx.clearRect(0,0,W,H);
-  let f=parseFloat(fracIn.value); if(!(f>=0 && f<1)) f=0.625;
-  let b=clamp(parseInt(fracB.value||2),2,16); fracB.value=b;
-
-  const L=W-140, x0=70, y=H/2;
-  // rail
-  ctx.strokeStyle='#e9edff'; ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x0+L,y); ctx.stroke();
-  ctx.fillStyle='#eef5ff'; ctx.fillRect(x0,y-12,L,24);
-
-  // head
-  ctx.fillStyle='rgba(139,92,246,.18)'; ctx.fillRect(x0,y-12,L*f,24);
-  ctx.beginPath(); ctx.fillStyle='#20305f'; ctx.arc(x0+L*f, y, 6, 0, Math.PI*2); ctx.fill();
-
-  // simulate a few digits
-  let x=f, digs=[];
-  for(let i=0;i<6;i++){ x*=b; const d=Math.floor(x); digs.push(d); x-=d; }
-  ctx.fillStyle='#1a6ea9'; ctx.font='14px Space Grotesk'; ctx.textAlign='center';
-  ctx.fillText(`digits: .${digs.map(d=>DIGS[d]).join('')}_${b}`, W/2, y+44);
-}
-
-/* ---------- Quick facts: last k digits / mod ---------- */
-const modB=document.getElementById('modB'), modK=document.getElementById('modK'), modN=document.getElementById('modN');
-const modCanvas=document.getElementById('modCanvas');
-function toBaseStr(n,b){
-  if(n===0) return '0';
-  let s='', x=n; const B=b;
-  while(x>0){ const r=x%B; s=DIGS[r]+s; x=Math.floor(x/B); }
-  return s;
-}
-function drawMod(){
-  const {ctx,W,H}=sizeCanvas(modCanvas,200);
-  ctx.clearRect(0,0,W,H);
-  let b=clamp(parseInt(modB.value||10),2,16), k=clamp(parseInt(modK.value||3),1,8);
-  modB.value=b; modK.value=k;
-  let n=parseInt(modN.value||0); if(!Number.isFinite(n)||n<0) n=0;
-
-  const s=toBaseStr(n,b), last=s.slice(-k)||'0';
-  ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillStyle='#20305f'; ctx.font='18px Space Grotesk';
-  ctx.fillText(`${n}_{10} = ${s}_{${b}}`, W/2, 36);
-
-  // lock strip
-  const cx=W/2, cy=H/2+16;
-  ctx.fillStyle='#eef5ff'; ctx.fillRect(cx-160,cy-28,320,56);
-  ctx.strokeStyle='#e3eafc'; ctx.strokeRect(cx-160,cy-28,320,56);
-  ctx.fillStyle='#1a6ea9'; ctx.font='16px Space Grotesk';
-  ctx.fillText(`last ${k} digit(s): ${last}`, cx, cy);
-  ctx.fillStyle='#4a577a'; ctx.font='14px Space Grotesk';
-  ctx.fillText(`⇢ determines n mod ${b}^${k}`, cx, H-22);
-}
-
-/* ---------- Infinite carry: …999 + 1 ---------- */
-const carryInfCanvas=document.getElementById('carryInfCanvas');
-function drawCarryInf(){
-  const {ctx,W,H}=sizeCanvas(carryInfCanvas,260);
-  ctx.clearRect(0,0,W,H);
-  const n=22, cx=W/2, cy=H/2;
-  const t=(performance.now()/1000)%3, idx=Math.floor((t/3)*n);
-  ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font='26px Space Grotesk';
-  for(let i=0;i<n;i++){
-    const x=cx+(i-n/2)*26;
-    const flip=i<=idx;
-    ctx.fillStyle=flip?'#18b39f':'#20305f';
-    ctx.fillText(flip?'0':'9',x,cy);
-  }
-  ctx.font='18px Space Grotesk'; ctx.fillStyle='#ff7f3f';
-  ctx.fillText('+ 1', cx-(n/2)*26-36, cy);
-  ctx.font='16px Space Grotesk'; ctx.fillStyle='#4a577a';
-  ctx.fillText('…9999 + 1  =  …0000  (10-adic)', W/2, H-30);
-}
-
-/* ---------- p-adic geometric series ---------- */
-const pVal=document.getElementById('pVal'), pSeriesCanvas=document.getElementById('pSeriesCanvas');
-function drawPSeries(){
-  const {ctx,W,H}=sizeCanvas(pSeriesCanvas,200);
-  ctx.clearRect(0,0,W,H);
-  const p=clamp(parseInt(pVal.value||2),2,13); pVal.value=p;
-
-  const cx=W/2, baseY=H/2+26, barW=W-160;
-  ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillStyle='#20305f'; ctx.font='16px Space Grotesk';
-  ctx.fillText(`1 + ${p} + ${p}^2 + … = 1/(1 - ${p})  in the ${p}-adics`, W/2, 24);
-
-  for(let k=0;k<8;k++){
-    const w=barW*Math.pow(p, -(k+1));
-    const x=cx-w/2, y=baseY- k*18;
-    ctx.fillStyle='rgba(139,92,246,.15)'; ctx.fillRect(x,y-8,w,16);
-    ctx.fillStyle='#1a6ea9'; ctx.font='13px Space Grotesk';
-    ctx.fillText(`|S_${k} - L|_${p} = ${p}^(-${k+1})`, cx, y);
-  }
-}
-
-/* ---------- Wire up & animate ---------- */
-const handlers=[
-  [carryBase, drawCarry],
-  [rulerBase, drawRuler],
-  [rulerDigits, drawRuler],
-  [divN, drawDiv],
-  [divB, drawDiv],
-  [fracIn, drawFrac],
-  [fracB, drawFrac],
-  [modB, drawMod],
-  [modK, drawMod],
-  [modN, drawMod],
-  [pVal, drawPSeries],
-];
-handlers.forEach(([el, fn])=>{
-  ['input','change'].forEach(ev=> el.addEventListener(ev, fn));
-});
-
-/* redraw all on resize to fix device width / DPR changes */
-let resizeT=null;
-window.addEventListener('resize', ()=>{
-  clearTimeout(resizeT);
-  resizeT=setTimeout(()=>{drawAll()}, 80);
-});
-
-function drawAll(){ drawCarry(); drawRuler(); drawDiv(); drawFrac(); drawMod(); drawCarryInf(); drawPSeries(); }
-function tick(){ drawAll(); requestAnimationFrame(tick); }
-tick();
+  btn.addEventListener('click', ()=>{ active=true; t=0; });
+  const start = () => { cancelAnimationFrame(raf); draw(); };
+  window.addEventListener('resize', start);
+  start();
+})();
 </script>
-
-<!-- MathJax (LaTeX) -->
-<script>
-window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </body>
 </html>
