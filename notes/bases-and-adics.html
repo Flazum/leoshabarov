@@ -8,274 +8,118 @@
 <link rel="stylesheet" href="/assets/theme.css">
 
 <style>
-/* Page-scoped prose styles (keeps your global theme untouched) */
-.page {
-  padding: 36px 0 60px;
-}
-.breadcrumbs a { color: var(--muted); text-decoration: none; }
-.breadcrumbs a:hover { text-decoration: underline; }
+/* Page-scoped prose only */
+.page{padding:36px 0 60px}
+.article{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px}
+@media (max-width:980px){.article{grid-template-columns:1fr}}
+.prose{line-height:1.7;color:var(--ink)}
+.prose h1{font-size:clamp(1.9rem,3.8vw,2.6rem);line-height:1.15;margin-bottom:10px}
+.prose .lead{color:var(--muted);font-size:1.06rem;margin-bottom:18px}
+.prose h2{font-size:clamp(1.3rem,2.4vw,1.6rem);margin:28px 0 10px}
+.prose h3{font-size:1.05rem;letter-spacing:.01em;margin:20px 0 8px}
+.prose p,.prose ul,.prose ol,.prose blockquote,.prose figure,.prose pre{margin:10px 0 14px}
+.prose blockquote{border-left:3px solid rgba(110,231,255,.35);padding-left:12px;color:#cbd5ff}
+.prose code{background:rgba(15,20,40,.65);border:1px solid var(--line);padding:.08rem .35rem;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.95em}
+.prose pre{background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}
+.meta{display:flex;gap:12px;align-items:baseline;color:var(--muted);font-size:.95rem;margin-bottom:8px}
+.hr{margin:18px 0 8px;height:1px;background:linear-gradient(90deg,transparent,#1a1f36,transparent);border:0}
 
-.article {
-  display: grid;
-  grid-template-columns: minmax(0,1fr) 280px;
-  gap: 28px;
-}
-@media (max-width: 980px){
-  .article { grid-template-columns: 1fr; }
-}
+/* Sticky TOC */
+.toc{position:sticky;top:72px;border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,rgba(15,20,40,.6),rgba(10,14,28,.6))}
+.toc h3{margin:0 0 10px;font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;color:#c1cced}
+.toc a{display:block;text-decoration:none;color:var(--ink);opacity:.9;padding:6px 8px;border-radius:8px}
+.toc a:hover{background:rgba(110,231,255,.08)}
+.toc .sub{padding-left:16px;font-size:.95em;color:#cbd5ff}
 
-.prose {
-  line-height: 1.7;
-  color: var(--ink);
-}
-.prose h1 {
-  font-size: clamp(1.9rem, 3.8vw, 2.6rem);
-  line-height: 1.15;
-  margin-bottom: 10px;
-}
-.prose .lead {
-  color: var(--muted);
-  font-size: 1.06rem;
-  margin-bottom: 18px;
-}
-.prose h2 {
-  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
-  margin: 28px 0 10px;
-}
-.prose h3 {
-  font-size: 1.05rem;
-  letter-spacing: .01em;
-  margin: 20px 0 8px;
-}
-.prose p, .prose ul, .prose ol, .prose blockquote, .prose figure, .prose pre, .prose .callout {
-  margin: 10px 0 14px;
-}
-.prose blockquote {
-  border-left: 3px solid rgba(110,231,255,.35);
-  padding-left: 12px;
-  color: #cbd5ff;
-}
-.prose code {
-  background: rgba(15,20,40,.65);
-  border: 1px solid var(--line);
-  padding: .08rem .35rem;
-  border-radius: 6px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .95em;
-}
-.prose pre {
-  background: linear-gradient(180deg, rgba(15,20,40,.7), rgba(10,14,28,.7));
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  overflow: auto;
-}
-.prose figure {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(15,20,40,.55), rgba(10,14,28,.55));
-  padding: 10px;
-}
-.prose figcaption {
-  color: var(--muted);
-  font-size: .9rem;
-  margin-top: 6px;
-  text-align: center;
-}
+.badge{font-size:.82rem;padding:.2rem .5rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18}
 
-.meta {
-  display: flex; gap: 12px; align-items: baseline; color: var(--muted);
-  font-size: .95rem; margin-bottom: 8px;
-}
-.hr {
-  margin: 18px 0 8px; height: 1px; background: linear-gradient(90deg, transparent, #1a1f36, transparent);
-  border: 0;
-}
-
-/* Sticky table of contents */
-.toc {
-  position: sticky; top: 72px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
-  background: linear-gradient(180deg, rgba(15,20,40,.6), rgba(10,14,28,.6));
-}
-.toc h3 {
-  margin: 0 0 10px;
-  font-size: .95rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: #c1cced;
-}
-.toc a {
-  display: block;
-  text-decoration: none;
-  color: var(--ink);
-  opacity: .9;
-  padding: 6px 8px;
-  border-radius: 8px;
-}
-.toc a:hover { background: rgba(110,231,255,.08); }
-.toc .sub { padding-left: 16px; font-size: .95em; color: #cbd5ff; }
-
-/* Note footer nav */
-.note-nav {
-  display: flex; justify-content: space-between; gap: 10px; margin-top: 26px;
-}
-.note-nav a {
-  display: inline-flex; align-items: center; gap: 8px;
-  text-decoration: none; color: var(--ink);
-  border: 1px solid var(--line); border-radius: 12px;
-  padding: 10px 12px; background: #0a0f26;
-}
-.note-nav a:hover { box-shadow: 0 10px 24px #0007; transform: translateY(-1px); }
-.badge { font-size: .82rem; padding: .2rem .5rem; border-radius: 999px; background: linear-gradient(135deg,var(--g1),var(--g2)); color:#0a0c18 }
+/* keep the background tiles behind everything */
+#tiles{position:fixed;inset:0;z-index:-1}
 </style>
 </head>
 <body>
 
-<!-- Shared background -->
+<!-- STATIC background tiles (no animation) -->
 <div id="tiles"></div>
 
-<!-- Shared header -->
-<div id="site-header"></div>
+<!-- EXACT header from your homepage -->
+<header class="header">
+  <div class="wrap nav">
+    <a class="brand" href="/#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+    <div class="links">
+      <a href="/#about">About</a>
+      <a href="/#courses">Courses</a>
+      <a href="/notes/">Notebook</a>
+      <a href="/#desmos">Desmos</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </div>
+</header>
 
 <main class="wrap page">
-  <nav class="breadcrumbs">
-    <a href="/">Home</a> • <a href="/notes/">Notebook</a>
-  </nav>
+  <nav class="breadcrumbs"><a href="/">Home</a> • <a href="/notes/">Notebook</a></nav>
 
   <div class="article">
-    <!-- Main content -->
-    <article class="prose" id="content">
+    <article class="prose">
       <h1>Bases &amp; Adics</h1>
-      <div class="meta">
-        <span>Last updated: <time datetime="2025-09-11" id="updated">Sep 11, 2025</time></span>
-        <span class="badge">draft</span>
-      </div>
-      <div class="lead">
-        A friendly walk from ordinary number bases (binary, base-10, base-<em>b</em>) to the <em>p-adic</em> world:
-        a different notion of “closeness” where numbers like 1, 10, 100, … crowd near zero — and repeating
-        tails converge the “other” way.
-      </div>
-
+      <div class="meta"><span>Last updated: <time datetime="2025-09-11">Sep 11, 2025</time></span><span class="badge">draft</span></div>
+      <div class="lead">A friendly walk from ordinary number bases to the <em>p</em>-adic world.</div>
       <hr class="hr">
 
       <section id="intro">
         <h2>1. What changes when a base changes?</h2>
-        <p>
-          Writing <code>349</code> in base-10 is secretly a dot product of place values:
-          <code>3·10² + 4·10 + 9</code>. In base-2 we swap <code>10</code> for <code>2</code>,
-          in base-7 we swap for <code>7</code>, and so on. Nothing spooky yet — just different
-          “rulers” laid across the same real number line.
-        </p>
-        <p>
-          Two levers matter:
-        </p>
+        <p>Writing <code>349</code> in base-10 is secretly <code>3·10² + 4·10 + 9</code>. Swap 10 for <code>b</code> and you’re in base-<code>b</code>.</p>
         <ul>
-          <li><strong>Digits.</strong> Allowed remainders <code>0…(b-1)</code>.</li>
-          <li><strong>Place values.</strong> Powers of <code>b</code>: <code>… , b³, b², b, 1, b⁻¹, …</code>.</li>
+          <li><strong>Digits.</strong> <code>0…b−1</code></li>
+          <li><strong>Place values.</strong> <code>… , b³, b², b, 1, b⁻¹, …</code></li>
         </ul>
       </section>
 
       <section id="p-adic-intuition">
         <h2>2. Flip the telescope: the p-adic idea</h2>
-        <p>
-          Fix a prime <code>p</code>. Instead of measuring size with the usual absolute value, we measure
-          how divisible a number is by <code>p</code>. The more factors of <code>p</code>, the
-          <em>smaller</em> it is. This is encoded by the <em>p-adic valuation</em> <code>v_p(n)</code>:
-          the exponent of <code>p</code> in the prime factorization of <code>n</code>.
-        </p>
-        <blockquote>
-          In the 5-adics, <code>125 = 5³</code> is “tiny” because it has three factors of 5. Meanwhile
-          <code>3</code> is “large” (no factors of 5).
-        </blockquote>
-        <p>
-          From this we define the <em>p-adic absolute value</em>:
-          <code>|n|_p = p^{-v_p(n)}</code> (and <code>|0|_p = 0</code>). Distances follow the usual
-          metric recipe <code>d_p(x,y)=|x-y|_p</code>. This metric is ultrametric:
-          <em>triangles are isosceles or better</em>:
-        </p>
-        <blockquote>
-          <strong>Strong triangle inequality:</strong>
-          <code>|x+y|_p ≤ max(|x|_p, |y|_p)</code>.
-        </blockquote>
+        <p>Fix prime <code>p</code>. Measure size by divisibility: more factors of <code>p</code> ⇒ <em>smaller</em>. Define <code>v_p(n)</code> and <code>|n|_p = p^{-v_p(n)}</code>.</p>
+        <blockquote><strong>Strong triangle inequality:</strong> <code>|x+y|_p ≤ max(|x|_p,|y|_p)</code>.</blockquote>
       </section>
 
       <section id="p-adic-expansions">
         <h2>3. p-adic expansions look backwards</h2>
-        <p>
-          Real numbers converge when tails to the <em>right</em> stabilize (e.g., <code>0.999…</code>).
-          In <code>p</code>-adics, convergence happens when digits to the <em>left</em> stabilize in base <code>p</code>.
-          So a typical 5-adic integer might look like
-          <code>… 0 3 4 1</code> (infinitely many digits extending left).
-        </p>
-        <p>
-          Formally, every p-adic integer has a unique expansion
-          <code>a₀ + a₁p + a₂p² + …</code> with digits <code>aᵢ ∈ {0,…,p−1}</code>.
-          Those infinite series converge in the <code>p</code>-adic metric because the terms
-          <code>p^k</code> go to zero <em>p-adically</em>.
-        </p>
+        <p>Reals converge when right tails stabilize. p-adics converge when left digits in base <code>p</code> stabilize. Every p-adic integer has a unique expansion <code>a₀ + a₁p + a₂p² + …</code>.</p>
       </section>
 
       <section id="constructing">
-        <h2>4. Constructing <span style="white-space:nowrap;">ℚ<sub>p</sub></span></h2>
-        <p>
-          Start with rational numbers and the distance <code>d_p</code>. Complete ℚ under that distance,
-          just like completing ℚ under the usual metric gives ℝ. The result is <code>ℚ_p</code>, and its
-          closed unit ball <code>ℤ_p</code> (numbers with <code>|x|_p ≤ 1</code>) behaves like the set of
-          p-adic integers.
-        </p>
-        <h3 id="units">4.1 Units and divisibility</h3>
-        <p>
-          In <code>ℤ_p</code>, every number not divisible by <code>p</code> is a unit
-          (it has a multiplicative inverse). Hensel’s lemma is the p-adic Newton method: simple root
-          mod <code>p</code> ⇒ lifts to an actual root in <code>ℤ_p</code>.
-        </p>
+        <h2>4. Constructing ℚ<sub>p</sub></h2>
+        <p>Complete ℚ under <code>d_p(x,y)=|x−y|_p</code> to get ℚ<sub>p</sub>. The closed unit ball is ℤ<sub>p</sub>.</p>
+        <h3 id="units">4.1 Units and Hensel</h3>
+        <p>In ℤ<sub>p</sub>, anything not divisible by <code>p</code> is a unit. Simple roots mod <code>p</code> lift to ℤ<sub>p</sub> (Hensel).</p>
       </section>
 
       <section id="examples">
         <h2>5. Tiny examples</h2>
         <h3 id="example1">5.1 Geometric series “the wrong way”</h3>
-        <p>
-          In 5-adics, the geometric series with ratio <code>5</code> converges:
-          <code>1 + 5 + 5² + … = 1/(1-5) = -1/4</code> in <code>ℚ_5</code>,
-          because <code>|5|_5 = 1/5 &lt; 1</code>.
-        </p>
-        <h3 id="example2">5.2 “999…” phenomenon</h3>
-        <p>
-          The 3-adic number <code>…222</code> equals <code>-1</code> (in ℚ₃):
-          it’s the limit of <code>2 + 2·3 + 2·3² + …</code> which sums to
-          <code>2/(1-3) = -1</code>.
-        </p>
+        <p>In 5-adics, <code>1+5+5²+…=1/(1-5)=-1/4</code> since <code>|5|_5=1/5&lt;1</code>.</p>
+        <h3 id="example2">5.2 The “…222” trick</h3>
+        <p>In 3-adics, <code>…222 = -1</code> because <code>2/(1-3)=-1</code>.</p>
       </section>
 
       <section id="compare">
-        <h2>6. Reals vs. p-adics at a glance</h2>
+        <h2>6. Reals vs. p-adics</h2>
         <ul>
-          <li>Reals: size ≈ magnitude; p-adics: size ≈ divisibility by <code>p</code>.</li>
-          <li>Reals: decimals stabilize to the right; p-adics: base-<code>p</code> digits stabilize to the left.</li>
-          <li>Reals: usual triangle inequality; p-adics: strong (ultra) triangle inequality.</li>
+          <li>Size: magnitude vs. divisibility</li>
+          <li>Convergence: right vs. left stabilization</li>
+          <li>Inequality: usual vs. ultrametric</li>
         </ul>
       </section>
 
       <section id="next">
         <h2>7. Where this goes</h2>
-        <p>
-          p-adics power elegant proofs (Hensel lifting), slick counting arguments
-          (like LTE), and deep number theory (local-global principles).
-          If you’re comfortable with base-<code>b</code> thinking, p-adics are that
-          idea with a different notion of “closeness”.
-        </p>
+        <p>Hensel lifting, LTE-style arguments, and local–global ideas. p-adics are base-thinking with a new notion of “closeness”.</p>
       </section>
 
-      <div class="note-nav">
-        <a href="/notes/"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg> All notes</a>
-        <span></span>
+      <div style="margin-top:26px">
+        <a class="badge" href="/notes/">Back to all notes</a>
       </div>
     </article>
 
-    <!-- Sticky TOC -->
     <aside class="toc" aria-label="On this page">
       <h3>On this page</h3>
       <a href="#intro">What changes with base?</a>
@@ -285,17 +129,57 @@
       <a class="sub" href="#units">• Units & Hensel</a>
       <a href="#examples">Examples</a>
       <a class="sub" href="#example1">• Geometric series</a>
-      <a class="sub" href="#example2">• The “…222” trick</a>
+      <a class="sub" href="#example2">• “…222” trick</a>
       <a href="#compare">Reals vs p-adics</a>
       <a href="#next">Where this goes</a>
     </aside>
   </div>
 </main>
 
-<!-- Shared footer -->
-<div id="site-footer"></div>
+<!-- EXACT footer from your homepage -->
+<footer class="wrap">
+  <div class="nav" style="padding:0">
+    <a class="brand" href="/#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+    <div style="color:#7f93c9">© <span id="year"></span></div>
+  </div>
+</footer>
 
-<!-- Shared site script: injects header/footer, builds tiles & cursor, etc. -->
-<script src="/assets/site.js"></script>
+<script>
+/* copy of your year updater */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* STATIC tiles: build once, no flip, no RAF */
+(function(){
+  const tiles = document.getElementById('tiles');
+  const root = getComputedStyle(document.documentElement);
+  const gap = parseFloat(root.getPropertyValue('--gap'))||8;
+
+  function build(){
+    tiles.innerHTML='';
+    const w=innerWidth,h=innerHeight;
+    const size = Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
+    const cols=Math.ceil(w/(size+gap)), rows=Math.ceil(h/(size+gap));
+    const g=document.createElement('div'); g.className='tgrid'; g.style.setProperty('--cols',cols); tiles.appendChild(g);
+
+    for(let y=0;y<rows;y++){
+      for(let x=0;x<cols;x++){
+        const t=document.createElement('div'); t.className='tile';
+        const f=document.createElement('div'); f.className='face';
+        const a=document.createElement('div'); a.className='front';
+        const b=document.createElement('div'); b.className='back';
+        const u=x/(cols-1||1), v=y/(rows-1||1);
+        const hue=200+40*u-20*v, sat=70+10*Math.sin((x+y)*.3), lum=12+8*u+8*(1-v);
+        a.style.background=`linear-gradient(180deg,hsla(${hue},${sat}%,${lum+6}%,.22),hsla(${hue},${sat}%,${lum}%,.12))`;
+        a.style.border=`1px solid hsla(${hue},50%,18%,1)`;
+        /* keep face unflipped for static look */
+        b.style.transform='rotateY(180deg)';
+        b.style.background=`radial-gradient(60% 60% at 50% 50%,hsla(${hue},90%,72%,.0),hsla(${hue+30},90%,65%,.0))`;
+        f.appendChild(a); f.appendChild(b); t.appendChild(f); g.appendChild(t);
+      }
+    }
+  }
+  build(); addEventListener('resize', build);
+})();
+</script>
 </body>
 </html>
