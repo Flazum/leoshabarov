@@ -3,49 +3,64 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bases & Adics — Leo Shabarov</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/theme.css">
-
 <style>
-/* Page-scoped prose only */
+/* ----- shared theme (safe-mode copy) ----- */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#eaf1ff;--muted:#a8b4d9;--line:#1a1f36;--bg:#070913;--g1:#6ee7ff;--g2:#8b5cf6}
+html,body{height:100%}
+body{
+  font-family:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  /* static, CSS-only take on your tiles: subtle horizontal bands */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)) 0 0/100% 56px,
+    #070913;
+  overflow-x:hidden;
+}
+.wrap{width:min(1200px,92%);margin-inline:auto}
+.header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(7,9,19,.8),rgba(7,9,19,.5) 70%,transparent);backdrop-filter:blur(10px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:inherit}
+.logo{width:44px;height:44px;border-radius:12px;background:conic-gradient(from 0deg,var(--g1),var(--g2),#4dd4ff,#a78bfa,var(--g1));display:grid;place-items:center;box-shadow:0 10px 30px #0009}
+.title{font-weight:700}
+.links{display:flex;gap:1rem}
+.links a{color:var(--ink);text-decoration:none;font-weight:700;opacity:.9}
+footer .nav{padding:0}
+.hr{margin:18px 0 8px;height:1px;background:linear-gradient(90deg,transparent,#1a1f36,transparent);border:0}
+
+/* ----- page layout ----- */
 .page{padding:36px 0 60px}
+.breadcrumbs{color:#c1cced;margin-bottom:10px}
+.breadcrumbs a{color:#c1cced;text-decoration:none}
 .article{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px}
 @media (max-width:980px){.article{grid-template-columns:1fr}}
-.prose{line-height:1.7;color:var(--ink)}
+.prose{line-height:1.7}
 .prose h1{font-size:clamp(1.9rem,3.8vw,2.6rem);line-height:1.15;margin-bottom:10px}
 .prose .lead{color:var(--muted);font-size:1.06rem;margin-bottom:18px}
 .prose h2{font-size:clamp(1.3rem,2.4vw,1.6rem);margin:28px 0 10px}
 .prose h3{font-size:1.05rem;letter-spacing:.01em;margin:20px 0 8px}
-.prose p,.prose ul,.prose ol,.prose blockquote,.prose figure,.prose pre{margin:10px 0 14px}
+.prose p,.prose ul,.prose ol,.prose blockquote,.prose pre{margin:10px 0 14px}
+.prose ul{padding-left:18px}
 .prose blockquote{border-left:3px solid rgba(110,231,255,.35);padding-left:12px;color:#cbd5ff}
 .prose code{background:rgba(15,20,40,.65);border:1px solid var(--line);padding:.08rem .35rem;border-radius:6px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.95em}
-.prose pre{background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}
-.meta{display:flex;gap:12px;align-items:baseline;color:var(--muted);font-size:.95rem;margin-bottom:8px}
-.hr{margin:18px 0 8px;height:1px;background:linear-gradient(90deg,transparent,#1a1f36,transparent);border:0}
+.badge{font-size:.82rem;padding:.2rem .5rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18}
 
-/* Sticky TOC */
+/* TOC */
 .toc{position:sticky;top:72px;border:1px solid var(--line);border-radius:14px;padding:14px;background:linear-gradient(180deg,rgba(15,20,40,.6),rgba(10,14,28,.6))}
 .toc h3{margin:0 0 10px;font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;color:#c1cced}
 .toc a{display:block;text-decoration:none;color:var(--ink);opacity:.9;padding:6px 8px;border-radius:8px}
 .toc a:hover{background:rgba(110,231,255,.08)}
 .toc .sub{padding-left:16px;font-size:.95em;color:#cbd5ff}
-
-.badge{font-size:.82rem;padding:.2rem .5rem;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a0c18}
-
-/* keep the background tiles behind everything */
-#tiles{position:fixed;inset:0;z-index:-1}
 </style>
 </head>
 <body>
 
-<!-- STATIC background tiles (no animation) -->
-<div id="tiles"></div>
-
-<!-- EXACT header from your homepage -->
 <header class="header">
   <div class="wrap nav">
-    <a class="brand" href="/#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+    <a class="brand" href="/#top"><div class="logo">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg>
+    </div><span class="title">Leo Shabarov</span></a>
     <div class="links">
       <a href="/#about">About</a>
       <a href="/#courses">Courses</a>
@@ -62,124 +77,164 @@
   <div class="article">
     <article class="prose">
       <h1>Bases &amp; Adics</h1>
-      <div class="meta"><span>Last updated: <time datetime="2025-09-11">Sep 11, 2025</time></span><span class="badge">draft</span></div>
-      <div class="lead">A friendly walk from ordinary number bases to the <em>p</em>-adic world.</div>
+      <div class="lead">A clear, page-by-page walk from ordinary bases to the p-adic world (no animations, just crisp prose).</div>
       <hr class="hr">
 
-      <section id="intro">
-        <h2>1. What changes when a base changes?</h2>
-        <p>Writing <code>349</code> in base-10 is secretly <code>3·10² + 4·10 + 9</code>. Swap 10 for <code>b</code> and you’re in base-<code>b</code>.</p>
+      <section id="why">
+        <h2>Why 2 + 2 can be 10 or 100</h2>
+        <p>In base 10, <code>2+2=4</code>. In base 4, the next symbol after <code>3</code> is <code>10</code>, so <code>2+2=10</code> (base 4). In base 2, <code>2+2=100</code> (binary). In base 3, <code>2+2=11</code>. The <em>symbols</em> and <em>carry threshold</em> change with the base; the quantity doesn’t.</p>
+      </section>
+
+      <section id="what-base">
+        <h2>What a base is</h2>
         <ul>
-          <li><strong>Digits.</strong> <code>0…b−1</code></li>
-          <li><strong>Place values.</strong> <code>… , b³, b², b, 1, b⁻¹, …</code></li>
+          <li>Base <code>b</code> uses digits <code>0,1,2,…,b−1</code>.</li>
+          <li>Place values are <code>b⁰, b¹, b², …</code> to the left.</li>
+        </ul>
+        <p><strong>Example (base 7):</strong> <code>351_7 = 3·7² + 5·7 + 1 = 183</code>.</p>
+      </section>
+
+      <section id="to-decimal">
+        <h2>Reading any base back to decimal</h2>
+        <p>For digits <code>a_k…a₂a₁a₀</code> in base <code>b</code>:
+        <br><code>a₀·b⁰ + a₁·b¹ + … + a_k·bᵏ</code>.</p>
+        <p><strong>Example:</strong> <code>1004_7 = 343 + 4 = 347</code>.</p>
+      </section>
+
+      <section id="from-decimal">
+        <h2>Converting a decimal integer to base b</h2>
+        <ol>
+          <li>Divide by <code>b</code>, record remainder (least-significant digit).</li>
+          <li>Replace by <code>⌊n/b⌋</code> and repeat to zero.</li>
+          <li>Read remainders in reverse.</li>
+        </ol>
+        <p><strong>Example:</strong> <code>347 → 1004_7</code>.</p>
+      </section>
+
+      <section id="fractions">
+        <h2>Converting fractional parts</h2>
+        <ol>
+          <li>Multiply fraction by <code>b</code>.</li>
+          <li>Take the integer part as the next digit.</li>
+          <li>Repeat with the new fractional part.</li>
+        </ol>
+        <p><strong>Example:</strong> <code>0.625₁₀ = 0.101₂</code>. A fraction terminates in base <code>b</code> iff the reduced denominator’s primes all divide <code>b</code>.</p>
+      </section>
+
+      <section id="arithmetic">
+        <h2>Adding and multiplying in other bases</h2>
+        <p>Same column rules as base 10; only the carry threshold changes from <code>10</code> to <code>b</code>.</p>
+        <p><strong>Example (base 7 addition):</strong> <code>256₇ + 345₇ = 634₇</code>.</p>
+      </section>
+
+      <section id="quick-facts">
+        <h2>Quick base facts</h2>
+        <ul>
+          <li>Divisible by <code>b</code> ⇔ last digit is <code>0</code> in base <code>b</code>.</li>
+          <li>Last <code>k</code> digits determine the number mod <code>bᵏ</code>.</li>
+          <li>Changing base changes symbols, not quantity.</li>
         </ul>
       </section>
 
-      <section id="p-adic-intuition">
-        <h2>2. Flip the telescope: the p-adic idea</h2>
-        <p>Fix prime <code>p</code>. Measure size by divisibility: more factors of <code>p</code> ⇒ <em>smaller</em>. Define <code>v_p(n)</code> and <code>|n|_p = p^{-v_p(n)}</code>.</p>
-        <blockquote><strong>Strong triangle inequality:</strong> <code>|x+y|_p ≤ max(|x|_p,|y|_p)</code>.</blockquote>
+      <section id="to-adic">
+        <h2>From bases to adic thinking</h2>
+        <p>In p-adics we judge closeness by agreeing on more trailing base-<code>p</code> digits. Infinite expansions run unbounded to the left:
+        <br><code>…d₃d₂d₁d₀ = a₀ + a₁p + a₂p² + …</code></p>
+        <p><strong>Example:</strong> in 10-adics, <code>…9999 = −1</code>; in 2-adics, <code>…1111 = −1</code>.</p>
       </section>
 
-      <section id="p-adic-expansions">
-        <h2>3. p-adic expansions look backwards</h2>
-        <p>Reals converge when right tails stabilize. p-adics converge when left digits in base <code>p</code> stabilize. Every p-adic integer has a unique expansion <code>a₀ + a₁p + a₂p² + …</code>.</p>
+      <section id="adic-build">
+        <h2>Building b-adic integers</h2>
+        <p>Either as compatible remainders <code>xₙ (mod bⁿ)</code> with <code>xₙ₊₁≡xₙ</code>, or as digits <code>a₀+a₁b+a₂b²+…</code>. Taking all levels simultaneously encodes one b-adic integer.</p>
       </section>
 
-      <section id="constructing">
-        <h2>4. Constructing ℚ<sub>p</sub></h2>
-        <p>Complete ℚ under <code>d_p(x,y)=|x−y|_p</code> to get ℚ<sub>p</sub>. The closed unit ball is ℤ<sub>p</sub>.</p>
-        <h3 id="units">4.1 Units and Hensel</h3>
-        <p>In ℤ<sub>p</sub>, anything not divisible by <code>p</code> is a unit. Simple roots mod <code>p</code> lift to ℤ<sub>p</sub> (Hensel).</p>
+      <section id="p-abs">
+        <h2>Prime bases and the p-adic absolute value</h2>
+        <p><code>v_p(n)</code> = exponent of <code>p</code> in <code>n</code>; <code>|n|_p = p^{-v_p(n)}</code> (and <code>|0|_p=0</code>). Non-Archimedean: <code>|x+y|_p ≤ max(|x|_p,|y|_p)</code>.</p>
       </section>
 
-      <section id="examples">
-        <h2>5. Tiny examples</h2>
-        <h3 id="example1">5.1 Geometric series “the wrong way”</h3>
-        <p>In 5-adics, <code>1+5+5²+…=1/(1-5)=-1/4</code> since <code>|5|_5=1/5&lt;1</code>.</p>
-        <h3 id="example2">5.2 The “…222” trick</h3>
-        <p>In 3-adics, <code>…222 = -1</code> because <code>2/(1-3)=-1</code>.</p>
+      <section id="complete">
+        <h2>Completing ℚ to get ℚₚ and ℤₚ</h2>
+        <p>Complete the rationals under <code>d_p(x,y)=|x−y|_p</code> to obtain ℚₚ. The closed unit ball (elements with <code>|·|_p ≤ 1</code>) is ℤₚ. Every <code>x∈ℚₚ</code> is <code>p^k·u</code> with <code>k∈ℤ</code>, <code>u∈ℤₚ</code> a unit (<code>a₀≠0</code> mod <code>p</code>).</p>
       </section>
 
-      <section id="compare">
-        <h2>6. Reals vs. p-adics</h2>
+      <section id="series">
+        <h2>Series that converge p-adically</h2>
+        <p><code>1+p+p²+… = 1/(1−p)</code> since <code>|p|_p&lt;1</code>. In 2-adics, that sum is <code>−1</code>. In 10-adics, <code>1+10+100+… = −1/9</code>.</p>
+      </section>
+
+      <section id="z-p-arith">
+        <h2>Doing arithmetic in ℤₚ</h2>
+        <p>Column addition/multiplication work; each column sees only finitely many carries. A unit (first digit nonzero mod <code>p</code>) has a multiplicative inverse found by successive lifting.</p>
+        <p><strong>Example (inverse of 3 in 5-adics):</strong> digits start <code>2,3,1,…</code> giving <code>2 + 3·5 + 1·5² + …</code>.</p>
+      </section>
+
+      <section id="hensel">
+        <h2>Hensel’s lemma (idea)</h2>
+        <p>If <code>f(a)≡0 (mod p)</code> and <code>f′(a)≠0 (mod p)</code>, there’s a unique <code>x∈ℤₚ</code> with <code>x≡a (mod p)</code> and <code>f(x)=0</code>. Newton iteration in ℤₚ performs the lift.</p>
+      </section>
+
+      <section id="composite">
+        <h2>What b-adics are when b isn’t prime</h2>
+        <p>If <code>b=∏ p_i^{e_i}</code>, then <code>ℤ_b ≅ ∏ ℤ_{p_i}</code> (Chinese Remainder intuition).</p>
+      </section>
+
+      <section id="examples-mini">
+        <h2>Worked mini-examples</h2>
         <ul>
-          <li>Size: magnitude vs. divisibility</li>
-          <li>Convergence: right vs. left stabilization</li>
-          <li>Inequality: usual vs. ultrametric</li>
+          <li>In 2-adics, <code>1+2+4+8+…=−1</code> (partial sums differ from <code>−1</code> by a power of 2).</li>
+          <li>Write <code>−1</code> in 10-adics: <code>…999999</code>.</li>
+          <li>Inverse of 7 in 2-adics begins <code>1+2+0·2²+…</code> (lift mod powers of 2).</li>
         </ul>
       </section>
 
-      <section id="next">
-        <h2>7. Where this goes</h2>
-        <p>Hensel lifting, LTE-style arguments, and local–global ideas. p-adics are base-thinking with a new notion of “closeness”.</p>
+      <section id="practice">
+        <h2>Practice</h2>
+        <ol>
+          <li>Convert <code>987₁₀</code> to base 8.</li>
+          <li>Convert <code>0.2₁₀</code> to base 5. Terminating or repeating?</li>
+          <li>Compute <code>456₇ + 351₇</code> in base 7.</li>
+          <li>Compute <code>v_3(540)</code> and <code>|540|_3</code>.</li>
+          <li>In 5-adics, first three base-5 digits of <code>1/2</code>.</li>
+        </ol>
+        <p class="lead" style="margin-top:6px"><a class="badge" href="/notes/">Back to all notes</a></p>
       </section>
-
-      <div style="margin-top:26px">
-        <a class="badge" href="/notes/">Back to all notes</a>
-      </div>
     </article>
 
     <aside class="toc" aria-label="On this page">
       <h3>On this page</h3>
-      <a href="#intro">What changes with base?</a>
-      <a href="#p-adic-intuition">The p-adic idea</a>
-      <a href="#p-adic-expansions">p-adic expansions</a>
-      <a href="#constructing">Constructing ℚₚ</a>
-      <a class="sub" href="#units">• Units & Hensel</a>
-      <a href="#examples">Examples</a>
-      <a class="sub" href="#example1">• Geometric series</a>
-      <a class="sub" href="#example2">• “…222” trick</a>
-      <a href="#compare">Reals vs p-adics</a>
-      <a href="#next">Where this goes</a>
+      <a href="#why">Why 2+2 can be 10</a>
+      <a href="#what-base">What a base is</a>
+      <a href="#to-decimal">To decimal</a>
+      <a href="#from-decimal">From decimal</a>
+      <a href="#fractions">Fractions</a>
+      <a href="#arithmetic">Arithmetic</a>
+      <a href="#quick-facts">Quick facts</a>
+      <a href="#to-adic">To adics</a>
+      <a href="#adic-build">Building b-adics</a>
+      <a href="#p-abs">p-adic absolute value</a>
+      <a href="#complete">ℚₚ & ℤₚ</a>
+      <a href="#series">Convergent series</a>
+      <a href="#z-p-arith">Arithmetic in ℤₚ</a>
+      <a href="#hensel">Hensel</a>
+      <a href="#composite">Composite bases</a>
+      <a href="#examples-mini">Mini-examples</a>
+      <a href="#practice">Practice</a>
     </aside>
   </div>
 </main>
 
-<!-- EXACT footer from your homepage -->
 <footer class="wrap">
-  <div class="nav" style="padding:0">
-    <a class="brand" href="/#top"><div class="logo"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg></div><span class="title">Leo Shabarov</span></a>
+  <div class="nav">
+    <a class="brand" href="/#top"><div class="logo">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white"/></svg>
+    </div><span class="title">Leo Shabarov</span></a>
     <div style="color:#7f93c9">© <span id="year"></span></div>
   </div>
 </footer>
 
 <script>
-/* copy of your year updater */
-document.getElementById('year').textContent = new Date().getFullYear();
-
-/* STATIC tiles: build once, no flip, no RAF */
-(function(){
-  const tiles = document.getElementById('tiles');
-  const root = getComputedStyle(document.documentElement);
-  const gap = parseFloat(root.getPropertyValue('--gap'))||8;
-
-  function build(){
-    tiles.innerHTML='';
-    const w=innerWidth,h=innerHeight;
-    const size = Math.max(48,Math.min(90,Math.floor(Math.min(w,h)/18)));
-    const cols=Math.ceil(w/(size+gap)), rows=Math.ceil(h/(size+gap));
-    const g=document.createElement('div'); g.className='tgrid'; g.style.setProperty('--cols',cols); tiles.appendChild(g);
-
-    for(let y=0;y<rows;y++){
-      for(let x=0;x<cols;x++){
-        const t=document.createElement('div'); t.className='tile';
-        const f=document.createElement('div'); f.className='face';
-        const a=document.createElement('div'); a.className='front';
-        const b=document.createElement('div'); b.className='back';
-        const u=x/(cols-1||1), v=y/(rows-1||1);
-        const hue=200+40*u-20*v, sat=70+10*Math.sin((x+y)*.3), lum=12+8*u+8*(1-v);
-        a.style.background=`linear-gradient(180deg,hsla(${hue},${sat}%,${lum+6}%,.22),hsla(${hue},${sat}%,${lum}%,.12))`;
-        a.style.border=`1px solid hsla(${hue},50%,18%,1)`;
-        /* keep face unflipped for static look */
-        b.style.transform='rotateY(180deg)';
-        b.style.background=`radial-gradient(60% 60% at 50% 50%,hsla(${hue},90%,72%,.0),hsla(${hue+30},90%,65%,.0))`;
-        f.appendChild(a); f.appendChild(b); t.appendChild(f); g.appendChild(t);
-      }
-    }
-  }
-  build(); addEventListener('resize', build);
-})();
+document.getElementById('year').textContent=new Date().getFullYear();
 </script>
 </body>
 </html>
