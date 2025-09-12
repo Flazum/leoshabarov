@@ -1,339 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leo Shabarov</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leo Shabarov</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet" />
 
-<!-- Shared site theme (this is your old inline CSS, moved to a file) -->
-<link rel="stylesheet" href="/assets/theme.css">
-<link rel="stylesheet" href="/assets/site.css">
+  <!-- Shared site styles -->
+  <link rel="stylesheet" href="/assets/theme.css" />
+  <link rel="stylesheet" href="/assets/site.css" />
+
+  <!-- Shared site JS (tiles/cursor/reveal). Defer so it runs after HTML is parsed -->
+  <script src="/assets/site.js" defer></script>
 </head>
-<script defer src="/assets/site.js"></script>
 <body>
+  <!-- Shared background tiles -->
+  <div id="tiles"></div>
 
-<!-- Shared background tiles mount -->
-<div id="tiles"></div>
-
-<!-- Shared header mount -->
-<div id="site-header"></div>
-
-<main class="wrap">
-  <section class="hero" id="top">
-    <div class="hgrid">
-      <div>
-        <h1 class="h1">I build playful, math-flavored things.</h1>
-        <p class="lead">Tilted gradient tiles flip and glow under your cursor.</p>
-        <div class="actions">
-          <a class="iconbtn" href="https://www.youtube.com/@leoshabarov" target="_blank" aria-label="YouTube"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/><path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/></svg></a>
-          <a class="iconbtn" href="https://www.instagram.com/leoshabarov/" target="_blank" aria-label="Instagram"><svg width="22" height="22" viewBox="0 0 24 24"><defs><linearGradient id="g" x1="0" x2="24" y1="0" y2="24"><stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs><rect x="4" y="4" width="16" height="16" rx="5" fill="url(#g)"/><circle cx="12" cy="12" r="3.5" fill="#fff"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></a>
+  <!-- Header (unchanged structure) -->
+  <header class="header">
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <div class="logo">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white" />
+          </svg>
         </div>
+        <span class="title">Leo Shabarov</span>
+      </a>
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#courses">Courses</a>
+        <a href="/notes/">Notebook</a>
+        <a href="#desmos">Desmos</a>
+        <a href="#contact">Contact</a>
       </div>
-      <div class="portrait"><img src="images/portrait.png" alt="Portrait of Leo"></div>
     </div>
-  </section>
+  </header>
 
-  <section id="about" class="section reveal">
-    <h2>About</h2>
-    <p class="lead">I like problems that reward patience and clarity. My favorite loop is learn → explain → build. I drift toward visuals that make tricky concepts feel obvious.</p>
-  </section>
-
-  <section id="courses" class="section reveal">
-    <h2>Courses I’ve finished</h2>
-    <div class="rail" id="rail"><div class="track" id="track"></div></div>
-    <div class="course-info">
-      <div class="course-panel" id="coursePanel">
+  <main class="wrap">
+    <section class="hero" id="top">
+      <div class="hgrid">
         <div>
-          <div class="course-title" id="courseTitle"></div>
-          <div class="course-desc" id="courseDesc"></div>
-          <ul class="course-bullets" id="courseBullets"></ul>
+          <h1 class="h1">I build playful, math-flavored things.</h1>
+          <p class="lead">Tilted gradient tiles flip and glow under your cursor.</p>
+          <div class="actions">
+            <a class="iconbtn" href="https://www.youtube.com/@leoshabarov" target="_blank" aria-label="YouTube">
+              <svg width="22" height="22" viewBox="0 0 24 24">
+                <path d="M23 12s0-3.3-.42-4.9c-.24-.9-.95-1.6-1.85-1.85C18.98 4.92 12 4.92 12 4.92s-6.98 0-8.73.33c-.9.25-1.61.96-1.85 1.86C1 8.7 1 12 1 12s0 3.3.42 4.9c.24.9.95 1.6 1.85 1.85 1.75.33 8.73.33 8.73.33s6.98 0 8.73-.33c.9-.25 1.61-.95 1.85-1.85.42-1.6.42-4.9.42-4.9z" fill="#ff0033"/>
+                <path d="M9.75 8.75v6.5L15.5 12l-5.75-3.25z" fill="#fff"/>
+              </svg>
+            </a>
+            <a class="iconbtn" href="https://www.instagram.com/leoshabarov/" target="_blank" aria-label="Instagram">
+              <svg width="22" height="22" viewBox="0 0 24 24">
+                <defs>
+                  <linearGradient id="g" x1="0" x2="24" y1="0" y2="24">
+                    <stop stop-color="#feda75"/><stop offset=".3" stop-color="#fa7e1e"/><stop offset=".6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/>
+                  </linearGradient>
+                </defs>
+                <rect x="4" y="4" width="16" height="16" rx="5" fill="url(#g)"/>
+                <circle cx="12" cy="12" r="3.5" fill="#fff"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/>
+              </svg>
+            </a>
+          </div>
         </div>
-        <div class="preview"><canvas id="courseCanvas"></canvas></div>
+        <div class="portrait"><img src="images/portrait.png" alt="Portrait of Leo" /></div>
       </div>
+    </section>
+
+    <section id="about" class="section reveal">
+      <h2>About</h2>
+      <p class="lead">I like problems that reward patience and clarity. My favorite loop is learn → explain → build. I drift toward visuals that make tricky concepts feel obvious.</p>
+    </section>
+
+    <section id="courses" class="section reveal">
+      <h2>Courses I’ve finished</h2>
+      <div class="rail" id="rail"><div class="track" id="track"></div></div>
+      <div class="course-info">
+        <div class="course-panel" id="coursePanel">
+          <div>
+            <div class="course-title" id="courseTitle"></div>
+            <div class="course-desc" id="courseDesc"></div>
+            <ul class="course-bullets" id="courseBullets"></ul>
+          </div>
+          <div class="preview"><canvas id="courseCanvas"></canvas></div>
+        </div>
+      </div>
+      <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
+    </section>
+
+    <section id="desmos" class="section reveal">
+      <h2>Desmos Gallery</h2>
+      <div class="grid">
+        <div class="card">
+          <a href="https://www.desmos.com/calculator/be7a168fbe" target="_blank" rel="noopener">
+            <img src="images/unit_circle.png" alt="Unit Circle Visualization" />
+            Unit Circle Visualization
+          </a>
+        </div>
+        <div class="card">
+          <a href="https://www.desmos.com/calculator/14a5e1c18a" target="_blank" rel="noopener">
+            <img src="images/stinky.png" alt="Animation Preview" />
+            Animation Preview
+          </a>
+        </div>
+        <div class="card">
+          <a href="https://www.desmos.com/calculator/3666017f8b" target="_blank" rel="noopener">
+            <img src="images/3d_cube.png" alt="3D Cube" />
+            3D Cube
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="notebook" class="section reveal">
+      <h2>Notebook</h2>
+      <p class="lead">Short, visual write-ups I’m trying.</p>
+      <div class="notebook" id="notes-list"></div>
+    </section>
+
+    <section id="contact" class="section reveal">
+      <h2>Contact</h2>
+      <div class="grid"><div class="card"><a href="mailto:hello@leoshabarov.com">Email</a></div></div>
+    </section>
+  </main>
+
+  <!-- Footer (unchanged structure) -->
+  <footer class="wrap">
+    <div class="nav" style="padding:0">
+      <a class="brand" href="#top">
+        <div class="logo">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path d="M12 2l2.8 6.6L22 9.3l-5 4.6L18.6 21 12 17.7 5.4 21 7 13.9 2 9.3l7.2-.7L12 2z" fill="white" />
+          </svg>
+        </div>
+        <span class="title">Leo Shabarov</span>
+      </a>
+      <div style="color:#7f93c9">© <span id="year"></span></div>
     </div>
-    <div class="center"><div class="pill">Currently learning: Complex Analysis</div></div>
-  </section>
+  </footer>
 
-  <section id="desmos" class="section reveal">
-    <h2>Desmos Gallery</h2>
-    <div class="grid">
-      <div class="card">
-        <a href="https://www.desmos.com/calculator/be7a168fbe" target="_blank" rel="noopener">
-          <img src="images/unit_circle.png" alt="Unit Circle Visualization">
-          Unit Circle Visualization
-        </a>
-      </div>
-      <div class="card">
-        <a href="https://www.desmos.com/calculator/14a5e1c18a" target="_blank" rel="noopener">
-          <img src="images/stinky.png" alt="Animation Preview">
-          Animation Preview
-        </a>
-      </div>
-      <div class="card">
-        <a href="https://www.desmos.com/calculator/3666017f8b" target="_blank" rel="noopener">
-          <img src="images/3d_cube.png" alt="3D Cube">
-          3D Cube
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- Cursor glow -->
+  <div class="cursor" id="cursor"></div>
 
-  <section id="notebook" class="section reveal">
-    <h2>Notebook</h2>
-    <p class="lead">Short, visual write-ups I’m trying.</p>
-    <!-- Auto-populated from /notes/manifest.json -->
-    <div class="notebook" id="notes-list"></div>
-  </section>
+  <!-- Page-specific JS: course rail + preview animations -->
+  <script>
+    const rail=document.getElementById('rail');
+    const track=document.getElementById('track');
+    const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis'];
+    function oneRow(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;el.dataset.course=c;d.appendChild(el)}return d}
+    const loops=4;for(let i=0;i<loops;i++) track.appendChild(oneRow());
+    let loopWidth=0;function measureLoop(){const first=track.firstElementChild;loopWidth=first?first.getBoundingClientRect().width+18:0}
+    setTimeout(measureLoop,0);
+    rail.addEventListener('scroll',()=>{if(!rail.classList.contains('paused')) return;if(loopWidth<=0) return;const two=loopWidth*2;if(rail.scrollLeft>two) rail.scrollLeft-=loopWidth;else if(rail.scrollLeft<0) rail.scrollLeft+=loopWidth});
+    let isDown=false,startX=0,scrollL=0;
+    rail.addEventListener('pointerdown',e=>{if(!rail.classList.contains('paused'))return;isDown=true;rail.setPointerCapture(e.pointerId);startX=e.clientX;scrollL=rail.scrollLeft});
+    rail.addEventListener('pointermove',e=>{if(!isDown)return;rail.scrollLeft=scrollL-(e.clientX-startX)});
+    rail.addEventListener('pointerup',()=>{isDown=false});
+    rail.addEventListener('wheel',e=>{if(rail.classList.contains('paused')){rail.scrollLeft+=e.deltaY}});
 
-  <section id="contact" class="section reveal">
-    <h2>Contact</h2>
-    <div class="grid"><div class="card"><a href="mailto:hello@leoshabarov.com">Email</a></div></div>
-  </section>
-</main>
+    const panel=document.getElementById('coursePanel');
+    const titleEl=document.getElementById('courseTitle');
+    const descEl=document.getElementById('courseDesc');
+    const bulletsEl=document.getElementById('courseBullets');
+    const canvas=document.getElementById('courseCanvas');
+    const ctx=canvas.getContext('2d');
+    const preview=document.querySelector('.preview');
+    let animRAF=null;
 
-<!-- Shared footer mount -->
-<div id="site-footer"></div>
+    const courseInfo={
+      'Algebra I':{d:'Linear relationships, slope, and intercepts.',b:['Slope as rise/run','Slope-intercept form','Point-slope links','Systems intuition'],a:'alg1'},
+      'Geometry':{d:'AA similarity: overlay, then slide right and scale.',b:['AA similarity','Correspondence','Scale factor grows','Angles preserved'],a:'geom'},
+      'Algebra II':{d:'Polynomial x^5 − 4x^3 + 3x with zeros.',b:['Multiplicity view','End behavior','Exact zeros','Reveal order'],a:'alg2'},
+      'Pre-Calc':{d:'Unit-circle point drives the sine and cosine traces.',b:['Unit circle','Sin & cos','Phase lock','Parametric link'],a:'precalc'},
+      'Calculus I':{d:'Static curve with drifting Riemann rectangles.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
+      'Calculus II':{d:'Polar curve with sweeping area.',b:['Polar curves','Area sweep','Param angle','Dynamic radius'],a:'calc2'},
+      'Calculus III':{d:'3D surface with a sweeping path integral.',b:['3D axes','Surface mesh','Path sweep','Integral feel'],a:'calc3'},
+      'ODE':{d:'Competing directions on a color field that align into clusters, then reset.',b:['Random start','Slow neighbor blending','Clusters','Timed reset'],a:'ode'},
+      'Linear Algebra':{d:'Transform grid with smaller arrowed basis (same background).',b:['Matrix action','Basis span','Eigen hints','Aligned grids'],a:'linalg'},
+      'Discrete Math':{d:'Top node to all others—rapid multi-hop paths.',b:['Cycle source','Dense edges','Curved routes','Quick rhythm'],a:'discrete'},
+      'Real Analysis':{d:'Squeeze Theorem: oscillations confined between shrinking bounds near 0.',b:['Upper/lower bounds','x sin(1/x)','Phase drift','Convergence'],a:'real'}
+    };
 
-<!-- Cursor glow -->
-<div class="cursor" id="cursor"></div>
-
-<!-- Shared site JS (injects header/footer, builds tiles, cursor glow, reveal-on-scroll, spins logo, and hydrates notes) -->
-<script src="/assets/site.js"></script>
-
-<!-- Page-specific JS: course rail + preview animations (unchanged behavior) -->
-<script>
-const rail=document.getElementById('rail');
-const track=document.getElementById('track');
-const courses=['Algebra I','Geometry','Algebra II','Pre-Calc','Calculus I','Calculus II','Calculus III','ODE','Linear Algebra','Discrete Math','Real Analysis'];
-function oneRow(){const d=document.createElement('div');d.style.display='flex';d.style.gap='18px';for(const c of courses){const el=document.createElement('div');el.className='chip';el.textContent=c;el.dataset.course=c;d.appendChild(el)}return d}
-const loops=4;for(let i=0;i<loops;i++) track.appendChild(oneRow());
-let loopWidth=0;function measureLoop(){const first=track.firstElementChild;loopWidth=first?first.getBoundingClientRect().width+18:0}
-setTimeout(measureLoop,0);
-rail.addEventListener('scroll',()=>{if(!rail.classList.contains('paused')) return;if(loopWidth<=0) return;const two=loopWidth*2;if(rail.scrollLeft>two) rail.scrollLeft-=loopWidth;else if(rail.scrollLeft<0) rail.scrollLeft+=loopWidth});
-let isDown=false,startX=0,scrollL=0;
-rail.addEventListener('pointerdown',e=>{if(!rail.classList.contains('paused'))return;isDown=true;rail.setPointerCapture(e.pointerId);startX=e.clientX;scrollL=rail.scrollLeft});
-rail.addEventListener('pointermove',e=>{if(!isDown)return;rail.scrollLeft=scrollL-(e.clientX-startX)});
-rail.addEventListener('pointerup',()=>{isDown=false});
-rail.addEventListener('wheel',e=>{if(rail.classList.contains('paused')){rail.scrollLeft+=e.deltaY}});
-
-const panel=document.getElementById('coursePanel');
-const titleEl=document.getElementById('courseTitle');
-const descEl=document.getElementById('courseDesc');
-const bulletsEl=document.getElementById('courseBullets');
-const canvas=document.getElementById('courseCanvas');
-const ctx=canvas.getContext('2d');
-const preview=document.querySelector('.preview');
-let animRAF=null;
-
-const courseInfo={
-  'Algebra I':{d:'Linear relationships, slope, and intercepts.',b:['Slope as rise/run','Slope-intercept form','Point-slope links','Systems intuition'],a:'alg1'},
-  'Geometry':{d:'AA similarity: overlay, then slide right and scale.',b:['AA similarity','Correspondence','Scale factor grows','Angles preserved'],a:'geom'},
-  'Algebra II':{d:'Polynomial x^5 − 4x^3 + 3x with zeros.',b:['Multiplicity view','End behavior','Exact zeros','Reveal order'],a:'alg2'},
-  'Pre-Calc':{d:'Unit-circle point drives the sine and cosine traces.',b:['Unit circle','Sin & cos','Phase lock','Parametric link'],a:'precalc'},
-  'Calculus I':{d:'Static curve with drifting Riemann rectangles.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
-  'Calculus II':{d:'Polar curve with sweeping area.',b:['Polar curves','Area sweep','Param angle','Dynamic radius'],a:'calc2'},
-  'Calculus III':{d:'3D surface with a sweeping path integral.',b:['3D axes','Surface mesh','Path sweep','Integral feel'],a:'calc3'},
-  'ODE':{d:'Competing directions on a color field that align into clusters, then reset.',b:['Random start','Slow neighbor blending','Clusters','Timed reset'],a:'ode'},
-  'Linear Algebra':{d:'Transform grid with smaller arrowed basis (same background).',b:['Matrix action','Basis span','Eigen hints','Aligned grids'],a:'linalg'},
-  'Discrete Math':{d:'Top node to all others—rapid multi-hop paths.',b:['Cycle source','Dense edges','Curved routes','Quick rhythm'],a:'discrete'},
-  'Real Analysis':{d:'Squeeze Theorem: oscillations confined between shrinking bounds near 0.',b:['Upper/lower bounds','x sin(1/x)','Phase drift','Convergence'],a:'real'}
-};
-
-function resizeCanvas(){
-  const dpr=Math.min(devicePixelRatio||1,2);
-  const cssW=preview.clientWidth||600;
-  const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
-  const cssH=tallPhone?Math.max(260,Math.min(500,cssW*0.95)):Math.max(240,Math.min(360,cssW*0.70));
-  canvas.width=Math.floor(cssW*dpr);canvas.height=Math.floor(cssH*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-function axes(W,H){
-  ctx.save();ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=1;
-  ctx.beginPath();for(let x=0;x<=W;x+=20){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(let y=0;y<=H;y+=20){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();ctx.restore();
-}
-function showPanel(name){
-  const info=courseInfo[name];
-  titleEl.textContent=(name==='ODE')?'Ordinary Differential Equations':name;
-  descEl.textContent=info.d;
-  bulletsEl.innerHTML=info.b.map(s=>`<li>${s}</li>`).join('');
-  panel.classList.add('show');rail.classList.add('paused');
-  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name));
-  requestAnimationFrame(()=>{resizeCanvas(); startAnim(info.a)});
-}
-function hidePanel(){panel.classList.remove('show');rail.classList.remove('paused');document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}}
-document.querySelectorAll('.chip').forEach(ch=>{ch.addEventListener('mouseenter',()=>{showPanel(ch.dataset.course)})});
-panel.addEventListener('mouseleave',hidePanel);
-
-function startAnim(type){
-  if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}
-  let t=0;
-  function draw(){
-    t++;
-    const W=preview.clientWidth||600, H=canvas.height/(Math.min(devicePixelRatio||1,2))||260;
-    ctx.clearRect(0,0,W,H);axes(W,H);ctx.save();
-    const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
-    ctx.translate(W/2+(tallPhone?6:24),H/2);
-    if(tallPhone) ctx.scale(0.92,0.92);
-    ctx.lineWidth=2.5;ctx.strokeStyle='rgba(142,197,255,.95)';
-
-    if(type==='alg1'){
-      const m=0.25+0.55*Math.abs(Math.sin(t*0.008));
-      const b=18*Math.sin(t*0.006);
-      ctx.beginPath();for(let x=-W;x<=W;x+=2){const y=-(m*x+b);x===-W?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      const x0=-120, y0=-(m*x0+b), dx=130, dy=-(m*dx);
-      ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+dx,y0);ctx.moveTo(x0+dx,y0);ctx.lineTo(x0+dx,y0+dy);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';
-      ctx.fillText('Δx',x0+dx/2-8,y0-6);ctx.fillText('Δy',x0+dx+6,y0+dy/2);
-    }
-
-    if(type==='geom'){
-      function tri(s,offx,offy,rot,col){
-        const A=[-60*s,-40*s],B=[70*s,-20*s],C=[-10*s,60*s];
-        const R=(p)=>{const c=Math.cos(rot),d=Math.sin(rot);return [c*p[0]-d*p[1]+offx,d*p[0]+c*p[1]+offy]};
-        const P=[R(A),R(B),R(C)];
-        ctx.strokeStyle=col;ctx.beginPath();ctx.moveTo(P[0][0],P[0][1]);ctx.lineTo(P[1][0],P[1][1]);ctx.lineTo(P[2][0],P[2][1]);ctx.closePath();ctx.stroke();
-        function arc(p,q,r){ctx.beginPath();ctx.arc(p[0],p[1],12*s,Math.atan2(q[1]-p[1],q[0]-p[0]),Math.atan2(r[1]-p[1],r[0]-p[0]));ctx.stroke()}
-        ctx.lineWidth=2;arc(P[0],P[1],P[2]);arc(P[1],P[2],P[0]);arc(P[2],P[0],P[1]);ctx.lineWidth=2.5;return P
-      }
-      const leftX=-160, leftY=10, baseScale=1;
-      const animDur=200, holdDur=90, cyc=animDur+holdDur, u=t%cyc, phase=u<animDur?u/animDur:1;
-      const moveRight=180, s=baseScale*(1+phase*0.5), x=leftX+phase*moveRight+20;
-      const A=tri(baseScale,leftX+20,leftY,0,'rgba(142,197,255,.95)');
-      const Bp=tri(s,x,leftY,0,'rgba(170,160,255,.95)');
-      ctx.setLineDash([5,7]);ctx.strokeStyle='rgba(255,255,255,.45)';ctx.beginPath();
-      ctx.moveTo(A[0][0],A[0][1]);ctx.lineTo(Bp[0][0],Bp[0][1]);
-      ctx.moveTo(A[1][0],A[1][1]);ctx.lineTo(Bp[1][0],Bp[1][1]);
-      ctx.moveTo(A[2][0],A[2][1]);ctx.lineTo(Bp[2][0],Bp[2][1]);
-      ctx.stroke();ctx.setLineDash([]);
-    }
-
-    if(type==='alg2'){
-      function f(x){return Math.pow(x,5)-4*Math.pow(x,3)+3*x}
-      ctx.beginPath();for(let xp=-W/2;xp<W/2;xp+=2){const x=xp/60;const y=f(x);const sy=-y*20; xp===-W/2?ctx.moveTo(xp,sy):ctx.lineTo(xp,sy)}ctx.stroke();
-      const roots=[-Math.sqrt(3)*60,-60,0,60,Math.sqrt(3)*60], idx=Math.floor((t/60)%roots.length);
-      for(let i=0;i<roots.length;i++){ctx.beginPath();ctx.fillStyle=i<=idx?'rgba(255,200,120,1)':'rgba(200,200,220,.5)';ctx.arc(roots[i],0,5,0,6.283);ctx.fill()}
-    }
-
-    if(type==='precalc'){
-      const R=70, a=(t*0.04)%(Math.PI*2), cx=-W/4, cy=0;
-      ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.stroke();
-      const px=cx+R*Math.cos(a), py=cy+R*Math.sin(a);
-      ctx.fillStyle='#aac8ff';ctx.beginPath();ctx.arc(px,py,4,0,6.283);ctx.fill();
-      ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
-      const left=-W/8, right=W/2, span=right-left, xNow=left+(a/(2*Math.PI))*span;
-      ctx.strokeStyle='rgba(170,160,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.sin(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.strokeStyle='rgba(120,220,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.cos(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.moveTo(xNow,-H/2);ctx.lineTo(xNow,H/2);ctx.stroke();ctx.setLineDash([]);
-    }
-
-    if(type==='calc1'){
-      const f=x=>0.6*Math.sin(x/40)+0.4*Math.cos(x/25);
-      ctx.beginPath();for(let x=-W/2;x<W/2;x+=3){const y=80*f(x);ctx[x===-W/2?'moveTo':'lineTo'](x,y)}ctx.stroke();
-      const a=-180,b=180,N=12, drift=((t%60)/60)*((b-a)/N);
-      for(let i=0;i<N;i++){const x0=a+i*(b-a)/N+drift, x1=a+(i+1)*(b-a)/N+drift, xm=(x0+x1)/2;const y=80*f(xm);
-        ctx.fillStyle='rgba(110,231,255,.18)';ctx.strokeStyle='rgba(110,231,255,.5)';ctx.beginPath();ctx.rect(x0,y,x1-x0,-y);ctx.fill();ctx.stroke()}
-    }
-
-    if(type==='calc2'){
-      const k=3, phase=t*0.02, r=th=>100*(1+0.6*Math.sin(k*th+phase));
-      ctx.beginPath();for(let th=0;th<=Math.PI*2;th+=0.02){const x=r(th)*Math.cos(th)*0.6,y=r(th)*Math.sin(th)*0.6;th===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      const sweep=((t%240)/240)*Math.PI*2;ctx.fillStyle='rgba(110,231,255,.14)';
-      ctx.beginPath();ctx.moveTo(0,0);for(let th=0;th<=sweep;th+=0.02){const x=r(th)*Math.cos(th)*0.6,y=r(th)*Math.sin(th)*0.6;ctx.lineTo(x,y)}ctx.closePath();ctx.fill();
-    }
-
-    if(type==='calc3'){
-      const zoom=1.22;function proj(x,y,z){return [zoom*(0.8*x+0.0*y),zoom*(0.35*y-0.7*z)]}
-      ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=1.5;
-      ctx.beginPath();let p=proj(0,0,0),px=proj(150,0,0),py=proj(0,120,0),pz=proj(0,0,120);ctx.moveTo(p[0],p[1]);ctx.lineTo(px[0],px[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(py[0],py[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(pz[0],pz[1]);ctx.stroke();
-      const ax=0.035, ay=0.035;
-      ctx.strokeStyle='rgba(142,197,255,.65)';ctx.lineWidth=1;
-      for(let y=-100;y<=100;y+=12){ctx.beginPath();for(let x=-140;x<=140;x+=6){const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);x===-140?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke()}
-      for(let x=-140;x<=140;x+=12){ctx.beginPath();for(let y=-100;y<=100;y+=6){const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);y===-100?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke()}
-      const R=120;const sNow=(t%240)/240;ctx.strokeStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
-      ctx.beginPath();for(let s=0;s<=sNow;s+=0.01){const th=s*2*Math.PI;const x=R*0.6*Math.cos(th),y=R*0.4*Math.sin(th);const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke();
-      const th=sNow*2*Math.PI;const x=R*0.6*Math.cos(th),y=R*0.4*Math.sin(th);const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);ctx.fillStyle='rgba(255,220,160,1)';ctx.beginPath();ctx.arc(q[0],q[1],4,0,6.283);ctx.fill();
-    }
-
-    if(type==='ode'){
-      const gw=160, gh=100, cycle=300;
-      if(!window._ode){window._ode={h:[],s:[],l:[],t0:0};for(let j=0;j<gh;j++){_ode.h[j]=[];_ode.s[j]=[];_ode.l[j]=[]}}
-      const p=((t-_ode.t0)%cycle)/cycle;
-      if(p<0.02){for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){_ode.h[j][i]=Math.random()*360;_ode.s[j][i]=70+Math.random()*30;_ode.l[j][i]=45+Math.random()*20}}
-      const Hh=_ode.h, Ss=_ode.s, Ll=_ode.l, alpha=0.015;
-      for(let j=0;j<gh;j++){for(let i=0;i<gw;i++){let vx=0,vy=0,cnt=0;for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){const y=j+dj,x=i+di;if(y<0||y>=gh||x<0||x>=gw)continue;const ang=Hh[y][x]*Math.PI/180;vx+=Math.cos(ang);vy+=Math.sin(ang);cnt++}const ang=Math.atan2(vy/cnt,vx/cnt),deg=(ang*180/Math.PI+360)%360;Hh[j][i]=Hh[j][i]*(1-alpha)+deg*alpha;Ss[j][i]=Ss[j][i]*(1-alpha)+65*alpha;Ll[j][i]=Ll[j][i]*(1-alpha)+55*alpha}}
-      const Wb=220,Hb=220,left=-Wb/2,top=-Hb/2,cw=Wb/gw,ch=Hb/gh;
-      for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){const h=Hh[j][i]|0,s=Ss[j][i]|0,l=Ll[j][i]|0;ctx.fillStyle='hsl('+h+','+s+'%,'+l+'%)';ctx.fillRect(left+i*cw,top+j*ch,cw+1,ch+1)}
-      if(p>0.999)_ode.t0=t;
-    }
-
-    if(type==='linalg'){
-      const a=1+0.4*Math.sin(t*0.02), b=0.6*Math.cos(t*0.015), c=0.3*Math.sin(t*0.017), d=1+0.3*Math.cos(t*0.018);
-      function T(x,y){return [a*x+b*y,c*x+d*y]}
-      const S=0.65;
-      ctx.strokeStyle='rgba(142,197,255,.95)';ctx.lineWidth=1.5;
-      for(let X=-W*1.6;X<=W*1.6;X+=26){ctx.beginPath();let first=true;for(let Y=-H*1.6;Y<=H*1.6;Y+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
-      for(let Y=-H*1.6;Y<=H*1.6;Y+=26){ctx.beginPath();let first=true;for(let X=-W*1.6;X<=W*1.6;X+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
-      function arrow(x0,y0,x1,y1){const ang=Math.atan2(y1-y0,x1-x0),len=10;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-len*Math.cos(ang-0.3),y1-len*Math.sin(ang-0.3));ctx.lineTo(x1-len*Math.cos(ang+0.3),y1-len*Math.sin(ang+0.3));ctx.closePath();ctx.fill()}
-      ctx.strokeStyle='rgba(255,190,120,.95)';ctx.fillStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
-      const e1=T(120,0),e2=T(0,120);arrow(0,0,e1[0]*S,e1[1]*S);arrow(0,0,e2[0]*S,e2[1]*S);
-      ctx.fillStyle='rgba(255,220,170,1)';ctx.font='13px Space Grotesk';ctx.fillText('e₁',e1[0]*S+6,e1[1]*S+4);ctx.fillText('e₂',e2[0]*S+6,e2[1]*S+4);
-    }
-
-    if(type==='discrete'){
-      if(!window._disc){
-        const N=22,R=H/2.6,nodes=[];for(let i=0;i<N;i++){const ang=i/N*2*Math.PI;nodes.push([Math.cos(ang)*R,Math.sin(ang)*R])}
-        const edges=[];for(let i=0;i<N;i++)edges.push([i,(i+1)%N]);for(let i=0;i<N;i++)for(let j=i+2;j<N;j++){if(Math.random()<0.45&&j!==i-1)edges.push([i,j])}
-        let topIdx=0,minY=1e9;nodes.forEach((p,idx)=>{if(p[1]<minY){minY=p[1];topIdx=idx}});
-        window._disc={N,nodes,edges,top:topIdx,step:0,tPick:0,path:[]}
-      }
-      const D=window._disc,{N,nodes,edges,top}=D;
-      function bfs(s,tg){const adj=Array.from({length:N},()=>[]);for(const [i,j] of edges){adj[i].push(j);adj[j].push(i)}const q=[s],par=Array(N).fill(-1);par[s]=s;for(let qi=0;qi<q.length;qi++){const u=q[qi];if(u===tg)break;for(const v of adj[u])if(par[v]===-1){par[v]=u;q.push(v)}}if(par[tg]===-1)return [s,tg];const path=[];let cur=tg;while(cur!==par[cur]){path.push(cur);cur=par[cur]}path.push(s);path.reverse();return path}
-      function newMultiPath(){
-        const k=3+((Math.random()*2)|0), used=new Set([top]); let last=top; let full=[top];
-        for(let i=0;i<k-1;i++){let nxt=(Math.random()*N)|0;let guard=0;while((used.has(nxt)||nxt===last)&&guard++<50){nxt=(Math.random()*N)|0}used.add(nxt);const seg=bfs(last,nxt);full=full.concat(seg.slice(1));last=nxt}
-        const target=(Math.random()*N)|0; if(!used.has(target)){const seg=bfs(last,target);full=full.concat(seg.slice(1))}
-        D.path=full;D.tPick=t
-      }
-      if(!D.path.length || (t-D.tPick)>35) newMultiPath();
-      const speed=1.0, prog=Math.min(D.path.length-1,Math.floor((t-D.tPick)/speed));
-      ctx.strokeStyle='rgba(142,197,255,.4)';ctx.lineWidth=1.5;ctx.beginPath();for(let i=0;i<=N;i++){const p=nodes[i%N];i===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke();
-      for(const [i,j] of edges){ctx.beginPath();ctx.moveTo(nodes[i][0],nodes[i][1]);ctx.lineTo(nodes[j][0],nodes[j][1]);ctx.stroke()}
-      ctx.fillStyle='rgba(170,200,255,1)';for(const p of nodes){ctx.beginPath();ctx.arc(p[0],p[1],4,0,6.283);ctx.fill()}
-      ctx.strokeStyle='rgba(255,200,130,.95)';ctx.lineWidth=3;ctx.beginPath();let p0=nodes[D.path[0]];ctx.moveTo(p0[0],p0[1]);
-      for(let k=1;k<=prog;k++){const a=nodes[D.path[k-1]],b=nodes[D.path[k]];const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2-12;ctx.quadraticCurveTo(mx,my,b[0],b[1])}ctx.stroke();
-      const sN=nodes[top];ctx.fillStyle='rgba(255,120,120,1)';ctx.beginPath();ctx.arc(sN[0],sN[1],5,0,6.283);ctx.fill();
-      const eN=nodes[D.path[Math.min(prog,D.path.length-1)]];ctx.fillStyle='rgba(120,255,160,1)';ctx.beginPath();ctx.arc(eN[0],eN[1],5,0,6.283);ctx.fill();
-    }
-
-    if(type==='real'){
+    function resizeCanvas(){
+      const dpr=Math.min(devicePixelRatio||1,2);
+      const cssW=preview.clientWidth||600;
       const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
-      ctx.save();ctx.translate(tallPhone?-8:-18,0);
-      const A=x=>0.45*Math.abs(x);
-      ctx.strokeStyle='rgba(255,130,150,.9)';ctx.lineWidth=2.2;
-      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=-A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.fillStyle='rgba(110,231,255,.08)';
-      ctx.beginPath();ctx.moveTo(-W/2,A(-W/2));for(let x=-W/2;x<=W/2;x+=2){ctx.lineTo(x,A(x))}for(let x=W/2;x>=-W/2;x-=2){ctx.lineTo(x,-A(x))}ctx.closePath();ctx.fill();
-      const phase=t*0.035, k=1420, c=40;
-      ctx.strokeStyle='rgba(120,200,255,1)';ctx.lineWidth=2.2;
-      ctx.beginPath();
-      for(let x=-W/2;x<=W/2;x+=1.25){
-        const ax=A(x);
-        const freq=k/(Math.abs(x)+c);
-        const y=ax*Math.sin(freq+phase);
-        if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)
-      }
-      ctx.stroke();
-      ctx.restore();
+      const cssH=tallPhone?Math.max(260,Math.min(500,cssW*0.95)):Math.max(240,Math.min(360,cssW*0.70));
+      canvas.width=Math.floor(cssW*dpr);canvas.height=Math.floor(cssH*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
     }
+    function axes(W,H){
+      ctx.save();ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=1;
+      ctx.beginPath();for(let x=0;x<=W;x+=20){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(let y=0;y<=H;y+=20){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();ctx.restore();
+    }
+    function showPanel(name){
+      const info=courseInfo[name];
+      titleEl.textContent=(name==='ODE')?'Ordinary Differential Equations':name;
+      descEl.textContent=info.d;
+      bulletsEl.innerHTML=info.b.map(s=>`<li>${s}</li>`).join('');
+      panel.classList.add('show');rail.classList.add('paused');
+      document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name));
+      requestAnimationFrame(()=>{resizeCanvas(); startAnim(info.a)});
+    }
+    function hidePanel(){panel.classList.remove('show');rail.classList.remove('paused');document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}}
+    document.querySelectorAll('.chip').forEach(ch=>{ch.addEventListener('mouseenter',()=>{showPanel(ch.dataset.course)})});
+    panel.addEventListener('mouseleave',hidePanel);
 
-    ctx.restore();animRAF=requestAnimationFrame(draw);
-  }
-  draw();
-}
-</script>
+    function startAnim(type){
+      if(animRAF){cancelAnimationFrame(animRAF);animRAF=null}
+      let t=0;
+      function draw(){
+        t++;
+        const W=preview.clientWidth||600, H=canvas.height/(Math.min(devicePixelRatio||1,2))||260;
+        ctx.clearRect(0,0,W,H);axes(W,H);ctx.save();
+        const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+        ctx.translate(W/2+(tallPhone?6:24),H/2);
+        if(tallPhone) ctx.scale(0.92,0.92);
+        ctx.lineWidth=2.5;ctx.strokeStyle='rgba(142,197,255,.95)';
 
+        if(type==='alg1'){
+          const m=0.25+0.55*Math.abs(Math.sin(t*0.008));
+          const b=18*Math.sin(t*0.006);
+          ctx.beginPath();for(let x=-W;x<=W;x+=2){const y=-(m*x+b);x===-W?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          const x0=-120, y0=-(m*x0+b), dx=130, dy=-(m*dx);
+          ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+dx,y0);ctx.moveTo(x0+dx,y0);ctx.lineTo(x0+dx,y0+dy);ctx.stroke();ctx.setLineDash([]);
+          ctx.fillStyle='rgba(200,220,255,.95)';ctx.font='12px Space Grotesk';
+          ctx.fillText('Δx',x0+dx/2-8,y0-6);ctx.fillText('Δy',x0+dx+6,y0+dy/2);
+        }
+
+        if(type==='geom'){
+          function tri(s,offx,offy,rot,col){
+            const A=[-60*s,-40*s],B=[70*s,-20*s],C=[-10*s,60*s];
+            const R=(p)=>{const c=Math.cos(rot),d=Math.sin(rot);return [c*p[0]-d*p[1]+offx,d*p[0]+c*p[1]+offy]};
+            const P=[R(A),R(B),R(C)];
+            ctx.strokeStyle=col;ctx.beginPath();ctx.moveTo(P[0][0],P[0][1]);ctx.lineTo(P[1][0],P[1][1]);ctx.lineTo(P[2][0],P[2][1]);ctx.closePath();ctx.stroke();
+            function arc(p,q,r){ctx.beginPath();ctx.arc(p[0],p[1],12*s,Math.atan2(q[1]-p[1],q[0]-p[0]),Math.atan2(r[1]-p[1],r[0]-p[0]));ctx.stroke()}
+            ctx.lineWidth=2;arc(P[0],P[1],P[2]);arc(P[1],P[2],P[0]);arc(P[2],P[0],P[1]);ctx.lineWidth=2.5;return P
+          }
+          const leftX=-160, leftY=10, baseScale=1;
+          const animDur=200, holdDur=90, cyc=animDur+holdDur, u=t%cyc, phase=u<animDur?u/animDur:1;
+          const moveRight=180, s=baseScale*(1+phase*0.5), x=leftX+phase*moveRight+20;
+          const A=tri(baseScale,leftX+20,leftY,0,'rgba(142,197,255,.95)');
+          const Bp=tri(s,x,leftY,0,'rgba(170,160,255,.95)');
+          ctx.setLineDash([5,7]);ctx.strokeStyle='rgba(255,255,255,.45)';ctx.beginPath();
+          ctx.moveTo(A[0][0],A[0][1]);ctx.lineTo(Bp[0][0],Bp[0][1]);
+          ctx.moveTo(A[1][0],A[1][1]);ctx.lineTo(Bp[1][0],Bp[1][1]);
+          ctx.moveTo(A[2][0],A[2][1]);ctx.lineTo(Bp[2][0],Bp[2][1]);
+          ctx.stroke();ctx.setLineDash([]);
+        }
+
+        if(type==='alg2'){
+          function f(x){return Math.pow(x,5)-4*Math.pow(x,3)+3*x}
+          ctx.beginPath();for(let xp=-W/2;xp<W/2;xp+=2){const x=xp/60;const y=f(x);const sy=-y*20; xp===-W/2?ctx.moveTo(xp,sy):ctx.lineTo(xp,sy)}ctx.stroke();
+          const roots=[-Math.sqrt(3)*60,-60,0,60,Math.sqrt(3)*60], idx=Math.floor((t/60)%roots.length);
+          for(let i=0;i<roots.length;i++){ctx.beginPath();ctx.fillStyle=i<=idx?'rgba(255,200,120,1)':'rgba(200,200,220,.5)';ctx.arc(roots[i],0,5,0,6.283);ctx.fill()}
+        }
+
+        if(type==='precalc'){
+          const R=70, a=(t*0.04)%(Math.PI*2), cx=-W/4, cy=0;
+          ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.stroke();
+          const px=cx+R*Math.cos(a), py=cy+R*Math.sin(a);
+          ctx.fillStyle='#aac8ff';ctx.beginPath();ctx.arc(px,py,4,0,6.283);ctx.fill();
+          ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
+          const left=-W/8, right=W/2, span=right-left, xNow=left+(a/(2*Math.PI))*span;
+          ctx.strokeStyle='rgba(170,160,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.sin(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          ctx.strokeStyle='rgba(120,220,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.cos(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.moveTo(xNow,-H/2);ctx.lineTo(xNow,H/2);ctx.stroke();ctx.setLineDash([]);
+        }
+
+        if(type==='calc1'){
+          const f=x=>0.6*Math.sin(x/40)+0.4*Math.cos(x/25);
+          ctx.beginPath();for(let x=-W/2;x<W/2;x+=3){const y=80*f(x);ctx[x===-W/2?'moveTo':'lineTo'](x,y)}ctx.stroke();
+          const a=-180,b=180,N=12, drift=((t%60)/60)*((b-a)/N);
+          for(let i=0;i<N;i++){const x0=a+i*(b-a)/N+drift, x1=a+(i+1)*(b-a)/N+drift, xm=(x0+x1)/2;const y=80*f(xm);
+            ctx.fillStyle='rgba(110,231,255,.18)';ctx.strokeStyle='rgba(110,231,255,.5)';ctx.beginPath();ctx.rect(x0,y,x1-x0,-y);ctx.fill();ctx.stroke()}
+        }
+
+        if(type==='calc2'){
+          const k=3, phase=t*0.02, r=th=>100*(1+0.6*Math.sin(k*th+phase));
+          ctx.beginPath();for(let th=0;th<=Math.PI*2;th+=0.02){const x=r(th)*Math.cos(th)*0.6,y=r(th)*Math.sin(th)*0.6;th===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          const sweep=((t%240)/240)*Math.PI*2;ctx.fillStyle='rgba(110,231,255,.14)';
+          ctx.beginPath();ctx.moveTo(0,0);for(let th=0;th<=sweep;th+=0.02){const x=r(th)*Math.cos(th)*0.6,y=r(th)*Math.sin(th)*0.6;ctx.lineTo(x,y)}ctx.closePath();ctx.fill();
+        }
+
+        if(type==='calc3'){
+          const zoom=1.22;function proj(x,y,z){return [zoom*(0.8*x+0.0*y),zoom*(0.35*y-0.7*z)]}
+          ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=1.5;
+          ctx.beginPath();let p=proj(0,0,0),px=proj(150,0,0),py=proj(0,120,0),pz=proj(0,0,120);ctx.moveTo(p[0],p[1]);ctx.lineTo(px[0],px[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(py[0],py[1]);ctx.moveTo(p[0],p[1]);ctx.lineTo(pz[0],pz[1]);ctx.stroke();
+          const ax=0.035, ay=0.035;
+          ctx.strokeStyle='rgba(142,197,255,.65)';ctx.lineWidth=1;
+          for(let y=-100;y<=100;y+=12){ctx.beginPath();for(let x=-140;x<=140;x+=6){const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);x===-140?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke()}
+          for(let x=-140;x<=140;x+=12){ctx.beginPath();for(let y=-100;y<=100;y+=6){const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);y===-100?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke()}
+          const R=120;const sNow=(t%240)/240;ctx.strokeStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
+          ctx.beginPath();for(let s=0;s<=sNow;s+=0.01){const th=s*2*Math.PI;const x=R*0.6*Math.cos(th),y=R*0.4*Math.sin(th);const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);s===0?ctx.moveTo(q[0],q[1]):ctx.lineTo(q[0],q[1])}ctx.stroke();
+          const th=sNow*2*Math.PI;const x=R*0.6*Math.cos(th),y=R*0.4*Math.sin(th);const z=40*Math.sin(ax*x)*Math.cos(ay*y);const q=proj(x,y,z);ctx.fillStyle='rgba(255,220,160,1)';ctx.beginPath();ctx.arc(q[0],q[1],4,0,6.283);ctx.fill();
+        }
+
+        if(type==='ode'){
+          const gw=160, gh=100, cycle=300;
+          if(!window._ode){window._ode={h:[],s:[],l:[],t0:0};for(let j=0;j<gh;j++){_ode.h[j]=[];_ode.s[j]=[];_ode.l[j]=[]}}
+          const p=((t-_ode.t0)%cycle)/cycle;
+          if(p<0.02){for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){_ode.h[j][i]=Math.random()*360;_ode.s[j][i]=70+Math.random()*30;_ode.l[j][i]=45+Math.random()*20}}
+          const Hh=_ode.h, Ss=_ode.s, Ll=_ode.l, alpha=0.015;
+          for(let j=0;j<gh;j++){for(let i=0;i<gw;i++){let vx=0,vy=0,cnt=0;for(let dj=-1;dj<=1;dj++)for(let di=-1;di<=1;di++){const y=j+dj,x=i+di;if(y<0||y>=gh||x<0||x>=gw)continue;const ang=Hh[y][x]*Math.PI/180;vx+=Math.cos(ang);vy+=Math.sin(ang);cnt++}const ang=Math.atan2(vy/cnt,vx/cnt),deg=(ang*180/Math.PI+360)%360;Hh[j][i]=Hh[j][i]*(1-alpha)+deg*alpha;Ss[j][i]=Ss[j][i]*(1-alpha)+65*alpha;Ll[j][i]=Ll[j][i]*(1-alpha)+55*alpha}}
+          const Wb=220,Hb=220,left=-Wb/2,top=-Hb/2,cw=Wb/gw,ch=Hb/gh;
+          for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){const h=Hh[j][i]|0,s=Ss[j][i]|0,l=Ll[j][i]|0;ctx.fillStyle='hsl('+h+','+s+'%,'+l+'%)';ctx.fillRect(left+i*cw,top+j*ch,cw+1,ch+1)}
+          if(p>0.999)_ode.t0=t;
+        }
+
+        if(type==='linalg'){
+          const a=1+0.4*Math.sin(t*0.02), b=0.6*Math.cos(t*0.015), c=0.3*Math.sin(t*0.017), d=1+0.3*Math.cos(t*0.018);
+          function T(x,y){return [a*x+b*y,c*x+d*y]}
+          const S=0.65;
+          ctx.strokeStyle='rgba(142,197,255,.95)';ctx.lineWidth=1.5;
+          for(let X=-W*1.6;X<=W*1.6;X+=26){ctx.beginPath();let first=true;for(let Y=-H*1.6;Y<=H*1.6;Y+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+          for(let Y=-H*1.6;Y<=H*1.6;Y+=26){ctx.beginPath();let first=true;for(let X=-W*1.6;X<=W*1.6;X+=10){const p=T(X,Y);const px=p[0]*S,py=p[1]*S;first?(ctx.moveTo(px,py),first=false):ctx.lineTo(px,py)}ctx.stroke()}
+          function arrow(x0,y0,x1,y1){const ang=Math.atan2(y1-y0,x1-x0),len=10;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x1-len*Math.cos(ang-0.3),y1-len*Math.sin(ang-0.3));ctx.lineTo(x1-len*Math.cos(ang+0.3),y1-len*Math.sin(ang+0.3));ctx.closePath();ctx.fill()}
+          ctx.strokeStyle='rgba(255,190,120,.95)';ctx.fillStyle='rgba(255,190,120,.95)';ctx.lineWidth=3;
+          const e1=T(120,0),e2=T(0,120);arrow(0,0,e1[0]*S,e1[1]*S);arrow(0,0,e2[0]*S,e2[1]*S);
+          ctx.fillStyle='rgba(255,220,170,1)';ctx.font='13px Space Grotesk';ctx.fillText('e₁',e1[0]*S+6,e1[1]*S+4);ctx.fillText('e₂',e2[0]*S+6,e2[1]*S+4);
+        }
+
+        if(type==='discrete'){
+          if(!window._disc){
+            const N=22,R=H/2.6,nodes=[];for(let i=0;i<N;i++){const ang=i/N*2*Math.PI;nodes.push([Math.cos(ang)*R,Math.sin(ang)*R])}
+            const edges=[];for(let i=0;i<N;i++)edges.push([i,(i+1)%N]);for(let i=0;i<N;i++)for(let j=i+2;j<N;j++){if(Math.random()<0.45&&j!==i-1)edges.push([i,j])}
+            let topIdx=0,minY=1e9;nodes.forEach((p,idx)=>{if(p[1]<minY){minY=p[1];topIdx=idx}});
+            window._disc={N,nodes,edges,top:topIdx,step:0,tPick:0,path:[]}
+          }
+          const D=window._disc,{N,nodes,edges,top}=D;
+          function bfs(s,tg){const adj=Array.from({length:N},()=>[]);for(const [i,j] of edges){adj[i].push(j);adj[j].push(i)}const q=[s],par=Array(N).fill(-1);par[s]=s;for(let qi=0;qi<q.length;qi++){const u=q[qi];if(u===tg)break;for(const v of adj[u])if(par[v]===-1){par[v]=u;q.push(v)}}if(par[tg]===-1)return [s,tg];const path=[];let cur=tg;while(cur!==par[cur]){path.push(cur);cur=par[cur]}path.push(s);path.reverse();return path}
+          function newMultiPath(){
+            const k=3+((Math.random()*2)|0), used=new Set([top]); let last=top; let full=[top];
+            for(let i=0;i<k-1;i++){let nxt=(Math.random()*N)|0;let guard=0;while((used.has(nxt)||nxt===last)&&guard++<50){nxt=(Math.random()*N)|0}used.add(nxt);const seg=bfs(last,nxt);full=full.concat(seg.slice(1));last=nxt}
+            const target=(Math.random()*N)|0; if(!used.has(target)){const seg=bfs(last,target);full=full.concat(seg.slice(1))}
+            D.path=full;D.tPick=t
+          }
+          if(!D.path.length || (t-D.tPick)>35) newMultiPath();
+          const speed=1.0, prog=Math.min(D.path.length-1,Math.floor((t-D.tPick)/speed));
+          ctx.strokeStyle='rgba(142,197,255,.4)';ctx.lineWidth=1.5;ctx.beginPath();for(let i=0;i<=N;i++){const p=nodes[i%N];i===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1])}ctx.stroke();
+          for(const [i,j] of edges){ctx.beginPath();ctx.moveTo(nodes[i][0],nodes[i][1]);ctx.lineTo(nodes[j][0],nodes[j][1]);ctx.stroke()}
+          ctx.fillStyle='rgba(170,200,255,1)';for(const p of nodes){ctx.beginPath();ctx.arc(p[0],p[1],4,0,6.283);ctx.fill()}
+          ctx.strokeStyle='rgba(255,200,130,.95)';ctx.lineWidth=3;ctx.beginPath();let p0=nodes[D.path[0]];ctx.moveTo(p0[0],p0[1]);
+          for(let k=1;k<=prog;k++){const a=nodes[D.path[k-1]],b=nodes[D.path[k]];const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2-12;ctx.quadraticCurveTo(mx,my,b[0],b[1])}ctx.stroke();
+          const sN=nodes[top];ctx.fillStyle='rgba(255,120,120,1)';ctx.beginPath();ctx.arc(sN[0],sN[1],5,0,6.283);ctx.fill();
+          const eN=nodes[D.path[Math.min(prog,D.path.length-1)]];ctx.fillStyle='rgba(120,255,160,1)';ctx.beginPath();ctx.arc(eN[0],eN[1],5,0,6.283);ctx.fill();
+        }
+
+        if(type==='real'){
+          const tallPhone=matchMedia('(max-width: 480px) and (orientation: portrait)').matches;
+          ctx.save();ctx.translate(tallPhone?-8:-18,0);
+          const A=x=>0.45*Math.abs(x);
+          ctx.strokeStyle='rgba(255,130,150,.9)';ctx.lineWidth=2.2;
+          ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          ctx.beginPath();for(let x=-W/2;x<=W/2;x+=2){const y=-A(x);x===-W/2?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+          ctx.fillStyle='rgba(110,231,255,.08)';
+          ctx.beginPath();ctx.moveTo(-W/2,A(-W/2));for(let x=-W/2;x<=W/2;x+=2){ctx.lineTo(x,A(x))}for(let x=W/2;x>=-W/2;x-=2){ctx.lineTo(x,-A(x))}ctx.closePath();ctx.fill();
+          const phase=t*0.035, k=1420, c=40;
+          ctx.strokeStyle='rgba(120,200,255,1)';ctx.lineWidth=2.2;
+          ctx.beginPath();
+          for(let x=-W/2;x<=W/2;x+=1.25){
+            const ax=A(x);
+            const freq=k/(Math.abs(x)+c);
+            const y=ax*Math.sin(freq+phase);
+            if(x===-W/2)ctx.moveTo(x,y);else ctx.lineTo(x,y)
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        ctx.restore();animRAF=requestAnimationFrame(draw);
+      }
+      draw();
+    }
+  </script>
 </body>
 </html>
