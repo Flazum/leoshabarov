@@ -318,13 +318,15 @@
       ctx.lineWidth=2.5; ctx.strokeStyle='rgba(142,197,255,.95)';
 
      
-      if(type==='alg1'){ const m=0.25+0.55*Math.abs(Math.sin(t*0.008)); const b=18*Math.sin(t*0.006);
+      if(type==='alg1'){ 
+        const m=0.25+0.55*Math.abs(Math.sin(t*0.008)); const b=18*Math.sin(t*0.006);
         ctx.beginPath(); for(let x=-W;x<=W;x+=2){const y=-(m*x+b); x===-W?ctx.moveTo(x,y):ctx.lineTo(x,y)} ctx.stroke();
         const x0=-120, y0=-(m*x0+b), dx=130, dy=-(m*dx);
         ctx.setLineDash([6,6]); ctx.strokeStyle='rgba(255,255,255,.5)';
         ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x0+dx,y0); ctx.moveTo(x0+dx,y0); ctx.lineTo(x0+dx,y0+dy); ctx.stroke(); ctx.setLineDash([]);
         ctx.fillStyle='rgba(200,220,255,.95)'; ctx.font='12px Space Grotesk'; ctx.fillText('Δx',x0+dx/2-8,y0-6); ctx.fillText('Δy',x0+dx+6,y0+dy/2);
       }
+      
       if(type==='geom'){
       function tri(s,offx,offy,rot,col){
         const A=[-60*s,-40*s],B=[70*s,-20*s],C=[-10*s,60*s];
