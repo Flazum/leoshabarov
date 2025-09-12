@@ -5,39 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bases & Adics — Leo Shabarov</title>
 
-  <!-- Shared theme + site styles (includes tiles CSS) -->
+  <!-- Shared theme + site styles (keeps tiles in sync) -->
   <link rel="stylesheet" href="/assets/theme.css" />
   <link rel="stylesheet" href="/assets/site.css" />
 
-  <!-- Page-specific trim -->
   <style>
-    :root{--note-max:820px}
-    body{background:var(--bg);color:var(--ink)}
-    .wrap-note{width:min(var(--note-max),92%);margin:72px auto 80px}
-    .note-head{margin-bottom:18px}
-    .note-head h1{font-size:clamp(1.9rem,4vw,2.4rem);line-height:1.1;margin:0}
-    .lead{color:var(--muted)}
-    .section{margin-top:34px}
-    .section h2{font-size:clamp(1.2rem,2.2vw,1.5rem);margin:0 0 10px}
-    p{line-height:1.65;margin:10px 0}
-    ul{margin:8px 0 10px 1.1rem}
-    li{margin:6px 0}
-    hr{border:0;height:1px;background:linear-gradient(90deg,transparent,#243056,transparent);margin:28px 0}
-    .callout{border:1px solid var(--line);background:linear-gradient(180deg,#0b1024,#0a0f1e);border-radius:14px;padding:14px 16px;color:#cfe2ff}
-    .practice{margin-top:10px}
-    .prob{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(15,20,40,.7),rgba(10,14,28,.7));padding:14px 16px;margin:10px 0}
-    .prow{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .ptitle{font-weight:800}
-    .revealbtn{white-space:nowrap;padding:.5rem .8rem;border-radius:10px;border:1px solid var(--line);background:#0a0f26;color:var(--ink);font-weight:700;cursor:pointer}
-    .ans{display:none;margin-top:10px;color:#cfe2ff}
-    /* small screens */
-    @media (max-width:520px){ .prow{flex-direction:column;align-items:flex-start} }
-    /* simple header link back */
-    .topbar{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(7,9,19,.8),rgba(7,9,19,.4) 70%,transparent);backdrop-filter:blur(8px)}
-    .topbar .inner{width:min(1100px,92%);margin-inline:auto;display:flex;align-items:center;gap:.7rem;padding:12px 0}
-    .brand{display:flex;align-items:center;gap:.6rem;color:var(--ink);text-decoration:none;font-weight:800}
+    /* --- Reader layout --- */
+    :root{
+      --paper-w: 860px;
+      --paper-pad: clamp(18px, 3.5vw, 28px);
+      --ink-strong: #f2f6ff;
+      --ink-soft: #cbd6ff;
+      --ink-dim: #9fb0e6;
+    }
+    body{ background:var(--bg); color:var(--ink-strong); }
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      background:linear-gradient(180deg,rgba(7,9,19,.85),rgba(7,9,19,.55) 70%,transparent);
+      backdrop-filter: blur(8px);
+    }
+    .topbar .inner{
+      width:min(1100px,92%); margin:auto; padding:12px 0;
+      display:flex; align-items:center; gap:.7rem;
+    }
+    .brand{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--ink); font-weight:800}
     .logo{width:34px;height:34px;border-radius:10px;background:conic-gradient(from var(--rot,0deg),var(--g1),var(--g2),#4dd4ff,#a78bfa,var(--g1));display:grid;place-items:center;box-shadow:0 6px 18px #0009}
-    .footer{width:min(var(--note-max),92%);margin:36px auto 80px;color:#91a3d7;font-size:.95rem}
+
+    .paper{
+      width:min(var(--paper-w), 92%);
+      margin: 54px auto 80px;
+      padding: var(--paper-pad);
+      border: 1px solid rgba(48,60,110,.8);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg,rgba(10,14,32,.92),rgba(8,11,26,.92));
+      box-shadow:
+        0 18px 50px rgba(0,0,0,.45),
+        0 0 0 1px rgba(110,231,255,.06) inset;
+    }
+
+    .title{ margin: 0 0 4px; font-size: clamp(1.9rem,4vw,2.4rem); line-height:1.12 }
+    .subtitle{ margin: 0 0 16px; color: var(--ink-dim) }
+
+    /* Text rhythm */
+    .section{ margin-top: 28px }
+    .section h2{ font-size: clamp(1.2rem, 2.2vw, 1.5rem); margin:0 0 8px }
+    p{ margin: 10px 0; line-height: 1.75; color: var(--ink-strong) }
+    .soft{ color: var(--ink-soft) }
+
+    /* Gentle list look (no heavy bullets) */
+    .clean-list{ list-style: none; margin: 8px 0 8px 0; padding-left: 0 }
+    .clean-list li{
+      position: relative; padding-left: 1.1rem; margin: 6px 0; color: var(--ink-soft)
+    }
+    .clean-list li::before{
+      content: "•"; position: absolute; left: 0; top: 0; color: #7fb7ff
+    }
+
+    /* Callouts */
+    .callout{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,#0b1024,#0a0f1e);
+      border-radius:14px; padding:12px 14px; color:#d6e6ff; margin:10px 0
+    }
+
+    /* Practice problems */
+    .practice{ margin-top: 6px }
+    .prob{
+      border:1px solid var(--line); border-radius:12px;
+      background:linear-gradient(180deg,rgba(15,20,40,.75),rgba(10,14,28,.78));
+      padding:14px 16px; margin:10px 0
+    }
+    .prow{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+    .ptitle{ font-weight:800 }
+    .revealbtn{
+      white-space:nowrap; padding:.5rem .8rem; border-radius:10px;
+      border:1px solid var(--line); background:#0a0f26; color:var(--ink);
+      font-weight:700; cursor:pointer
+    }
+    .ans{ display:none; margin-top:10px; color:#cfe2ff }
+
+    @media (max-width:560px){
+      .prow{ flex-direction: column; align-items: flex-start }
+    }
+
+    /* MathJax spacing */
+    mjx-container[jax="SVG"][display="true"]{
+      margin: 1.1rem auto !important;
+    }
+    mjx-container[jax="SVG"]{
+      line-height: 1.4;
+    }
+
+    .footer{ width:min(var(--paper-w),92%); margin: 0 auto 80px; color:#91a3d7; font-size:.95rem; text-align:center }
   </style>
 
   <!-- MathJax (LaTeX) -->
@@ -65,167 +125,209 @@
     </div>
   </header>
 
-  <main class="wrap-note">
-    <div class="note-head">
-      <h1>Bases & Adics</h1>
-      <p class="lead">A fast, visual feel for place value across bases and how that flips into \(p\)-adic thinking.</p>
-    </div>
+  <!-- centered reading column -->
+  <main class="paper">
+    <h1 class="title">Bases & Adics</h1>
+    <p class="subtitle">A clearer feel for place value and the \(p\)-adic flip. Chapters numbered in binary: \(1_{\,2}, 10_{\,2}, 11_{\,2}, 100_{\,2}, 101_{\,2}\).</p>
 
-    <!-- Chapter A -->
+    <!-- Chapter 1₂ -->
     <section class="section">
-      <h2>Chapter A · Why base 10 feels natural, and why “2+2” can look like “10”</h2>
-      <p>We grow up in base 10: ten symbols \(0,1,\dots,9\), and each place is a power of \(10\). For example, \(745\) means \(7\cdot 10^2 + 4\cdot 10^1 + 5\cdot 10^0\).</p>
+      <h2>Chapter \(1_{\,2}\): what base 10 really is (and why \(2+2\) can look like \(10\))</h2>
 
-      <p>The value “two plus two” is always the value four. What changes across bases is how we <em>write</em> four:</p>
-      <ul>
-        <li>Base 10: \(4\).</li>
-        <li>Base 4: \(10\) since \(1\cdot 4 + 0 = 4\).</li>
-        <li>Base 3: \(11\) since \(1\cdot 3 + 1 = 4\).</li>
-        <li>Base 2: \(100\) since \(1\cdot 2^2 = 4\).</li>
+      <p>We write numbers using places. In base \(10\) there are ten symbols: \(0,1,2,3,4,5,6,7,8,9\). Each place is a power of \(10\).</p>
+      <ul class="clean-list">
+        <li>The rightmost place means “ones.”</li>
+        <li>Next left means “tens.”</li>
+        <li>Next left means “hundreds,” and so on.</li>
       </ul>
-      <p>So you can see “\(2+2=10\)” in base 4, or “\(2+2=100\)” if you choose base 2 for the result. (In base 2 the digit “2” isn’t allowed, so fully base-2 you’d write \(10+10=100\).)</p>
 
-      <p><strong>Rule in base \(b\ge 2\):</strong> allowed digits are \(0,1,\dots,b-1\). A string \(d_k d_{k-1}\dots d_1 d_0\)_\(b\) means \(\;d_k b^k + d_{k-1} b^{k-1} + \dots + d_1 b + d_0\).</p>
+      <p>So \(745\) means 7 hundreds, 4 tens, 5 ones: \(7\cdot 100 + 4\cdot 10 + 5\).</p>
 
-      <h3 class="section" style="margin-top:18px">Quick arithmetic in other bases</h3>
-      <p><em>Carrying</em> is the same, but you carry when you hit the base.</p>
+      <p>The idea of a base is to pick a bundle size. In base \(10\), ten ones bundle into a ten, ten tens into a hundred. If you change the bundle size to \(b\), the allowed digits are \(0\) up to \(b-1\). Each place is a power of \(b\). That’s the only change.</p>
+      <ul class="clean-list">
+        <li>Base \(4\) uses digits \(0,1,2,3\) and places \(1,4,16,64,\dots\).</li>
+        <li>Base \(2\) uses digits \(0,1\) and places \(1,2,4,8,\dots\).</li>
+      </ul>
+
+      <p>When someone says “\(2+2 = 10\),” they’re talking about <em>notation</em>, not value. The value four is written “\(10\)” in base \(4\) (one group of four and zero ones). In base \(2\), four is “\(100\)”.</p>
+
+      <p class="soft"><em>Rule:</em> inside one line, stick to one base. In base \(2\) you can’t even write the symbol “2,” so “\(2+2\)” isn’t legal there. You’d write \(10+10=100\) to mean “two plus two equals four” in base 2.</p>
+
+      <h3 class="section">How carrying and borrowing work in any base</h3>
+      <p>Carrying means you hit the bundle size and trade. In base \(b\), when a column sums to \(\ge b\), write the remainder and carry \(1\) to the next column.</p>
       <div class="callout">
-        <p><strong>Base 5 example:</strong> \(24_5 + 33_5\).</p>
-        <p>Rightmost: \(4+3=7=12_5\) → write \(2\), carry \(1\).<br/>
-           Next: \(2+3+1=6=11_5\) → write \(1\), carry \(1\).<br/>
-           Final carry gives \(112_5\). Check: \(24_5=14\), \(33_5=18\), sum \(32\), and \(112_5=32\). ✔︎</p>
+        <p><strong>Base 5 example:</strong> \(24_5 + 33_5\). Ones: \(4+3=7\). In base \(5\), \(7\) is “\(12\),” so write \(2\) and carry \(1\). Fives: \(2+3+1=6\). In base \(5\), \(6\) is “\(11\),” so write \(1\) and carry \(1\). New left digit is \(1\). Result \(112_5\). Check: \(24_5=14,\ 33_5=18,\ 14+18=32,\ 112_5=32\).</p>
       </div>
-      <p>Multiplication is the same place-value algorithm with the base’s carry threshold.</p>
+      <p>Multiplication and division follow the same school algorithms; the carry/borrow threshold is \(b\) instead of \(10\).</p>
     </section>
 
-    <hr/>
-
-    <!-- Chapter B -->
+    <!-- Chapter 10₂ -->
     <section class="section">
-      <h2>Chapter B · Converting between bases (integers & fractions)</h2>
+      <h2>Chapter \(10_{\,2}\): reading & writing across bases</h2>
 
-      <h3>Integer → base \(b\) (division remainders)</h3>
-      <p>Repeat divide by \(b\). Collect remainders bottom to top.</p>
-      <ul>
-        <li><strong>Example:</strong> convert \(117\) to base \(7\).<br/>
-          \(117 = 7\cdot 16 + \color{#9cf}{5}\) ⟶ rem \(5\)<br/>
-          \(16 = 7\cdot 2 + \color{#9cf}{2}\) ⟶ rem \(2\)<br/>
-          \(2 = 7\cdot 0 + \color{#9cf}{2}\) ⟶ rem \(2\)<br/>
-          Read upward: \(117 = \mathbf{225_7}\).
-        </li>
-      </ul>
+      <h3>Read a base-\(b\) string</h3>
+      <p>Expand by powers of \(b\).</p>
 
-      <h3>Base \(b\) → base 10 (expand by powers)</h3>
-      <ul>
-        <li>\(1402_7 = 1\cdot 7^3 + 4\cdot 7^2 + 0\cdot 7 + 2 = 343 + 196 + 0 + 2 = \mathbf{541}\).</li>
-      </ul>
-
-      <h3>Fractional part → base \(b\) (multiply by \(b\))</h3>
-      <p>Multiply by \(b\); each whole part is the next digit.</p>
-      <ul>
-        <li>\(0.375\) to base \(2\): \(0.375\cdot 2=0.75\) (digit \(0\)); \(0.75\cdot 2=1.5\) (digit \(1\), keep \(0.5\)); \(0.5\cdot 2=1.0\) (digit \(1\)). So \(0.375=0.\!011_2\).</li>
-        <li>\(0.2\) to base \(3\): digits \(0,1,2,1,\overline{21}\). So \(0.2=0.\!0121\overline{21}_3\).</li>
-      </ul>
-
-      <h3>Two quick base-to-base shortcuts</h3>
-      <ul>
-        <li>If one base is a power of the other, group digits (e.g., base 2 → base 8 in blocks of 3 bits).</li>
-        <li>For powers of ten, shifting the decimal point is the familiar trick.</li>
-      </ul>
-    </section>
-
-    <hr/>
-
-    <!-- Chapter C -->
-    <section class="section">
-      <h2>Chapter C · From place value to adic thinking</h2>
-      <p>Flip the mindset: measure closeness by <em>divisibility</em> rather than difference size. Two integers are “close” if their difference has many factors of a chosen base.</p>
-
-      <h3>“Closeness” by powers</h3>
-      <ul>
-        <li>If \(a\equiv b \pmod{10}\), they match in the last decimal digit.</li>
-        <li>If \(a\equiv b \pmod{100}\), they match in the last two digits.</li>
-        <li>Matching mod \(10^k\) for big \(k\) means many matching tail digits.</li>
-      </ul>
-
-      <p>This leads to 10-adics: left-infinite decimals \(\cdots d_3 d_2 d_1 d_0\) that stabilize modulo \(10^k\). Arithmetic is ordinary carrying, to the left, and respects all mod-\(10^k\) tails.</p>
-
+      <h3>Write a base-\(b\) string for a whole number \(N\)</h3>
+      <p>Keep dividing by \(b\) and record the remainders; read them bottom to top.</p>
       <div class="callout">
-        <p><strong>Famous identity:</strong> \(\cdots 9999 + 1 = 0\) (10-adically). Each truncation \(9,99,999,\dots\) is \(-1\) mod \(10^k\), so the limit acts like \(-1\).</p>
-        <p>Geometric series also converge 10-adically:
-          \(\;1 + 10 + 10^2 + \cdots = \dfrac{1}{1-10} = -\dfrac{1}{9}\), since powers of 10 get 10-adically small.</p>
+        <p><strong>Example:</strong> write \(117\) in base \(7\).<br/>
+        \(117=7\cdot 16+5\) (rem \(5\))<br/>
+        \(16=7\cdot 2+2\) (rem \(2\))<br/>
+        \(2=7\cdot 0+2\) (rem \(2\))<br/>
+        So \(117=\mathbf{225_7}\).</p>
       </div>
 
-      <h3>Why switch to \(p\)-adics</h3>
-      <p>Using a prime \(p\) avoids zero divisors. \(\mathbb Z_p\) has clean arithmetic, and \(\mathbb Q_p\) is a field—like \(\mathbb R\) but with a different absolute value.</p>
-    </section>
-
-    <hr/>
-
-    <!-- Chapter D -->
-    <section class="section">
-      <h2>Chapter D · Constructing \(p\)-adics & doing math in them</h2>
-
-      <h3>The \(p\)-adic valuation and absolute value</h3>
-      <p>For nonzero \(n\), \(v_p(n)\) is the exponent of \(p\) in \(n\). Examples: \(v_5(250)=3\), \(v_3(27)=3\), \(v_2(12)=2\).</p>
-      <p>\(|n|_p = p^{-v_p(n)}\) (and \(|0|_p=0\)). So \(|p|_p=1/p\). Distance: \(d_p(a,b)=|a-b|_p\).</p>
-      <p><em>Ultrametric:</em> \(|x+y|_p \le \max(|x|_p,|y|_p)\). Triangles are isosceles or equilateral.</p>
-
-      <h3>What \(\mathbb Z_p\) and \(\mathbb Q_p\) are</h3>
-      <ul>
-        <li>\(\mathbb Z_p\): all left-infinite base-\(p\) strings \(\cdots d_3 d_2 d_1 d_0\) with \(d_i\in\{0,\dots,p-1\}\), agreeing mod \(p^k\) for all \(k\).</li>
-        <li>\(\mathbb Q_p\): allow division by numbers not divisible by \(p\); equivalently, complete \(\mathbb Q\) under \(|\cdot|_p\).</li>
-      </ul>
-
-      <h3>Digit expansions & arithmetic</h3>
-      <p>Every \(x\in\mathbb Z_p\) has \(x=a_0+a_1p+a_2p^2+\cdots\), \(a_i\in\{0,\dots,p-1\}\). Add/multiply with left carries.</p>
-      <ul>
-        <li>\(-1\) in \(\mathbb Z_p\) is \(\cdots (p-1)(p-1)(p-1)\).</li>
-        <li>Geometric series in \(\mathbb Z_5\): \(1+5+25+\cdots=\dfrac{1}{1-5}=-\dfrac{1}{4}\).</li>
-      </ul>
-
-      <h3>Inverses when \(p\nmid m\)</h3>
-      <p>If \(p\nmid m\), then \(m\) is invertible in \(\mathbb Z_p\). Lift modular inverses:</p>
+      <h3>Fractions</h3>
+      <p>Multiply the fractional part by \(b\) repeatedly; each whole part is the next digit after the point.</p>
       <div class="callout">
-        <p><strong>Example:</strong> \(1/3\) in \(\mathbb Z_5\). Since \(3\cdot 2\equiv 1\pmod 5\), start with \(2\). Lift to mod \(25\) via \(2+5t\): \(3(2+5t)\equiv 1\Rightarrow 15t\equiv 20\Rightarrow t\equiv 3\). So \(a\equiv 17\pmod{25}\) and the base-5 digits emerge by continuing.</p>
+        <p><strong>Example:</strong> \(0.375\) to base \(2\): \(0.375\!\times\! 2=0.75\) (digit \(0\)); \(0.75\!\times\! 2=1.5\) (digit \(1\), keep \(0.5\)); \(0.5\!\times\! 2=1.0\) (digit \(1\)). So \(0.375=0.\!011_2\).</p>
       </div>
 
-      <h3>Hensel lifting for roots</h3>
-      <p>If \(f(x)\equiv 0\pmod p\) with \(f'(x_0)\not\equiv 0\), you can lift to \(p^k\) for all \(k\) (hence to \(\mathbb Z_p\)).</p>
-      <ul>
-        <li><strong>Example:</strong> \(x^2=2\) in \(\mathbb Z_7\). Mod \(7\), \(3^2\equiv2\). One Newton step gives \(x_1\equiv 10\pmod{49}\); further steps give the full \(7\)-adic root.</li>
+      <p>Rationals terminate or repeat in any base. If the denominator’s primes are all in the base, you get a terminating expansion (e.g. base \(10\): only \(2\)s and \(5\)s terminate); otherwise it repeats.</p>
+
+      <h3>Quick conversions when bases are powers</h3>
+      <ul class="clean-list">
+        <li>Binary → octal: group bits in 3s from the point.</li>
+        <li>Binary → hex: group bits in 4s.</li>
       </ul>
 
-      <h3>Convergence & series</h3>
-      <p>\(\sum a_n\) converges in \(\mathbb Q_p\) if \(a_n\to0\) in \(|\cdot|_p\) (often each term gains a factor of \(p\)). Power series like \(\exp,\log,(1+x)^\alpha\) behave cleanly for \(p\)-adically small \(x\).</p>
+      <h3>Sanity checks</h3>
+      <ul class="clean-list">
+        <li><strong>Value check:</strong> convert small samples to base \(10\).</li>
+        <li><strong>Digit range:</strong> digits must be \(0,\dots,b-1\).</li>
+        <li><strong>Length check:</strong> huge values shouldn’t have suspiciously few digits.</li>
+      </ul>
+
+      <p class="soft">All of this is still regular place value. Now we flip the viewpoint.</p>
     </section>
 
-    <hr/>
-
-    <!-- Chapter E -->
+    <!-- Chapter 11₂ -->
     <section class="section">
-      <h2>Chapter E · Uses, problems, and a clean end at \(p\)-adics</h2>
-      <h3>What \(p\)-adics are good for</h3>
-      <ul>
-        <li>Solving congruences systematically (Hensel lifting).</li>
-        <li>Local–global methods (e.g., Hasse–Minkowski for quadratic forms).</li>
-        <li>Prime-focused computation with calculus-like tools in number theory.</li>
-        <li>Efficient work mod \(p^k\) (roots, factoring, coding/crypto contexts).</li>
-        <li>Number-theoretic functions (e.g., \(p\)-adic zeta and \(L\)-functions).</li>
+      <h2>Chapter \(11_{\,2}\): a new sense of “close,” and 10-adic intuition</h2>
+      <p>In adic land, “small” means “divisible by a big power of the base.” Two integers are close if they agree in many trailing digits.</p>
+
+      <ul class="clean-list">
+        <li>Match last digit ⇔ difference is multiple of \(10\).</li>
+        <li>Match last two digits ⇔ multiple of \(100\).</li>
+        <li>Match last \(k\) digits ⇔ multiple of \(10^k\).</li>
       </ul>
 
-      <h3>Common pitfalls</h3>
-      <ul>
-        <li>At \(p\), sizes invert: powers of \(p\) get <em>smaller</em>.</li>
-        <li>Left-infinite tails are normal; repeating \(p\!-\!1\) is \(-1\).</li>
-        <li>\(\mathbb Q_p\) is a field only when \(p\) is prime.</li>
+      <p>Define distance so more shared trailing digits means closer. Powers of \(10\) become tiny steps. A 10-adic integer pins down every finite tail of decimal digits—picture a left-infinite \(\cdots d_3 d_2 d_1 d_0\). School arithmetic works; carries run left, and that’s fine because each finite tail stabilizes.</p>
+
+      <div class="callout">
+        <p><strong>Two quick 10-adic facts:</strong></p>
+        <ul class="clean-list">
+          <li>\(\cdots 9999 = -1\). Each truncation \(9,99,999,\dots\) is \(-1\) mod \(10^k\); hence \(\cdots 9999 + 1 = 0\).</li>
+          <li>\(1+10+10^2+\dots = \dfrac{1}{1-10} = -\dfrac{1}{9}\) 10-adically; powers of \(10\) shrink.</li>
+        </ul>
+      </div>
+
+      <p class="soft">Catch: \(10\) isn’t prime, so 10-adics split into \(2\)-adics × \(5\)-adics (zero divisors). For clean algebra, use a prime \(p\): the \(p\)-adics.</p>
+    </section>
+
+    <!-- Chapter 100₂ -->
+    <section class="section">
+      <h2>Chapter \(100_{\,2}\): \(p\)-adics from the ground up</h2>
+
+      <h3>Divisibility count & size</h3>
+      <p>Let \(v_p(n)\) be the exponent of \(p\) dividing nonzero \(n\). Bigger \(v_p\) ⇒ “smaller” in \(p\)-adic size. Completing \(\mathbb Q\) under this size gives \(\mathbb Q_p\); its “integers” are \(\mathbb Z_p\).</p>
+
+      <h3>Three equivalent views of \(\mathbb Z_p\)</h3>
+      <ul class="clean-list">
+        <li>Limits of integers agreeing on longer base-\(p\) tails.</li>
+        <li>Inverse limit of \(\mathbb Z/p^k\mathbb Z\).</li>
+        <li>Power series \(a_0+a_1p+a_2p^2+\cdots\) with \(a_i\in\{0,\dots,p-1\}\).</li>
+      </ul>
+      <p>Arithmetic is school arithmetic on digits, carrying left.</p>
+
+      <h3>Units & why prime matters</h3>
+      <p>In \(\mathbb Z_p\), numbers not divisible by \(p\) are invertible (first digit \(a_0\neq 0\)). Prime \(p\) ⇒ no zero divisors; the fraction field \(\mathbb Q_p\) is a field.</p>
+
+      <h3>Compact notation & ultrametric</h3>
+      <p>\(|x|_p = p^{-v_p(x)}\) (and \(|0|_p=0\)), distance \(d_p(x,y)=|x-y|_p\). Triangle rule: \(|x+y|_p \le \max(|x|_p,|y|_p)\).</p>
+
+      <h3>By hand</h3>
+      <ul class="clean-list">
+        <li><strong>Negatives:</strong> \(-1=\cdots (p-1)\).</li>
+        <li><strong>Geometric:</strong> \(1+p+p^2+\cdots=\frac{1}{1-p}\).</li>
+        <li><strong>Inverses by lifting (when \(p\nmid m\)):</strong> solve one digit at a time via modular inverses.</li>
       </ul>
 
-      <h3 class="section" style="margin-top:18px">Practice problems</h3>
+      <div class="callout">
+        <p><strong>Example:</strong> \(1/3\) in \(\mathbb Z_5\). Mod \(5\), \(3^{-1}\equiv 2\Rightarrow a_0=2\). Lift to \(25\): \(a=2+5t\), \(3a\equiv 1\Rightarrow t\equiv 3\Rightarrow a\equiv 17\). Digits start \(2,3,\dots\).</p>
+        <p><strong>Hensel root:</strong> \(x^2=2\) in \(\mathbb Z_7\): start \(x\equiv 3\pmod 7\); one lift gives \(x\equiv 10\pmod{49}\); continue for more precision.</p>
+      </div>
+    </section>
+
+    <!-- Chapter 101₂ -->
+    <section class="section">
+      <h2>Chapter \(101_{\,2}\): connecting pictures & quick practice</h2>
+
+      <h3>Three views, one object</h3>
+      <ul class="clean-list">
+        <li>Digits (great for hand arithmetic)</li>
+        <li>Residues mod \(p^k\) (great for lifting)</li>
+        <li>Metric/limits (great for convergence/analysis)</li>
+      </ul>
+
+      <p class="soft">Chinese remainder: composite bases (e.g. \(10=2\cdot 5\)) split into prime pieces, introducing zero divisors—hence the focus on \(p\) prime.</p>
+
+      <h3>Units, valuation, and size</h3>
+      <ul class="clean-list">
+        <li>\(v_p(x+y)\ge \min(v_p(x),v_p(y))\) (strict if leading digits cancel).</li>
+        <li>\(|p|_p=1/p\): powers of \(p\) shrink.</li>
+        <li>\(a/b\in\mathbb Z_p \iff v_p(a)\ge v_p(b)\).</li>
+      </ul>
+
+      <h3>Negatives & repeating tails</h3>
+      <ul class="clean-list">
+        <li>In base \(p\), \(\cdots (p-1) = -1\).</li>
+        <li>More generally, left repeats encode negatives plus a finite correction.</li>
+      </ul>
+
+      <h3>When Hensel can fail</h3>
+      <p>If \(f'(x_0)\equiv 0\pmod p\), the simple version doesn’t apply (there are refined forms).</p>
+
+      <hr class="section"/>
+
+      <h3>Worked examples you can trace</h3>
+
+      <div class="callout">
+        <p><strong>Convert bases (integers)</strong></p>
+        <p>Convert \(300\) to base \(7\):<br/>
+          \(300=7\cdot 42+6\) (rem \(6\)) → \(42=7\cdot 6+0\) (rem \(0\)) → \(6=7\cdot 0+6\) (rem \(6\)).<br/>
+          Read up: \(\mathbf{606_7}\). Check: \(6\cdot 49+0\cdot 7+6=300\).</p>
+        <p>Convert \(1402_7\) to base \(10\): \(1\cdot 7^3 + 4\cdot 7^2 + 0\cdot 7 + 2 = 541\).</p>
+      </div>
+
+      <div class="callout">
+        <p><strong>Convert bases (fractions)</strong></p>
+        <p>\(1/5=0.2_{10}\) to base \(2\): digits repeat “0011,” so \(1/5=0.\overline{0011}_2\).</p>
+        <p>\(0.3_{10}\) to base \(3\): \(0.3\times 3=0.9\)(0); \(0.9\times 3=2.7\)(2); \(0.7\times 3=2.1\)(2); \(0.1\times 3=0.3\)(0); loop → \(0.\overline{220}_3\).</p>
+      </div>
+
+      <div class="callout">
+        <p><strong>Multiplication in base \(5\)</strong></p>
+        <p>\(243_5\times 14_5\). Values: \(243_5=73\), \(14_5=9\), product \(657\). Encode in base \(5\) by division → \(\mathbf{10112_5}\).\br/> (Or do school multiplication with carries at \(5\) to land on the same digits.)</p>
+      </div>
+
+      <div class="callout">
+        <p><strong>A first 10-adic identity</strong></p>
+        <p>Show \(\cdots 9999 + 1 = 0\) 10-adically. Each finite tail is \(-1\bmod 10^k\); adding \(1\) zeros every tail.</p>
+      </div>
+
+      <div class="callout">
+        <p><strong>Inverses & lifts in \(\mathbb Z_p\)</strong></p>
+        <p>\(1/3\) in \(\mathbb Z_5\) to five digits: \(2,3,1,3,1\), so \(1/3=2+3\cdot 5+1\cdot 5^2+3\cdot 5^3+1\cdot 5^4+\cdots\).</p>
+        <p>Square root in \(\mathbb Z_7\): start \(x\equiv 3\pmod 7\), lift \(x\equiv 10\pmod{49}\), then \(x\equiv 108\pmod{343}\), etc.</p>
+      </div>
+
+      <h3 class="section">Practice (tap to reveal answers)</h3>
       <div class="practice">
         <div class="prob">
           <div class="prow"><div class="ptitle">1) Convert \(300\) to base \(7\).</div><button class="revealbtn">Show answer</button></div>
-          <div class="ans">\(300 = 6\cdot 49 + 6\cdot 7 + 6 = \mathbf{666_7}\).</div>
+          <div class="ans">\(300=606_7\).</div>
         </div>
         <div class="prob">
           <div class="prow"><div class="ptitle">2) Convert \(0.2_{10}\) to base \(2\) (≈ 8 places).</div><button class="revealbtn">Show answer</button></div>
@@ -237,20 +339,20 @@
         </div>
         <div class="prob">
           <div class="prow"><div class="ptitle">4) Show \(\cdots 4444_5 = -1\) in \(\mathbb Z_5\).</div><button class="revealbtn">Show answer</button></div>
-          <div class="ans">Truncations \(4,44_5,444_5,\dots\) are \(-1 \bmod 5^k\); the 5-adic limit is \(-1\).</div>
+          <div class="ans">Each truncation is \(-1\bmod 5^k\); the 5-adic limit is \(-1\).</div>
         </div>
         <div class="prob">
           <div class="prow"><div class="ptitle">5) First two base-5 digits of \(1/3\) in \(\mathbb Z_5\).</div><button class="revealbtn">Show answer</button></div>
-          <div class="ans">\(3^{-1}\equiv 2\pmod 5\Rightarrow a_0=2\). Lift to \(25\): \(a_0+a_1\cdot 5\equiv 17\Rightarrow a_1=3\).</div>
+          <div class="ans">\(3^{-1}\equiv 2\pmod 5\Rightarrow a_0=2\). Lift to \(25\): \(a\equiv 17\Rightarrow a_1=3\).</div>
         </div>
         <div class="prob">
-          <div class="prow"><div class="ptitle">6) Lift a root of \(x^2\equiv 2\pmod 7\) to a root \(\bmod 49\).</div><button class="revealbtn">Show answer</button></div>
-          <div class="ans">Start \(x_0=3\). One Newton/Hensel step gives \(x_1\equiv 10\pmod{49}\).</div>
+          <div class="prow"><div class="ptitle">6) Lift a root of \(x^2\equiv 2\pmod 7\) to \(\bmod 49\).</div><button class="revealbtn">Show answer</button></div>
+          <div class="ans">Start \(x_0=3\). One Hensel/Newton step gives \(x_1\equiv 10\pmod{49}\).</div>
         </div>
       </div>
 
-      <div class="callout" style="margin-top:16px">
-        <strong>A tidy picture.</strong> Bases change notation, not value. Adic closeness = many shared tail digits. With prime \(p\), \(\mathbb Q_p\) is a clean field with its own geometry of size—powerful for lifting solutions and doing analysis in number theory.
+      <div class="callout" style="margin-top:14px">
+        <strong>Clean end picture.</strong> Bases pick a bundle size (notation, not value). Adic closeness = many shared trailing digits. With prime \(p\), \(\mathbb Z_p\) and \(\mathbb Q_p\) give a robust arithmetic/analysis world where power series and lifting shine.
       </div>
     </section>
   </main>
@@ -260,7 +362,7 @@
   <!-- shared background + hue rotation -->
   <script defer src="/assets/site.js"></script>
 
-  <!-- tiny script for answers + footer year -->
+  <!-- tiny script: answers + footer year -->
   <script>
     document.querySelectorAll('.revealbtn').forEach(btn=>{
       btn.addEventListener('click',()=>{
