@@ -1,4 +1,4 @@
-/* ========= Page-specific tweaks ========= */
+/* ========= Page-specific tweaks ======== */
 
 /* Hide old tile background if #tiles still exists */
 #tiles{ display:none !important; }
