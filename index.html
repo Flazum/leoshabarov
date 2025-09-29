@@ -40,6 +40,12 @@
       "name": "Leo Shabarov"
     }
   }
+
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) {
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0a0d16';
+    m.setAttribute('content', bg);
+  }
   </script>
   
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
