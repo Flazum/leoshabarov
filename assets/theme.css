@@ -4,7 +4,7 @@ body{
   font-family: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   color:#1b2430;
 
-  /* HIGH-VIS pastel background so you can *see* it */
+  /* HIGH-VIS pastel background so you can *see*it */
   background:
     radial-gradient(1200px 800px at 15% 5%, #eaf2ff 0%, transparent 60%),
     radial-gradient(1000px 700px at 85% 10%, #f6e9ff 0%, transparent 60%),
