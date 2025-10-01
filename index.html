@@ -474,7 +474,7 @@
   function loop(){ cx+=(tx-cx)*0.18; cy+=(ty-cy)*0.18; cursor.style.left=cx+'px'; cursor.style.top=cy+'px'; requestAnimationFrame(loop) }
   loop(); addEventListener('mousemove',e=>{tx=e.clientX; ty=e.clientY});
 
-  // footer year + reveals
+  // footer year + rveals
   document.getElementById('year').textContent=new Date().getFullYear();
   const obs=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting)e.target.classList.add('on')}},{threshold:.15});
   for(const el of document.querySelectorAll('.reveal')) obs.observe(el);
