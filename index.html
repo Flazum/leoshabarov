@@ -350,18 +350,168 @@
       for(let i=0;i<roots.length;i++){ctx.beginPath();ctx.fillStyle=i<=idx?'rgba(255,200,120,1)':'rgba(200,200,220,.5)';ctx.arc(roots[i],0,5,0,6.283);ctx.fill()}
     }
 
-    if(type==='precalc'){
-      const R=70, a=(t*0.04)%(Math.PI*2), cx=-W/4, cy=0;
-      ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.stroke();
-      const px=cx+R*Math.cos(a), py=cy+R*Math.sin(a);
-      ctx.fillStyle='#aac8ff';ctx.beginPath();ctx.arc(px,py,4,0,6.283);ctx.fill();
-      ctx.setLineDash([6,6]);ctx.strokeStyle='rgba(255,255,255,.5)';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
-      const left=-W/8, right=W/2, span=right-left, xNow=left+(a/(2*Math.PI))*span;
-      ctx.strokeStyle='rgba(170,160,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.sin(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.strokeStyle='rgba(120,220,255,.9)';ctx.beginPath();for(let phi=0;phi<=a;phi+=0.02){const x=left+(phi/(2*Math.PI))*span;const y=40*Math.cos(phi);phi===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-      ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.moveTo(xNow,-H/2);ctx.lineTo(xNow,H/2);ctx.stroke();ctx.setLineDash([]);
-    }
+    if (type === 'precalc') {
+  // Persistent state for a clean scrolling trace
+  if (!window._precalc) window._precalc = { sin: [], cos: [], a: 0 };
+  const S = window._precalc;
 
+  // Layout (we are already in the translated coordinate system)
+  const R = Math.max(52, Math.min(92, Math.min(W, H) * 0.22));
+  const circleCX = -W * 0.32;
+  const circleCY = 0;
+
+  const gx0 = -W * 0.02;     // graph left
+  const gx1 =  W * 0.50;     // graph right
+  const gy0 = -H * 0.30;     // graph top
+  const gy1 =  H * 0.30;     // graph bottom
+  const gMidY = (gy0 + gy1) / 2;
+  const amp = (gy1 - gy0) * 0.42;
+
+  // Advance angle
+  S.a = (S.a + 0.035) % (Math.PI * 2);
+  const a = S.a;
+
+  // Circle point + projections
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  const px = circleCX + R * c;
+  const py = circleCY - R * s; // minus so positive sin goes up
+
+  // Push history for traces (fixed length)
+  const N = Math.max(140, Math.min(240, Math.floor((gx1 - gx0) / 3)));
+  S.sin.push(s);
+  S.cos.push(c);
+  if (S.sin.length > N) S.sin.shift();
+  if (S.cos.length > N) S.cos.shift();
+
+  // --- Draw: unit circle + axes ---
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,.55)';
+  ctx.lineWidth = 1.5;
+
+  // Circle axes
+  ctx.beginPath();
+  ctx.moveTo(circleCX - R - 18, circleCY);
+  ctx.lineTo(circleCX + R + 18, circleCY);
+  ctx.moveTo(circleCX, circleCY - R - 18);
+  ctx.lineTo(circleCX, circleCY + R + 18);
+  ctx.stroke();
+
+  // Circle
+  ctx.strokeStyle = 'rgba(142,197,255,.95)';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.arc(circleCX, circleCY, R, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Radius
+  ctx.setLineDash([6, 6]);
+  ctx.strokeStyle = 'rgba(255,255,255,.45)';
+  ctx.beginPath();
+  ctx.moveTo(circleCX, circleCY);
+  ctx.lineTo(px, py);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Projections to axes
+  const projX = circleCX + R * c;
+  const projY = circleCY - R * s;
+
+  // Vertical projection to x-axis (cos)
+  ctx.setLineDash([4, 6]);
+  ctx.strokeStyle = 'rgba(120,220,255,.55)';
+  ctx.beginPath();
+  ctx.moveTo(projX, projY);
+  ctx.lineTo(projX, circleCY);
+  ctx.stroke();
+
+  // Horizontal projection to y-axis (sin)
+  ctx.strokeStyle = 'rgba(170,160,255,.55)';
+  ctx.beginPath();
+  ctx.moveTo(projX, projY);
+  ctx.lineTo(circleCX, projY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Points
+  ctx.fillStyle = 'rgba(200,220,255,.95)';
+  ctx.beginPath(); ctx.arc(px, py, 4.2, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = 'rgba(120,220,255,.95)'; // cos point on x-axis
+  ctx.beginPath(); ctx.arc(projX, circleCY, 3.6, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = 'rgba(170,160,255,.95)'; // sin point on y-axis
+  ctx.beginPath(); ctx.arc(circleCX, projY, 3.6, 0, Math.PI * 2); ctx.fill();
+
+  // Labels
+  ctx.fillStyle = 'rgba(255,255,255,.70)';
+  ctx.font = '12px Space Grotesk';
+  ctx.fillText('cos', circleCX + R + 14, circleCY + 4);
+  ctx.fillText('sin', circleCX - 18, circleCY - R - 10);
+
+  ctx.restore();
+
+  // --- Draw: graph axes ---
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,.45)';
+  ctx.lineWidth = 1.5;
+
+  // Graph box axes
+  ctx.beginPath();
+  ctx.moveTo(gx0, gMidY); ctx.lineTo(gx1, gMidY);  // x-axis
+  ctx.moveTo(gx0, gy0);   ctx.lineTo(gx0, gy1);    // y-axis
+  ctx.stroke();
+
+  // --- Draw: traces (sin + cos) ---
+  const dx = (gx1 - gx0) / (N - 1);
+
+  // cos trace
+  ctx.strokeStyle = 'rgba(120,220,255,.90)';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  for (let i = 0; i < S.cos.length; i++) {
+    const x = gx0 + i * dx;
+    const y = gMidY - S.cos[i] * amp;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // sin trace
+  ctx.strokeStyle = 'rgba(170,160,255,.90)';
+  ctx.beginPath();
+  for (let i = 0; i < S.sin.length; i++) {
+    const x = gx0 + i * dx;
+    const y = gMidY - S.sin[i] * amp;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Current time marker and linking guides
+  const xNow = gx0 + (S.sin.length - 1) * dx;
+  const ySinNow = gMidY - s * amp;
+  const yCosNow = gMidY - c * amp;
+
+  ctx.setLineDash([4, 6]);
+  ctx.strokeStyle = 'rgba(255,255,255,.25)';
+  ctx.beginPath(); ctx.moveTo(xNow, gy0); ctx.lineTo(xNow, gy1); ctx.stroke();
+
+  // Guides from circle projections toward graph values
+  ctx.strokeStyle = 'rgba(170,160,255,.28)';
+  ctx.beginPath(); ctx.moveTo(circleCX, projY); ctx.lineTo(xNow, ySinNow); ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(120,220,255,.28)';
+  ctx.beginPath(); ctx.moveTo(projX, circleCY); ctx.lineTo(xNow, yCosNow); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Current dots on graph
+  ctx.fillStyle = 'rgba(170,160,255,.95)';
+  ctx.beginPath(); ctx.arc(xNow, ySinNow, 3.6, 0, Math.PI * 2); ctx.fill();
+
+  ctx.fillStyle = 'rgba(120,220,255,.95)';
+  ctx.beginPath(); ctx.arc(xNow, yCosNow, 3.6, 0, Math.PI * 2); ctx.fill();
+
+  ctx.restore();
+}
     if(type==='calc1'){
       const f=x=>0.6*Math.sin(x/40)+0.4*Math.cos(x/25);
       ctx.beginPath();for(let x=-W/2;x<W/2;x+=3){const y=80*f(x);ctx[x===-W/2?'moveTo':'lineTo'](x,y)}ctx.stroke();
