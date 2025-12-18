@@ -12,7 +12,7 @@
   <link rel="manifest" href="/notes/manifest.json">
   <meta name="theme-color" content="#070913">
 
-  <!- Person JSON-LD -->
+  <!-- Person JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="/assets/theme.css?v=3">
   <link rel="stylesheet" href="/assets/site.css?v=3">
 
-  <!- OPTIONAL: tiny page-specific tweaks (make sure comments close!) -->
+  <!-- OPTIONAL: tiny page-specific tweaks (make sure comments close!) -->
   <style>
     /* Page-specific tweaks only */
     /* (leave empty or add small overrides here) */
@@ -62,11 +62,7 @@
   </script>
 </head>
 <body>
-
-  <!-- Host for the shared tiles background (rendered by /assets/site.js) -->
-  <div id="tiles"></div>
-
-  <header class="header">
+<header class="header">
     <div class="wrap nav">
       <a class="brand" href="#top">
         <div class="logo">
@@ -116,8 +112,7 @@
           <div>
             <div class="course-title" id="courseTitle"></div>
             <div class="course-desc" id="courseDesc"></div>
-            <ul class="course-bullets" id="courseBullets"></ul>
-          </div>
+                      </div>
           <div class="preview"><canvas id="courseCanvas"></canvas></div>
         </div>
       </div>
@@ -256,24 +251,23 @@
   const panel=document.getElementById('coursePanel');
   const titleEl=document.getElementById('courseTitle');
   const descEl=document.getElementById('courseDesc');
-  const bulletsEl=document.getElementById('courseBullets');
   const canvas=document.getElementById('courseCanvas');
   const ctx=canvas.getContext('2d');
   const preview=document.querySelector('.preview');
   let animRAF=null;
 
   const courseInfo={
-    'Algebra I':{d:'Linear relationships, slope, and intercepts.',b:['Slope as rise/run','Slope-intercept form','Point-slope links','Systems intuition'],a:'alg1'},
-    'Geometry':{d:'AA similarity: overlay, then slide right and scale.',b:['AA similarity','Correspondence','Scale factor grows','Angles preserved'],a:'geom'},
-    'Algebra II':{d:'Polynomial x^5 − 4x^3 + 3x with zeros.',b:['Multiplicity view','End behavior','Exact zeros','Reveal order'],a:'alg2'},
-    'Pre-Calc':{d:'Unit-circle point drives the sine and cosine traces.',b:['Unit circle','Sin & cos','Phase lock','Parametric link'],a:'precalc'},
-    'Calculus I':{d:'Static curve with drifting Riemann rectangles.',b:['Limits','Derivatives','Optimization','Riemann areas'],a:'calc1'},
-    'Calculus II':{d:'Polar curve with sweeping area.',b:['Polar curves','Area sweep','Param angle','Dynamic radius'],a:'calc2'},
-    'Calculus III':{d:'3D surface with a sweeping path integral.',b:['3D axes','Surface mesh','Path sweep','Integral feel'],a:'calc3'},
-    'ODE':{d:'Competing directions on a color field that align into clusters, then reset.',b:['Random start','Slow neighbor blending','Clusters','Timed reset'],a:'ode'},
-    'Linear Algebra':{d:'Transform grid with smaller arrowed basis (same background).',b:['Matrix action','Basis span','Eigen hints','Aligned grids'],a:'linalg'},
-    'Discrete Math':{d:'Top node to all others—rapid multi-hop paths.',b:['Cycle source','Dense edges','Curved routes','Quick rhythm'],a:'discrete'},
-    'Real Analysis':{d:'Squeeze Theorem: oscillations confined between shrinking bounds near 0.',b:['Upper/lower bounds','x sin(1/x)','Phase drift','Convergence'],a:'real'}
+    'Algebra I':{d:'Linear equations and inequalities, slope and intercept, systems, and function notation.',a:'alg1'},
+    'Geometry':{d:'Proofs, congruence and similarity, circles, coordinate geometry, and basic right triangle trigonometry.',a:'geom'},
+    'Algebra II':{d:'Quadratics and polynomials, rational expressions, complex numbers, exponentials and logarithms, and sequences.',a:'alg2'},
+    'Pre-Calc':{d:'Unit circle and identities, inverse trig, transformations, polar and parametric curves, and vectors.',a:'precalc'},
+    'Calculus I':{d:'Limits, derivatives, related rates, optimization, and the first look at integrals as area and accumulation.',a:'calc1'},
+    'Calculus II':{d:'Integration techniques, applications of integrals, infinite sequences and series, and polar and parametric calculus.',a:'calc2'},
+    'Calculus III':{d:'Vectors and 3D geometry, partial derivatives, multiple integrals, and vector calculus ideas like line and surface integrals.',a:'calc3'},
+    'ODE':{d:'First and second order differential equations, slope fields, modeling, equilibrium, and qualitative behavior of solutions.',a:'ode'},
+    'Linear Algebra':{d:'Vector spaces, linear transformations, matrices, determinants, eigenvalues and eigenvectors, and diagonalization.',a:'linalg'},
+    'Discrete Math':{d:'Logic and proof, induction, counting, modular arithmetic, recursion, graphs, and basic algorithms.',a:'discrete'},
+    'Real Analysis':{d:'Epsilon delta definitions, limits and continuity, sequences and series convergence, and the rigor behind calculus.',a:'real'}
   };
 
   function resizeCanvas(){
@@ -295,7 +289,6 @@
     const info=courseInfo[name];
     titleEl.textContent=(name==='ODE')?'Ordinary Differential Equations':name;
     descEl.textContent=info.d;
-    bulletsEl.innerHTML=info.b.map(s=>`<li>${s}</li>`).join('');
     panel.classList.add('show'); rail.classList.add('paused');
     document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x.dataset.course===name));
     requestAnimationFrame(()=>{resizeCanvas(); startAnim(info.a)});
