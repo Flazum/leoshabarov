@@ -6,36 +6,52 @@
     <title>Droste Effect</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Your main site styles -->
     <link rel="stylesheet" href="/assets/theme.css?v=3">
     <link rel="stylesheet" href="/assets/site.css?v=3">
 
-    <!-- GIF.js runtime -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
 
-    <!-- Tiny page-only layout rules -->
     <style>
+      /* Page layout: keep your site header, and let the app fill the rest */
       body { margin: 0; }
-      #drosteWrap { height: calc(100vh - 72px); }
-      .drosteStage {
+      .droste-page { height: calc(100vh - 72px); padding: 16px 0; }
+      .droste-shell {
         height: 100%;
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 980px) {
+        .droste-shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      }
+
+      /* App styling that matches your theme tokens */
+      .droste-panel {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow-1);
+        padding: 14px;
+        overflow: auto;
+      }
+      .droste-stage {
+        position: relative;
         border: 1px solid var(--line);
         border-radius: 16px;
         overflow: hidden;
         background: #000;
         box-shadow: var(--shadow-1);
       }
-      .drosteHint {
+      .droste-hint {
         position: absolute;
         inset: 0;
         display: grid;
         place-items: center;
-        color: rgba(255,255,255,.6);
+        color: rgba(255,255,255,.65);
+        font-weight: 800;
         pointer-events: none;
-        font-weight: 700;
       }
-      .drosteToast {
+      .droste-toast {
         position: absolute;
         left: 50%;
         bottom: 16px;
@@ -46,13 +62,50 @@
         padding: 10px 12px;
         border-radius: 12px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        font-weight: 700;
+        font-weight: 800;
         white-space: nowrap;
       }
+
+      .droste-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+      .droste-row + .droste-row { margin-top: 10px; }
+
+      .droste-label { font-weight: 800; }
+      .droste-sub { color: var(--muted); font-size: .95rem; line-height: 1.35; }
+
+      .droste-input, .droste-select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+        font-family: inherit;
+        font-weight: 700;
+      }
+
+      .droste-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+        box-shadow: var(--shadow-1);
+        font-weight: 900;
+        cursor: pointer;
+        user-select: none;
+      }
+      .droste-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); }
+      .droste-btn.primary { background: linear-gradient(135deg, var(--p1), var(--p2)); border-color: #e6ecfb; }
+
+      .droste-slider { width: 100%; }
+      .droste-divider { height: 1px; background: var(--line); margin: 12px 0; }
     </style>
   </head>
 
   <body>
+    <!-- same header as your main site -->
     <header class="header">
       <div class="wrap nav">
         <a class="brand" href="/#top">
@@ -73,7 +126,7 @@
       </div>
     </header>
 
-    <main id="drosteWrap" class="wrap" style="padding:16px 0;">
+    <main class="wrap droste-page">
       <div id="root"></div>
     </main>
 
