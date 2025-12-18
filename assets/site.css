@@ -1,8 +1,5 @@
 /* ========= Page-specific tweaks ======== */
 
-/* Hide old tile background if #tiles still exists */
-#tiles{ display:none !important; }
-
 /* Keep the “Currently learning” pill style consistent */
 .pill{
   display:inline-flex; align-items:center; gap:.55rem;
