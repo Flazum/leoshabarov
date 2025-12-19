@@ -1,0 +1,42 @@
+name: Build Droste into /droste
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "droste-src/**"
+      - ".github/workflows/build-droste.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: droste-src/package-lock.json
+
+      - name: Install
+        working-directory: droste-src
+        run: npm ci || npm install
+
+      - name: Build
+        working-directory: droste-src
+        run: npm run build
+
+      - name: Commit built /droste output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add droste
+          git commit -m "Build Droste" || echo "No changes to commit"
+          git push
