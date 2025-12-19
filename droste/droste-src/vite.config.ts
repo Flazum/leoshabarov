@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       alias: { "@": path.resolve(__dirname, ".") },
     },
     build: {
-      outDir: "../leoshabarov/droste",  // point this at your website repo folder
+      outDir: "../droste",
       emptyOutDir: true,
       assetsDir: "assets",
     },
